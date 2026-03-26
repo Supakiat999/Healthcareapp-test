@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>NCD Screening & Community • Thailand Health</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            charm: {
+              blue: '#5B6C9D',
+              gold: '#C5A059',
+              cream: '#F9F7F2',
+              dark: '#1A1A1A',
+              gray: '#8C8C8C',
+              green: '#4A7A5E'
+            }
+          },
+          fontFamily: {
+            serif: ['"Bodoni Moda"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 10px 40px -10px rgba(91, 108, 157, 0.2)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .glass-header { background: rgba(249, 247, 242, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(197, 160, 89, 0.12); }
+    .glass-nav { background: rgba(249, 247, 242, 0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(197, 160, 89, 0.20); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease-out; }
+    .hidden { display: none !important; }
+    .section-header { border-left: 4px solid #C5A059; padding-left: 16px; margin: 24px 0 16px; }
+    .alert-warning { background: rgba(249, 115, 22, 0.08); border: 1px solid rgba(249, 115, 22, 0.3); }
+  </style>
+</head>
+
+<body class="bg-stone-200 flex justify-center min-h-screen font-sans">
+  <!-- Phone frame -->
+  <div class="w-full max-w-md bg-charm-cream relative flex flex-col h-screen overflow-hidden shadow-2xl">
+
+    <!-- Header -->
+    <div class="flex-none px-6 py-5 pt-8 glass-header z-30">
+      <div class="flex items-end justify-between">
+        <div>
+          <h1 class="font-serif text-2xl font-bold tracking-tight text-charm-dark">HEALTH SCREENING</h1>
+          <p class="text-[10px] tracking-[0.2em] uppercase text-charm-gold">Complete Assessment Tool</p>
+        </div>
+        <div class="text-xs text-charm-gray font-medium">
+          <i class="fa-solid fa-mobile-screen mr-1"></i> v7
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 overflow-y-auto no-scrollbar pb-32 bg-charm-cream">
+
+      <!-- Screen 1: COMPLETE SCREENING QUESTIONNAIRE (Single Screen) -->
+      <section id="screenScreening" class="px-6 py-6 fade-in">
+        <div class="mb-6">
+          <h2 class="font-serif text-xl font-bold text-charm-dark">Complete Health Assessment</h2>
+          <p class="text-xs text-gray-500 font-light mt-1 leading-relaxed">
+            All questions in one place. Complete as you go.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+
+          <!-- SECTION 1: BASIC INFO -->
+          <div>
+            <h3 class="section-header font-serif text-lg font-bold text-charm-dark">1. Basic Information & Measurements</h3>
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-3">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Age (years)</label>
+                <input id="age" type="number" inputmode="numeric" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 35" />
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Sex</label>
+                  <select id="sex" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none">
+                    <option value="">-- Select --</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Family DM</label>
+                  <select id="fh_dm" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none">
+                    <option value="">-- Select --</option>
+                    <option value="none">None</option>
+                    <option value="parent">Parent</option>
+                    <option value="sibling">Sibling</option>
+                    <option value="both">Both</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Weight (kg)</label>
+                  <input id="weight" type="number" inputmode="decimal" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="68" />
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Height (cm)</label>
+                  <input id="height" type="number" inputmode="decimal" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="172" />
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">BMI</label>
+                  <span id="bmiBadge" class="text-[10px] font-bold px-3 py-1 rounded-full bg-stone-100 text-stone-600 border border-stone-200">—</span>
+                </div>
+                <div class="h-2 rounded-full bg-stone-100 overflow-hidden">
+                  <div id="bmiBar" class="h-full bg-charm-green transition-all duration-300" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Waist (cm)</label>
+                <input id="waist" type="number" inputmode="decimal" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="88" />
+                <p class="text-[11px] text-gray-500 mt-1">Midway between rib and hip</p>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Systolic BP</label>
+                  <input id="sbp" type="number" inputmode="numeric" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="128" />
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Diastolic BP</label>
+                  <input id="dbp" type="number" inputmode="numeric" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="80" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: LIFESTYLE -->
+          <div>
+            <h3 class="section-header font-serif text-lg font-bold text-charm-dark">2. Physical Activity & Sleep</h3>
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Physical Activity</label>
+                <div class="space-y-2">
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="pa1" value="3" class="mr-3" /><span class="text-sm">Adequate (≥150 min/week)</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="pa1" value="2" class="mr-3" /><span class="text-sm">Some (30-149 min)</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="pa1" value="1" class="mr-3" /><span class="text-sm">Insufficient (&lt;30 min)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Sitting Time</label>
+                <div class="space-y-2">
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="sit1" value="3" class="mr-3" /><span class="text-sm">Low (&lt;4h/day)</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="sit1" value="2" class="mr-3" /><span class="text-sm">Moderate (4-8h/day)</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="sit1" value="1" class="mr-3" /><span class="text-sm">High (&gt;8h/day)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Sleep Duration</label>
+                <div class="space-y-2">
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="sleep1" value="3" class="mr-3" /><span class="text-sm">Adequate (7-9h)</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="sleep1" value="2" class="mr-3" /><span class="text-sm">Short (5-6h)</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="sleep1" value="1" class="mr-3" /><span class="text-sm">Very short (≤4h)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 3: DIET -->
+          <div>
+            <h3 class="section-header font-serif text-lg font-bold text-charm-dark">3. Diet & Nutrition (D1-D9)</h3>
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
+              <!-- Subsection 1: Vegetables & Fruits -->
+              <div class="pb-4 border-b-2 border-charm-gold border-opacity-30">
+                <p class="text-[10px] font-bold text-charm-gold uppercase tracking-wide mb-3">🥗 Vegetables & Fruits</p>
+                <div class="space-y-2 ml-2">
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d1" value="1" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D1:</strong> Eat vegetables daily</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d1" value="0" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D1:</strong> Not regularly</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100 mt-2">
+                    <input type="radio" name="d2" value="1" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D2:</strong> Eat fruits daily</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d2" value="0" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D2:</strong> Not regularly</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Subsection 2: Proteins & Grains -->
+              <div class="pb-4 border-b-2 border-charm-gold border-opacity-30">
+                <p class="text-[10px] font-bold text-charm-gold uppercase tracking-wide mb-3">🍗 Proteins & Grains</p>
+                <div class="space-y-2 ml-2">
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d3" value="1" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D3:</strong> Legumes ≥1x per week</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d3" value="0" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D3:</strong> Rarely or never</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100 mt-2">
+                    <input type="radio" name="d4" value="1" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D4:</strong> Eat whole grains</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d4" value="0" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D4:</strong> Mostly refined grains</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100 mt-2">
+                    <input type="radio" name="d5" value="1" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D5:</strong> Fish ≥1x per week</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d5" value="0" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D5:</strong> Rarely or never</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Subsection 3: Habits to Limit -->
+              <div>
+                <p class="text-[10px] font-bold text-charm-gold uppercase tracking-wide mb-3">⚠️ Limit Unhealthy Items</p>
+                <div class="space-y-2 ml-2">
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d6" value="1" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D6:</strong> Soft drinks rarely</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d6" value="0" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D6:</strong> Frequent soft drinks</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100 mt-2">
+                    <input type="radio" name="d7" value="1" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D7:</strong> Use salt moderately</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d7" value="0" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D7:</strong> High salt intake</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100 mt-2">
+                    <input type="radio" name="d8" value="1" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D8:</strong> Fried foods rarely</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d8" value="0" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D8:</strong> Frequent fried foods</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100 mt-2">
+                    <input type="radio" name="d9" value="1" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D9:</strong> Sweets rarely</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100">
+                    <input type="radio" name="d9" value="0" class="mr-3 accent-charm-blue" /><span class="text-sm"><strong>D9:</strong> Frequent sweets</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="bg-charm-cream border border-charm-gold border-opacity-30 rounded-lg p-3 mt-3">
+                <p class="text-[11px] text-stone-700"><i class="fas fa-chart-pie mr-2 text-charm-gold"></i><strong>Scoring:</strong> 0-3 (poor) | 4-6 (fair) | 7-9 (good)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 4: SMOKING & ALCOHOL -->
+          <div>
+            <h3 class="section-header font-serif text-lg font-bold text-charm-dark">4. Smoking & Alcohol</h3>
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Smoking Status</label>
+                <div class="space-y-2">
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="smk1" value="never" class="mr-3" /><span class="text-sm">Never</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="smk1" value="quit" class="mr-3" /><span class="text-sm">Quit (&gt;1 year)</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="smk1" value="sometimes" class="mr-3" /><span class="text-sm">Sometimes</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="smk1" value="daily" class="mr-3" /><span class="text-sm">Daily</span>
+                  </label>
+                </div>
+              </div>
+
+              <div id="smokingFollowups" class="hidden bg-stone-50 border border-stone-200 rounded-lg p-3 space-y-2">
+                <label class="text-[10px] font-bold text-gray-600 block">Years smoking (S2)</label>
+                <div class="flex gap-2 flex-wrap">
+                  <label><input type="radio" name="smk2" value="0" class="mr-1" />&lt;1yr</label>
+                  <label><input type="radio" name="smk2" value="1" class="mr-1" />1-10yr</label>
+                  <label><input type="radio" name="smk2" value="2" class="mr-1" />&gt;10yr</label>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Alcohol</label>
+                <div class="space-y-2">
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="alc1" value="never" class="mr-3" /><span class="text-sm">Never</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="alc1" value="stopped" class="mr-3" /><span class="text-sm">Stopped (&gt;1 year)</span>
+                  </label>
+                  <label class="flex items-center p-2 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                    <input type="radio" name="alc1" value="current" class="mr-3" /><span class="text-sm">Current drinker</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 5: STRESS & MENTAL HEALTH -->
+          <div>
+            <h3 class="section-header font-serif text-lg font-bold text-charm-dark">5. Stress & Mental Health</h3>
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Past 2 weeks: How often felt...</label>
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center p-2">
+                    <span class="text-sm">ST1: Stressed</span>
+                    <div class="flex gap-1">
+                      <label><input type="radio" name="st1" value="0" class="mr-0.5" />N</label>
+                      <label><input type="radio" name="st1" value="1" class="mr-0.5" />R</label>
+                      <label><input type="radio" name="st1" value="2" class="mr-0.5" />O</label>
+                    </div>
+                  </div>
+                  <div class="flex justify-between items-center p-2">
+                    <span class="text-sm">ST2: Anxious</span>
+                    <div class="flex gap-1">
+                      <label><input type="radio" name="st2" value="0" class="mr-0.5" />N</label>
+                      <label><input type="radio" name="st2" value="1" class="mr-0.5" />R</label>
+                      <label><input type="radio" name="st2" value="2" class="mr-0.5" />O</label>
+                    </div>
+                  </div>
+                  <div class="flex justify-between items-center p-2">
+                    <span class="text-sm">ST3: Overwhelmed</span>
+                    <div class="flex gap-1">
+                      <label><input type="radio" name="st3" value="0" class="mr-0.5" />N</label>
+                      <label><input type="radio" name="st3" value="1" class="mr-0.5" />R</label>
+                      <label><input type="radio" name="st3" value="2" class="mr-0.5" />O</label>
+                    </div>
+                  </div>
+                  <div class="flex justify-between items-center p-2">
+                    <span class="text-sm">ST4: Irritable</span>
+                    <div class="flex gap-1">
+                      <label><input type="radio" name="st4" value="0" class="mr-0.5" />N</label>
+                      <label><input type="radio" name="st4" value="1" class="mr-0.5" />R</label>
+                      <label><input type="radio" name="st4" value="2" class="mr-0.5" />O</label>
+                    </div>
+                  </div>
+                  <div class="flex justify-between items-center p-2">
+                    <span class="text-sm">ST5: Depressed</span>
+                    <div class="flex gap-1">
+                      <label><input type="radio" name="st5" value="0" class="mr-0.5" />N</label>
+                      <label><input type="radio" name="st5" value="1" class="mr-0.5" />R</label>
+                      <label><input type="radio" name="st5" value="2" class="mr-0.5" />O</label>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-[10px] text-gray-600 mt-2">N=Never | R=Rarely | O=Often</p>
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Depression Screen 2Q</label>
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center p-2">
+                    <span class="text-sm">2Q1: Little interest in activities?</span>
+                    <div class="flex gap-2">
+                      <label><input type="radio" name="dq1" value="no" class="mr-1" />No</label>
+                      <label><input type="radio" name="dq1" value="yes" class="mr-1" />Yes</label>
+                    </div>
+                  </div>
+                  <div class="flex justify-between items-center p-2">
+                    <span class="text-sm">2Q2: Feel down/hopeless?</span>
+                    <div class="flex gap-2">
+                      <label><input type="radio" name="dq2" value="no" class="mr-1" />No</label>
+                      <label><input type="radio" name="dq2" value="yes" class="mr-1" />Yes</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 6: COMMUNITY & HERBS -->
+          <div>
+            <h3 class="section-header font-serif text-lg font-bold text-charm-dark">6. Community & สมุนไพร (Herbs)</h3>
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Social Support</label>
+                <select id="socialSupport" class="w-full bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none">
+                  <option value="">-- Select --</option>
+                  <option value="strong">Strong (family/friends nearby)</option>
+                  <option value="moderate">Moderate (some support)</option>
+                  <option value="weak">Weak (limited support)</option>
+                  <option value="isolated">Isolated</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Health Resources Access</label>
+                <select id="healthResources" class="w-full bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none">
+                  <option value="">-- Select --</option>
+                  <option value="accessible">Easily accessible</option>
+                  <option value="somewhat">Somewhat accessible</option>
+                  <option value="difficult">Difficult</option>
+                  <option value="unavailable">Not available</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2 block">Thai Herbs Usage (สมุนไพร)</label>
+                <select id="herbUse" class="w-full bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none">
+                  <option value="">-- Select --</option>
+                  <option value="regularly">Regularly (daily/weekly)</option>
+                  <option value="occasionally">Occasionally (monthly)</option>
+                  <option value="rarely">Rarely</option>
+                  <option value="never">Never</option>
+                </select>
+              </div>
+
+              <div id="herbDetails" class="hidden bg-stone-50 border border-stone-200 rounded-lg p-3 space-y-2">
+                <input id="herbType" type="text" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm" placeholder="Which herbs? (e.g., turmeric, bitter melon)" />
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBMIT BUTTON -->
+          <button id="btnCalculate" class="w-full bg-charm-blue text-white font-bold py-4 rounded-xl shadow-soft active:scale-95 transition text-lg">
+            Calculate My Scores
+          </button>
+
+        </div>
+      </section>
+
+      <!-- Screen 2: RESULTS -->
+      <section id="screenResults" class="px-6 py-6 fade-in hidden">
+        <div class="mb-5">
+          <h2 class="font-serif text-xl font-bold text-charm-dark">Your Results</h2>
+          <p class="text-xs text-gray-500 font-light mt-1 leading-relaxed">
+            AI-powered health assessment.
+          </p>
+        </div>
+
+        <div id="aiAnomalyAlert" class="alert-warning border border-orange-300 rounded-2xl p-4 mb-4 hidden">
+          <div class="flex gap-3">
+            <i class="fas fa-exclamation-triangle text-orange-600 text-xl flex-shrink-0 mt-0.5"></i>
+            <div>
+              <h4 class="font-bold text-orange-900 text-sm">AI Anomaly Detection Alert</h4>
+              <p id="anomalyMessage" class="text-[11px] text-orange-800 mt-1 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+
+        <div id="resultsContainer" class="space-y-4">
+          <!-- Populated by JS -->
+        </div>
+
+        <button id="btnEditScreening" class="w-full mt-4 bg-white border border-stone-200 text-charm-blue font-bold py-3 rounded-xl shadow-soft active:scale-95 transition">
+          Edit Answers
+        </button>
+      </section>
+
+      <!-- Screen 3: COMMUNITY -->
+      <section id="screenCommunity" class="px-6 py-6 fade-in hidden">
+        <div class="mb-5 flex items-center justify-between">
+          <div>
+            <h2 class="font-serif text-xl font-bold text-charm-dark">Community</h2>
+            <p class="text-xs text-gray-500 font-light mt-1 leading-relaxed">
+              Health tips & wins 💪
+            </p>
+          </div>
+          <button onclick="openNewPostModal()" class="bg-charm-gold text-white px-3 py-2 rounded-lg text-[10px] font-bold hover:opacity-90 transition active:scale-95">
+            <i class="fas fa-plus mr-1"></i> Post
+          </button>
+        </div>
+
+        <div id="communityFeed" class="space-y-3">
+          <!-- Example Community Posts -->
+          <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-charm-blue rounded-full flex items-center justify-center text-white text-xs font-bold">นภ</div>
+                <div>
+                  <p class="text-[10px] font-bold text-charm-dark">น้อยน้อย</p>
+                  <p class="text-[9px] text-gray-500">2 ชั่วโมงที่แล้ว</p>
+                </div>
+              </div>
+              <i class="fas fa-heart text-charm-gold"></i>
+            </div>
+            <p class="text-sm text-charm-dark leading-relaxed">วันนี้เดินได้ 10,000 ก้าว! 🚶‍♀️ เป้าวันนี้บรรลุแล้ว หัวใจติ</p>
+            <div class="flex gap-3 mt-3 text-xs text-gray-500\">\n              <span><i class=\"fas fa-heart\"></i> 24 ถูกใจ</span>\n              <span><i class=\"fas fa-comment\"></i> 3 ความเห็น</span>\n            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-charm-green rounded-full flex items-center justify-center text-white text-xs font-bold">ส</div>
+                <div>
+                  <p class="text-[10px] font-bold text-charm-dark">สมุนไพรดี</p>
+                  <p class="text-[9px] text-gray-500">4 ชั่วโมงที่แล้ว</p>
+                </div>
+              </div>
+              <i class="fas fa-heart text-charm-gold"></i>
+            </div>
+            <p class="text-sm text-charm-dark leading-relaxed">สมุนไพรไทยช่วยได้จริง 🌿 ดื่มชาขมชิน ลดอักเสบ บอกเหล่าจริง ไม่ต้องไปหาหมอเลย 😊</p>
+            <div class="flex gap-3 mt-3 text-xs text-gray-500\">\n              <span><i class=\"fas fa-heart\"></i> 18 ถูกใจ</span>\n              <span><i class=\"fas fa-comment\"></i> 5 ความเห็น</span>\n            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-charm-gold rounded-full flex items-center justify-center text-white text-xs font-bold">พ</div>
+                <div>
+                  <p class="text-[10px] font-bold text-charm-dark">พอใจจริง</p>
+                  <p class="text-[9px] text-gray-500">6 ชั่วโมงที่แล้ว</p>
+                </div>
+              </div>\n              <i class=\"fas fa-heart text-charm-gold\"></i>
+            </div>
+            <p class="text-sm text-charm-dark leading-relaxed">ผลไม้สด ผัก อาหารพื้นบ้าน - นี่คือลับของคนไทยเจริญ 🥗 ต้านทานโรคได้ดี</p>
+            <div class="flex gap-3 mt-3 text-xs text-gray-500\">\n              <span><i class=\"fas fa-heart\"></i> 32 ถูกใจ</span>\n              <span><i class=\"fas fa-comment\"></i> 7 ความเห็น</span>\n            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs font-bold">ศ</div>
+                <div>
+                  <p class="text-[10px] font-bold text-charm-dark">ศรีสุข</p>
+                  <p class="text-[9px] text-gray-500">1 วันที่แล้ว</p>
+                </div>
+              </div>
+              <i class="fas fa-heart text-charm-gold"></i>
+            </div>
+            <p class="text-sm text-charm-dark leading-relaxed">ลด BP จาก 160 เหลือ 138 เพียง 2 เดือน 🎉 เดิน 30 นาที ทุกวัน + น้ำอุ่น ต่างหาก!</p>
+            <div class="flex gap-3 mt-3 text-xs text-gray-500\">\n              <span><i class=\"fas fa-heart\"></i> 45 ถูกใจ</span>\n              <span><i class=\"fas fa-comment\"></i> 12 ความเห็น</span>\n            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- New Post Modal -->
+      <div id="newPostModal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm">
+          <div class="p-5 border-b border-stone-100">
+            <h3 class="font-serif text-lg font-bold text-charm-dark">Share Your Health Win</h3>
+            <p class="text-xs text-gray-500 mt-1">อยากแบ่งปันความสำเร็จกับเรา? 💚</p>
+          </div>
+          <div class="p-5">
+            <textarea id="postText" class="w-full border border-stone-200 rounded-lg p-3 text-sm focus:border-charm-gold outline-none resize-none" placeholder="e.g. วันนี้เดิน 10,000 ก้าว! 🚶&#10;หรือ: สมุนไพรไทยช่วยลดความดันได้เยี่ยม 🌿" rows="3\"></textarea>
+            <div class="flex gap-2 mt-4">
+              <button onclick="closeNewPostModal()" class="flex-1 bg-stone-100 hover:bg-stone-200 text-charm-dark font-bold py-2 rounded-lg transition active:scale-95\">
+                Cancel
+              </button>
+              <button onclick="addNewPost()" class="flex-1 bg-charm-blue hover:bg-opacity-90 text-white font-bold py-2 rounded-lg transition active:scale-95\">
+                <i class=\"fas fa-paper-plane mr-1\"></i> Post
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom nav - ONLY 3 BUTTONS -->
+    <div class="flex-none h-24 glass-nav flex justify-around items-start pt-4 px-2 z-30">
+      <button onclick="openScreen('screenScreening')" class="nav-btn-screening text-charm-blue flex flex-col items-center w-16 group transition">
+        <i class="fas fa-list-check text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Screening</span>
+      </button>
+      <button onclick="openScreen('screenCommunity')" class="nav-btn-community text-stone-400 flex flex-col items-center w-16 group transition">
+        <i class="fas fa-people-group text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Community</span>
+      </button>
+      <button onclick="openScreen('screenResults')" class="nav-btn-results text-stone-400 flex flex-col items-center w-16 group transition">
+        <i class="fas fa-chart-line text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Results</span>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function openScreen(screenId) {
+      ['screenScreening', 'screenCommunity', 'screenResults'].forEach(s => {
+        $(s).classList.add('hidden');
+      });
+      $(screenId).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn-screening, .nav-btn-community, .nav-btn-results').forEach(btn => {
+        btn.classList.remove('text-charm-blue');
+        btn.classList.add('text-stone-400');
+      });
+
+      if (screenId === 'screenScreening') document.querySelector('.nav-btn-screening').classList.add('text-charm-blue');
+      else if (screenId === 'screenCommunity') document.querySelector('.nav-btn-community').classList.add('text-charm-blue');
+      else if (screenId === 'screenResults') document.querySelector('.nav-btn-results').classList.add('text-charm-blue');
+    }
+
+    function safeNum(v) {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function round(n, d = 1) {
+      const p = Math.pow(10, d);
+      return Math.round(n * p) / p;
+    }
+
+    function calcBMI(kg, cm) {
+      if (!kg || !cm) return null;
+      const m = cm / 100;
+      if (m <= 0) return null;
+      return kg / (m * m);
+    }
+
+    function bmiCategory(bmi) {
+      if (bmi == null) return null;
+      if (bmi < 23) return 'lt23';
+      if (bmi < 27.5) return 'a23_2749';
+      return 'ge275';
+    }
+
+    // Point-based Thai Diabetes Score (from validated reference)
+    function calcTDS(age, sex, bmi, waist, sbp, dbp, fh) {
+      if (age == null || !sex || bmi == null || waist == null || sbp == null || dbp == null || !fh) return null;
+
+      // Age points: <45=0, 45-54=3, >=55=4
+      let x_age = 0;
+      if (age >= 55) x_age = 4;
+      else if (age >= 45) x_age = 3;
+      else x_age = 0;
+
+      // Sex: male=2, female=0
+      let x_sex = (sex === 'male') ? 2 : 0;
+
+      // BMI: <23=0, 23-27.49=2, >=27.5=4
+      let x_bmi = 0;
+      if (bmi >= 27.5) x_bmi = 4;
+      else if (bmi >= 23) x_bmi = 2;
+
+      // Waist: sex-specific cutoffs
+      let x_waist = 0;
+      if (sex === 'male') {
+        if (waist >= 90) x_waist = 2;
+        else if (waist >= 80) x_waist = 1;
+      } else if (sex === 'female') {
+        if (waist >= 80) x_waist = 2;
+        else if (waist >= 70) x_waist = 1;
+      }
+
+      // BP: SBP/DBP cutoffs
+      let x_bp = 0;
+      if (sbp >= 140 || dbp >= 90) x_bp = 4;
+      else if (sbp >= 130 || dbp >= 85) x_bp = 2;
+
+      // Family history: none=0, parent/sibling=2, both=4
+      let x_fh = 0;
+      if (fh === 'both') x_fh = 4;
+      else if (fh === 'parent' || fh === 'sibling') x_fh = 2;
+
+      // Coefficients B (Thai reference)
+      const B_age = 0.273709;
+      const B_sex = 0.218873;
+      const B_bmi = 0.183287;
+      const B_waist = 0.228458;
+      const B_bp = 0.207231;
+      const B_fh = 0.254891;
+      const CONST = -3.580397;
+
+      const logit = (x_age * B_age) + (x_sex * B_sex) + (x_bmi * B_bmi) + (x_waist * B_waist) + (x_bp * B_bp) + (x_fh * B_fh) + CONST;
+      const p = 1 / (1 + Math.exp(-logit));
+      return { prob: p, pct: p * 100 };
+    }
+
+    function calcBPCategory(sbp, dbp) {
+      if (sbp >= 180 || dbp >= 120) return { level: 'vhigh', label: 'URGENT', desc: 'Hypertensive crisis' };
+      if (sbp >= 160 || dbp >= 100) return { level: 'high', label: 'High', desc: 'Stage 2 hypertension' };
+      if (sbp >= 140 || dbp >= 90) return { level: 'high', label: 'High', desc: 'Stage 1 hypertension' };
+      if ((sbp >= 130 && sbp <= 139) || (dbp >= 80 && dbp <= 89)) return { level: 'mid', label: 'Elevated', desc: 'High-normal' };
+      return { level: 'low', label: 'Normal', desc: 'Normal BP' };
+    }
+
+    function detectAnomalies(inputs, scores) {
+      const anomalies = [];
+      if (inputs.pa === '3' && scores.bmi > 30 && scores.sbp > 140) {
+        anomalies.push("You report adequate exercise but have high BMI and BP. Consider consulting a clinician.");
+      }
+      if ((inputs.herbUse === 'regularly' || inputs.herbUse === 'occasionally') && inputs.smk1 === 'daily') {
+        anomalies.push("You use Thai herbs regularly but smoke daily. Herbs may have reduced benefit while active smoking.");
+      }
+      if (inputs.socialSupport === 'isolated' && inputs.stScore >= 8) {
+        anomalies.push("You report social isolation and high stress. Consider reaching out for mental health support.");
+      }
+      return anomalies;
+    }
+
+    function readAllInputs() {
+      const age = safeNum($('age').value);
+      const sex = $('sex').value;
+      const fh_dm = $('fh_dm').value;
+      const weight = safeNum($('weight').value);
+      const height = safeNum($('height').value);
+      const waist = safeNum($('waist').value);
+      const sbp = safeNum($('sbp').value);
+      const dbp = safeNum($('dbp').value);
+      const bmi = calcBMI(weight, height);
+
+      const pa = document.querySelector('input[name="pa1"]:checked')?.value;
+      const dVals = [];
+      for (let i = 1; i <= 9; i++) {
+        const d = document.querySelector(`input[name="d${i}"]:checked`)?.value;
+        if (d !== undefined) dVals.push(Number(d));
+      }
+      const dScore = dVals.length === 9 ? dVals.reduce((a, b) => a + b, 0) : null;
+
+      const stVals = [];
+      for (let i = 1; i <= 5; i++) {
+        const st = document.querySelector(`input[name="st${i}"]:checked`)?.value;
+        if (st !== undefined) stVals.push(Number(st));
+      }
+      const stScore = stVals.length === 5 ? stVals.reduce((a, b) => a + b, 0) : null;
+
+      const smk1 = document.querySelector('input[name="smk1"]:checked')?.value;
+      const alc1 = document.querySelector('input[name="alc1"]:checked')?.value;
+      const socialSupport = $('socialSupport').value;
+      const herbUse = $('herbUse').value;
+      const dq1 = document.querySelector('input[name="dq1"]:checked')?.value;
+      const dq2 = document.querySelector('input[name="dq2"]:checked')?.value;
+      const depPositive = (dq1 === 'yes' || dq2 === 'yes');
+
+      return { age, sex, fh_dm, weight, height, waist, sbp, dbp, bmi, pa, dScore, stScore, smk1, alc1, socialSupport, herbUse, depPositive };
+    }
+
+    function setBMIUI(bmi) {
+      if (bmi == null) {
+        $('bmiBadge').textContent = '—';
+        $('bmiBar').style.width = '0%';
+        return;
+      }
+      const pct = Math.max(0, Math.min(100, (bmi / 40) * 100));
+      $('bmiBar').style.width = pct + '%';
+      const cat = bmiCategory(bmi);
+      const label = cat === 'lt23' ? 'BMI < 23' : (cat === 'a23_2749' ? 'BMI 23–27.49' : 'BMI ≥ 27.5');
+      $('bmiBadge').textContent = `${bmi.toFixed(1)} • ${label}`;
+    }
+
+    function updateFollowups() {
+      const smk1 = document.querySelector('input[name="smk1"]:checked')?.value;
+      $('smokingFollowups').classList.toggle('hidden', !smk1 || smk1 === 'never' || smk1 === 'quit');
+
+      const herbUse = $('herbUse').value;
+      $('herbDetails').classList.toggle('hidden', herbUse === 'never' || !herbUse);
+    }
+
+    function getAchievementLevel(tds, dScore, stScore, pa) {
+      let level = 1, title = 'Health Starter', icon = '🌱', xp = 0;
+      if (tds && tds.pct < 5 && dScore >= 6 && stScore <= 5) { 
+        level = 5; title = 'Health Champion'; icon = '👑'; xp = 50;
+      } else if (tds && tds.pct < 10 && dScore >= 6 && pa === '3') { 
+        level = 4; title = 'Wellness Warrior'; icon = '🏆'; xp = 40;
+      } else if (dScore >= 7 && pa === '3') { 
+        level = 3; title = 'Fitness Friend'; icon = '⭐'; xp = 30;
+      } else if (dScore >= 5 || pa === '3') { 
+        level = 2; title = 'Health Conscious'; icon = '💪'; xp = 20;
+      } else {
+        xp = 10;
+      }
+      return { level, title, icon, xp };
+    }
+
+    function renderResults(inputs) {
+      const tds = calcTDS(inputs.age, inputs.sex, inputs.bmi, inputs.waist, inputs.sbp, inputs.dbp, inputs.fh_dm === 'none' ? 'no' : 'yes');
+      const bp = calcBPCategory(inputs.sbp, inputs.dbp);
+      const achievement = getAchievementLevel(tds, inputs.dScore, inputs.stScore, inputs.pa);
+
+      const bmiTxt = inputs.bmi !== null ? round(inputs.bmi, 1).toFixed(1) : '—';
+      const tdsPct = tds !== null ? round(tds.pct, 1).toFixed(1) : '—';
+
+      const anomalies = detectAnomalies(inputs, { bmi: inputs.bmi || 0, sbp: inputs.sbp || 0 });
+
+      if (anomalies.length > 0) {
+        $('aiAnomalyAlert').classList.remove('hidden');
+        $('anomalyMessage').textContent = anomalies[0];
+      } else {
+        $('aiAnomalyAlert').classList.add('hidden');
+      }
+
+      const riskBadgeClass = (level) => {
+        const map = { low: 'bg-emerald-50 text-emerald-700 border-emerald-200', mid: 'bg-amber-50 text-amber-800 border-amber-200', high: 'bg-orange-50 text-orange-800 border-orange-200', vhigh: 'bg-red-50 text-red-700 border-red-200' };
+        return map[level] || 'bg-stone-100 text-stone-600 border-stone-200';
+      };
+
+      const html = `
+        <div class="bg-gradient-to-r from-charm-gold/20 to-charm-blue/20 rounded-2xl p-4 shadow-sm border border-charm-gold/30">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-[10px] font-bold text-charm-gold uppercase tracking-wide">Achievement Unlocked!</p>
+              <p class="text-lg font-bold text-charm-dark mt-1">Level ${achievement.level}</p>
+              <p class="text-xs text-charm-dark font-semibold">${achievement.title}</p>
+              <p class="text-[10px] text-stone-600 mt-1">+${achievement.xp} XP earned</p>
+            </div>
+            <div class="text-5xl text-center">${achievement.icon}</div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-charm-cream rounded-lg p-3">
+              <div class="text-[10px] text-charm-gray uppercase font-bold">BMI</div>
+              <div class="text-2xl font-bold text-charm-dark mt-2">${bmiTxt}</div>
+            </div>
+            <div class="bg-charm-cream rounded-lg p-3">
+              <div class="text-[10px] text-charm-gray uppercase font-bold">BP</div>
+              <div class="text-2xl font-bold text-charm-dark mt-2">${inputs.sbp}/${inputs.dbp}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-[10px] text-charm-gold uppercase font-bold">Thai Diabetes Score (12y)</div>
+              <div class="text-3xl font-bold text-charm-dark mt-2">${tdsPct}%</div>
+            </div>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${riskBadgeClass(tds?.pct >= 20 ? 'vhigh' : tds?.pct >= 10 ? 'high' : tds?.pct >= 5 ? 'mid' : 'low')}">
+              ${tds && tds.pct >= 20 ? 'Very High' : tds && tds.pct >= 10 ? 'High' : tds && tds.pct >= 5 ? 'Moderate' : 'Low'}
+            </span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-charm-dark">Blood Pressure: ${bp.desc}</span>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${riskBadgeClass(bp.level)}">${bp.label}</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <div class="text-[10px] font-bold text-charm-gold uppercase">Diet Score</div>
+          <div class="flex items-center justify-between mt-2">
+            <span class="text-2xl font-bold text-charm-dark">${inputs.dScore !== null ? inputs.dScore + '/9' : '—'}</span>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${inputs.dScore >= 7 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : inputs.dScore >= 4 ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-orange-50 text-orange-800 border-orange-200'}">
+              ${inputs.dScore >= 7 ? 'Good' : inputs.dScore >= 4 ? 'Fair' : 'Poor'}
+            </span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <div class="text-[10px] font-bold text-charm-gold uppercase">Stress & Mental Health</div>
+          <div class="flex items-center justify-between mt-2">
+            <span class="text-2xl font-bold text-charm-dark">${inputs.stScore !== null ? inputs.stScore + '/10' : '—'}</span>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${inputs.stScore >= 8 ? 'bg-red-50 text-red-700 border-red-200' : inputs.stScore >= 5 ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'}">
+              ${inputs.stScore >= 8 ? 'High' : inputs.stScore >= 5 ? 'Moderate' : 'Low'}
+            </span>
+          </div>
+        </div>
+      `;
+
+      $('resultsContainer').innerHTML = html;
+    }
+
+    document.addEventListener('input', (e) => {
+      if (e.target.id === 'weight' || e.target.id === 'height') {
+        setBMIUI(calcBMI(safeNum($('weight').value), safeNum($('height').value)));
+      }
+      updateFollowups();
+    });
+
+    $('btnCalculate').addEventListener('click', () => {
+      const inputs = readAllInputs();
+      if (!Number.isFinite(inputs.age) || !inputs.sex || !inputs.fh_dm || !Number.isFinite(inputs.weight) || !Number.isFinite(inputs.height) || !Number.isFinite(inputs.waist) || !Number.isFinite(inputs.sbp) || !Number.isFinite(inputs.dbp)) {
+        alert('Please complete all basic measurements.');
+        return;
+      }
+      if (!inputs.pa || inputs.dScore === null || inputs.stScore === null) {
+        alert('Please answer all questionnaire sections.');
+        return;
+      }
+      renderResults(inputs);
+      openScreen('screenResults');
+    });
+
+    // Community post functions
+    function openNewPostModal() {
+      $('newPostModal').classList.remove('hidden');
+      $('postText').focus();
+    }
+
+    function closeNewPostModal() {
+      $('newPostModal').classList.add('hidden');
+      $('postText').value = '';
+    }
+
+    function addNewPost() {
+      const text = $('postText').value.trim();
+      if (!text) {
+        alert('Please type something to share!');
+        return;
+      }
+      
+      // Generate random user for demo
+      const names = ['คุณสมชัย', 'น้อยน้อย', 'สมุนไพรดี', 'พอใจจริง', 'ศรีสุข'];
+      const avatars = ['น', 'ม', 'ส', 'พ', 'ศ'];
+      const colors = ['charm-blue', 'charm-green', 'charm-gold', 'emerald-500', 'amber-500'];
+      const randIdx = Math.floor(Math.random() * names.length);
+      
+      const newPost = `
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100 fade-in">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 bg-${colors[randIdx]} rounded-full flex items-center justify-center text-white text-xs font-bold">${avatars[randIdx]}</div>
+              <div>
+                <p class="text-[10px] font-bold text-charm-dark">${names[randIdx]}</p>
+                <p class="text-[9px] text-gray-500">เพิ่งเดี๋ยวนี้</p>
+              </div>
+            </div>
+            <i class="fas fa-heart text-charm-gold"></i>
+          </div>
+          <p class="text-sm text-charm-dark leading-relaxed">${text}</p>
+          <div class="flex gap-3 mt-3 text-xs text-gray-500">
+            <span><i class="fas fa-heart"></i> 0 ถูกใจ</span>
+            <span><i class="fas fa-comment"></i> 0 ความเห็น</span>
+          </div>
+        </div>
+      `;
+      
+      $('communityFeed').insertAdjacentHTML('afterbegin', newPost);
+      closeNewPostModal();
+      alert('โพสต์ของคุณถูกแชร์แล้ว! 🎉');
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !$('newPostModal').classList.contains('hidden')) {
+        closeNewPostModal();
+      }
+    });
+
+    $('btnEditScreening').addEventListener('click', () => {
+      openScreen('screenScreening');
+    });
+
+    openScreen('screenScreening');
+    setBMIUI(null);
+    updateFollowups();
+  </script>
+</body>
+</html>

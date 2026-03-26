@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Thailand NCD Screening (Demo)</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              charm: {
+                blue: '#5B6C9D',
+                gold: '#C5A059',
+                cream: '#F9F7F2',
+                dark: '#1A1A1A',
+                gray: '#8C8C8C',
+                green: '#4A7A5E'
+              },
+              /* Keep app.* tokens so your existing survey code stays unchanged */
+              app: {
+                bg: '#F9F7F2',
+                card: '#FFFFFF',
+                line: '#EAE6DC',
+                ink: '#1A1A1A',
+                mut: '#8C8C8C',
+                pri: '#5B6C9D',
+                sec: '#C5A059',
+                good: '#4A7A5E',
+                warn: '#D97706',
+                bad: '#DC2626'
+              }
+            },
+            fontFamily: {
+              serif: ['"Bodoni Moda"', 'serif'],
+              sans: ['"Inter"', 'sans-serif'],
+            },
+            boxShadow: {
+              soft: '0 10px 40px -10px rgba(91, 108, 157, 0.20)',
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'ping-slow': 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      body { -webkit-tap-highlight-color: transparent; }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      .glass-nav {
+        background: rgba(249, 247, 242, 0.95);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(197, 160, 89, 0.20);
+      }
+      .glass-header {
+        background: rgba(249, 247, 242, 0.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(197, 160, 89, 0.12);
+      }
+
+      .nav-item-active { color: #5B6C9D; transform: scale(1.05); }
+      .nav-item-inactive { color: #A8A29E; }
+    </style>
+  </head>
+
+  <body class="bg-stone-200 flex justify-center min-h-screen font-sans">
+    <!-- Phone frame -->
+    <div class="w-full max-w-md bg-app-bg relative h-[100vh] sm:h-[860px] shadow-2xl sm:rounded-[2.25rem] overflow-hidden flex flex-col">
+
+      <!-- Header -->
+    <header class="flex-none px-6 py-5 flex justify-between items-end glass-header z-30">
+      <div>
+        <div class="text-[10px] uppercase tracking-[0.22em] text-charm-gold font-bold">Thailand NCD</div>
+        <h1 class="font-serif text-2xl font-bold tracking-tight text-charm-dark">Screening & Risk Scores</h1>
+      </div>
+      <button onclick="openView('viewSettings')" class="w-10 h-10 rounded-full bg-white/80 border border-app-line flex items-center justify-center text-app-pri shadow-sm active:scale-95 transition">
+        <i class="fas fa-sliders-h"></i>
+      </button>
+    </header>
+
+      <!-- Main -->
+      <main class="flex-1 overflow-y-auto no-scrollbar px-5 py-5 pb-28 pb-24 bg-app-bg">
+        <!-- Views -->
+        <section id="viewBasic" class="">
+          <div class="bg-white rounded-2xl p-4 border border-app-line shadow-sm">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h2 class="text-lg font-semibold font-serif text-app-ink">Basic information</h2>
+                <p class="text-xs text-app-mut mt-1">Fill these first. Then go to Lifestyle.</p>
+              </div>
+              <span class="text-[10px] px-2 py-1 rounded-full bg-app-sec/10 text-yellow-800 border border-app-sec/25 font-bold">Step 1</span>
+            </div>
+
+            <div class="mt-4 space-y-4">
+              <div>
+                <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Age (years)</label>
+                <input id="age" type="number" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec" placeholder="e.g., 35">
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Sex</label>
+                  <select id="sex" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec">
+                    <option value="">Select</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Family history (DM)</label>
+                  <select id="fh_dm" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec">
+                    <option value="">Select</option>
+                    <option value="none">None</option>
+                    <option value="parent">Parent</option>
+                    <option value="sibling">Sibling</option>
+                    <option value="both">Parent + Sibling</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Weight (kg)</label>
+                  <input id="weight" type="number" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec" placeholder="e.g., 68">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Height (cm)</label>
+                  <input id="height" type="number" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec" placeholder="e.g., 172">
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Waist circumference (cm)</label>
+                <input id="waist" type="number" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec" placeholder="e.g., 88">
+                <p class="text-[11px] text-app-mut mt-2">Tip: measure midway between lowest rib and top of hip bone.</p>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Systolic BP (mmHg)</label>
+                  <input id="sbp" type="number" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec" placeholder="e.g., 128">
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Diastolic BP (mmHg)</label>
+                  <input id="dbp" type="number" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec" placeholder="e.g., 80">
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <button id="btnToBehavior" class="flex-1 bg-app-pri text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
+                  Continue to Lifestyle
+                </button>
+                <button id="btnClearBasic" class="w-14 bg-white border border-app-line text-app-pri font-bold py-3 rounded-xl active:scale-[0.98] transition">
+                  <i class="fas fa-eraser"></i>
+                </button>
+              </div>
+
+              <p class="text-[11px] text-app-mut leading-relaxed">
+                This tool is for screening/education only — not a diagnosis.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="viewBehavior" class="hidden">
+          <div class="bg-white rounded-2xl p-4 border border-app-line shadow-sm">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h2 class="text-lg font-semibold font-serif text-app-ink">Lifestyle & habits</h2>
+                <p class="text-xs text-app-mut mt-1">Answer honestly for best estimate.</p>
+              </div>
+              <span class="text-[10px] px-2 py-1 rounded-full bg-app-sec/10 text-yellow-800 border border-app-sec/25 font-bold">Step 2</span>
+            </div>
+
+            <div class="mt-4 space-y-4">
+              <div>
+                <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Physical activity</label>
+                <select id="pa" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec">
+                  <option value="">Select</option>
+                  <option value="low">Low</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Vegetables / fruits</label>
+                <select id="veg" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec">
+                  <option value="">Select</option>
+                  <option value="rare">Rarely</option>
+                  <option value="sometimes">Sometimes</option>
+                  <option value="daily">Daily</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Smoking</label>
+                <select id="smoke" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec">
+                  <option value="">Select</option>
+                  <option value="no">No</option>
+                  <option value="yes">Yes</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-app-mut uppercase tracking-wider">Alcohol</label>
+                <select id="alcohol" class="mt-2 w-full bg-app-bg border border-app-line rounded-xl p-3 text-app-ink focus:outline-none focus:border-app-sec">
+                  <option value="">Select</option>
+                  <option value="none">None</option>
+                  <option value="occasional">Occasional</option>
+                  <option value="frequent">Frequent</option>
+                </select>
+              </div>
+
+              <div class="flex gap-3">
+                <button id="btnCompute" class="flex-1 bg-app-pri text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
+                  Calculate Scores
+                </button>
+                <button id="btnClearBehavior" class="w-14 bg-white border border-app-line text-app-pri font-bold py-3 rounded-xl active:scale-[0.98] transition">
+                  <i class="fas fa-eraser"></i>
+                </button>
+              </div>
+
+              <p class="text-[11px] text-app-mut leading-relaxed">
+                If you have known diabetes, hypertension, or are pregnant, please consult a clinician for tailored advice.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="viewResults" class="hidden">
+          <div class="bg-white rounded-2xl p-4 border border-app-line shadow-sm">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h2 class="text-lg font-semibold font-serif text-app-ink">Results</h2>
+                <p class="text-xs text-app-mut mt-1">Your estimated risk and next actions.</p>
+              </div>
+              <button id="btnSave" class="text-[10px] px-3 py-2 rounded-full bg-app-pri text-white font-bold shadow-soft active:scale-95 transition">
+                <i class="fas fa-bookmark mr-1"></i> Save
+              </button>
+            </div>
+
+            <div id="resultsWrap" class="mt-4 space-y-4">
+              <!-- Filled by JS -->
+            </div>
+
+            <div class="mt-4 flex gap-3">
+              <button id="btnRecalc" class="flex-1 bg-white border border-app-line text-app-pri font-bold py-3 rounded-xl active:scale-[0.98] transition">
+                Edit Answers
+              </button>
+              <button id="btnNew" class="flex-1 bg-app-pri text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
+                New Screening
+              </button>
+            </div>
+
+            <p class="mt-4 text-[11px] text-app-mut leading-relaxed">
+              If you get “high risk”, consider confirmatory tests at a clinic (e.g., fasting plasma glucose / HbA1c, repeat BP).
+            </p>
+          </div>
+        </section>
+
+        <section id="viewHistory" class="hidden">
+          <div class="bg-white rounded-2xl p-4 border border-app-line shadow-sm">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h2 class="text-lg font-semibold font-serif text-app-ink">History</h2>
+                <p class="text-xs text-app-mut mt-1">Saved screenings on this device.</p>
+              </div>
+              <button id="btnClearHistory" class="text-[10px] px-3 py-2 rounded-full bg-white border border-app-line text-app-bad font-bold active:scale-95 transition">
+                <i class="fas fa-trash mr-1"></i> Clear
+              </button>
+            </div>
+
+            <div id="historyWrap" class="mt-4 space-y-3">
+              <!-- Filled by JS -->
+            </div>
+
+            <p class="mt-4 text-[11px] text-app-mut leading-relaxed">
+              Tip: Use history to see progress over time after habit changes.
+            </p>
+          </div>
+        </section>
+
+        <section id="viewSettings" class="hidden">
+          <div class="bg-white rounded-2xl p-4 border border-app-line shadow-sm">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h2 class="text-lg font-semibold font-serif text-app-ink">Settings</h2>
+                <p class="text-xs text-app-mut mt-1">Small controls. Your data stays local.</p>
+              </div>
+              <button onclick="openView('viewBasic')" class="w-10 h-10 rounded-full bg-white border border-app-line flex items-center justify-center text-app-pri active:scale-95 transition">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="mt-4 space-y-3">
+              <div class="bg-app-bg border border-app-line rounded-xl p-3">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-bold text-app-ink">Auto-save on Calculate</p>
+                    <p class="text-[11px] text-app-mut">Store results in History automatically.</p>
+                  </div>
+                  <label class="inline-flex items-center cursor-pointer">
+                    <input id="autoSave" type="checkbox" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:bg-app-pri relative">
+                      <span class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all peer-checked:left-6"></span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <button id="btnExport" class="w-full bg-white border border-app-line text-app-pri font-bold py-3 rounded-xl active:scale-[0.98] transition">
+                <i class="fas fa-file-export mr-2"></i> Export History (JSON)
+              </button>
+
+              <button id="btnImport" class="w-full bg-white border border-app-line text-app-pri font-bold py-3 rounded-xl active:scale-[0.98] transition">
+                <i class="fas fa-file-import mr-2"></i> Import History (JSON)
+              </button>
+
+              <input id="importFile" type="file" accept="application/json" class="hidden">
+            </div>
+
+            <p class="mt-4 text-[11px] text-app-mut leading-relaxed">
+              Note: This is a demo UI. Use clinically validated tools in real care settings.
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <!-- Bottom nav -->
+    <nav class="flex-none h-24 glass-nav flex justify-around items-start pt-4 px-2 z-30">
+      <button id="navBasic" onclick="openView('viewBasic')" class="nav-item-active flex flex-col items-center w-16 group transition">
+        <i class="fas fa-clipboard-list text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Survey</span>
+      </button>
+      <button id="navBehavior" onclick="openView('viewBehavior')" class="nav-item-inactive flex flex-col items-center w-16 group transition">
+        <i class="fas fa-heart-pulse text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Lifestyle</span>
+      </button>
+      <button id="navResults" onclick="openView('viewResults')" class="nav-item-inactive flex flex-col items-center w-16 group transition">
+        <i class="fas fa-chart-line text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Scores</span>
+      </button>
+      <button id="navHistory" onclick="openView('viewHistory')" class="nav-item-inactive flex flex-col items-center w-16 group transition">
+        <i class="fas fa-clock-rotate-left text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">History</span>
+      </button>
+    </nav>
+    </div>
+
+    <script>
+      // =========================
+      //   Survey / Scoring Logic
+      //   (UNCHANGED FROM v2)
+      // =========================
+
+      const NAV = {
+        viewBasic: "navBasic",
+        viewBehavior: "navBehavior",
+        viewResults: "navResults",
+        viewHistory: "navHistory",
+      };
+
+      function openView(id) {
+        // hide all
+        ["viewBasic","viewBehavior","viewResults","viewHistory","viewSettings"].forEach(v => {
+          document.getElementById(v).classList.add("hidden");
+        });
+        // show target
+        document.getElementById(id).classList.remove("hidden");
+
+        // nav highlight (skip settings)
+        Object.values(NAV).forEach(nid => {
+        const el = document.getElementById(nid);
+        if(!el) return;
+        el.classList.remove('nav-item-active');
+        el.classList.add('nav-item-inactive');
+      });
+      if (NAV[id]) {
+        const el = document.getElementById(NAV[id]);
+        el.classList.add('nav-item-active');
+        el.classList.remove('nav-item-inactive');
+      }
+
+        // ensure history is rendered when opening
+        if (id === "viewHistory") renderHistory();
+      }
+
+      // ---- Utilities ----
+      const $ = (id) => document.getElementById(id);
+      const lsKey = "ncd_screening_history_v2";
+      const lsSettingsKey = "ncd_screening_settings_v2";
+
+      function round(n, d=1){ const p = Math.pow(10,d); return Math.round(n*p)/p; }
+      function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+
+      function bmiKgCm(kg, cm){
+        const m = cm / 100.0;
+        if(!m) return NaN;
+        return kg / (m*m);
+      }
+
+      // ---- Risk badge UI helper (unchanged) ----
+      function riskBadge(level, label){
+        const map = {
+          low:   "bg-app-good/10 text-green-800 border-green-200",
+          mod:   "bg-app-warn/10 text-amber-800 border-amber-200",
+          high:  "bg-app-bad/10 text-red-800 border-red-200",
+          vhigh: "bg-app-bad/15 text-red-900 border-red-300"
+        };
+        return `<span class="inline-flex items-center text-[10px] px-2 py-1 rounded-full border font-bold ${map[level]||map.mod}">
+          <i class="fas fa-circle-exclamation mr-1"></i> ${label}
+        </span>`;
+      }
+
+      // =========================
+      //   Score Calculators (UNCHANGED)
+      // =========================
+
+      // --- Thai Diabetes Score (TDS): logistic model from your PDF pages ---
+      // C = X * B, Sum all C, then add constant -3.580397
+      // P = 1 / (1 + EXP(-logit))
+      function calcTDS({age, sex, bmi, waist, sbp, dbp, fh_dm}){
+        // Encode X values exactly as in your mapping used previously
+        // Age group X
+        let x_age = 0;
+        if (age >= 55) x_age = 4;
+        else if (age >= 45) x_age = 3;
+        else if (age >= 35) x_age = 2;
+        else x_age = 0;
+
+        // Sex X: male=2, female=0
+        let x_sex = (sex === "male") ? 2 : 0;
+
+        // BMI X: >=27.5 => 4, 23-27.49 => 2, <23 => 0
+        let x_bmi = 0;
+        if (bmi >= 27.5) x_bmi = 4;
+        else if (bmi >= 23) x_bmi = 2;
+
+        // Waist X: male >=90 => 2, 80-89.9 =>1 ; female >=80=>2, 70-79.9=>1
+        let x_waist = 0;
+        if (sex === "male"){
+          if (waist >= 90) x_waist = 2;
+          else if (waist >= 80) x_waist = 1;
+        } else if (sex === "female"){
+          if (waist >= 80) x_waist = 2;
+          else if (waist >= 70) x_waist = 1;
+        }
+
+        // BP X: based on SBP/DBP thresholds (as used in v2)
+        let x_bp = 0;
+        if (sbp >= 140 || dbp >= 90) x_bp = 4;
+        else if (sbp >= 130 || dbp >= 85) x_bp = 2;
+
+        // Family history X: none=0, parent OR sibling=2, both=4
+        let x_fh = 0;
+        if (fh_dm === "both") x_fh = 4;
+        else if (fh_dm === "parent" || fh_dm === "sibling") x_fh = 2;
+
+        // Coefficients B (same as v2)
+        const B_age   = 0.273709;
+        const B_sex   = 0.218873;
+        const B_bmi   = 0.183287;
+        const B_waist = 0.228458;
+        const B_bp    = 0.207231;
+        const B_fh    = 0.254891;
+        const CONST   = -3.580397;
+
+        const logit =
+          (x_age   * B_age)   +
+          (x_sex   * B_sex)   +
+          (x_bmi   * B_bmi)   +
+          (x_waist * B_waist) +
+          (x_bp    * B_bp)    +
+          (x_fh    * B_fh)    +
+          CONST;
+
+        const p = 1 / (1 + Math.exp(-logit));
+        return {
+          prob: p,
+          logit,
+          x: {x_age,x_sex,x_bmi,x_waist,x_bp,x_fh}
+        };
+      }
+
+      // --- Simple BP category (screening) ---
+      function calcBP({sbp, dbp}){
+        // WHO/ISH-ish quick screen (not diagnosis)
+        if (sbp >= 180 || dbp >= 110) return {level:"vhigh", label:"Very high BP", cat:"Stage 3 / urgent"};
+        if (sbp >= 160 || dbp >= 100) return {level:"high",  label:"High BP",      cat:"Stage 2"};
+        if (sbp >= 140 || dbp >= 90)  return {level:"high",  label:"High BP",      cat:"Stage 1"};
+        if (sbp >= 130 || dbp >= 85)  return {level:"mod",   label:"Elevated BP",  cat:"High-normal"};
+        return {level:"low", label:"Normal BP", cat:"Normal"};
+      }
+
+      // --- Lifestyle score (simple additive from your survey answers) ---
+      function calcLifestyle({pa, veg, smoke, alcohol}){
+        let score = 0;
+        // PA: low=2, moderate=1, high=0
+        if (pa === "low") score += 2;
+        else if (pa === "moderate") score += 1;
+
+        // Veg: rare=2, sometimes=1, daily=0
+        if (veg === "rare") score += 2;
+        else if (veg === "sometimes") score += 1;
+
+        // Smoke: yes=2, no=0
+        if (smoke === "yes") score += 2;
+
+        // Alcohol: frequent=2, occasional=1, none=0
+        if (alcohol === "frequent") score += 2;
+        else if (alcohol === "occasional") score += 1;
+
+        // risk bucket
+        let level="low", label="Healthy habits";
+        if (score >= 5){ level="high"; label="Lifestyle risk (high)"; }
+        else if (score >= 3){ level="mod"; label="Lifestyle risk (moderate)"; }
+
+        return {score, level, label};
+      }
+
+      // =========================
+      //   Collect + Validate Inputs (UNCHANGED)
+      // =========================
+      function readInputs(){
+        const age = Number($("age").value);
+        const sex = $("sex").value;
+        const fh_dm = $("fh_dm").value;
+
+        const weight = Number($("weight").value);
+        const height = Number($("height").value);
+        const waist  = Number($("waist").value);
+
+        const sbp = Number($("sbp").value);
+        const dbp = Number($("dbp").value);
+
+        const pa = $("pa").value;
+        const veg = $("veg").value;
+        const smoke = $("smoke").value;
+        const alcohol = $("alcohol").value;
+
+        const bmi = bmiKgCm(weight, height);
+
+        return {age, sex, fh_dm, weight, height, waist, sbp, dbp, bmi, pa, veg, smoke, alcohol};
+      }
+
+      function validateBasic(d){
+        const errs = [];
+        if(!Number.isFinite(d.age) || d.age <= 0) errs.push("Age is required.");
+        if(d.sex !== "male" && d.sex !== "female") errs.push("Sex is required.");
+        if(!d.fh_dm) errs.push("Family history is required.");
+        if(!Number.isFinite(d.weight) || d.weight <= 0) errs.push("Weight is required.");
+        if(!Number.isFinite(d.height) || d.height <= 0) errs.push("Height is required.");
+        if(!Number.isFinite(d.waist)  || d.waist  <= 0) errs.push("Waist circumference is required.");
+        if(!Number.isFinite(d.sbp)    || d.sbp    <= 0) errs.push("Systolic BP is required.");
+        if(!Number.isFinite(d.dbp)    || d.dbp    <= 0) errs.push("Diastolic BP is required.");
+        return errs;
+      }
+
+      function validateBehavior(d){
+        const errs = [];
+        if(!d.pa) errs.push("Physical activity is required.");
+        if(!d.veg) errs.push("Vegetables/fruits is required.");
+        if(!d.smoke) errs.push("Smoking is required.");
+        if(!d.alcohol) errs.push("Alcohol is required.");
+        return errs;
+      }
+
+      function toast(msg){
+        const el = document.createElement("div");
+        el.className = "fixed bottom-28 left-1/2 -translate-x-1/2 bg-app-ink text-white text-xs px-4 py-2 rounded-full shadow-soft z-50";
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(()=> el.remove(), 2400);
+      }
+
+      // =========================
+      //   Render Results (UNCHANGED)
+      // =========================
+      function renderResults(d, out){
+        const {tds, bp, lifestyle} = out;
+
+        // Diabetes risk label based on prob (simple bands)
+        let dmLevel="low", dmLabel="Diabetes risk: Low";
+        const p = tds.prob;
+        if (p >= 0.20){ dmLevel="high"; dmLabel="Diabetes risk: High"; }
+        else if (p >= 0.10){ dmLevel="mod"; dmLabel="Diabetes risk: Moderate"; }
+
+        const bmiTxt = Number.isFinite(d.bmi) ? round(d.bmi,1) : "—";
+        const dmPct = round(p*100,1);
+
+        const actions = [];
+        if (dmLevel !== "low"){
+          actions.push("Consider fasting glucose / HbA1c at a clinic.");
+        }
+        if (bp.level !== "low"){
+          actions.push("Re-check BP (rest 5 min) and consider clinical assessment.");
+        }
+        if (lifestyle.level !== "low"){
+          actions.push("Improve habits (activity, diet, avoid smoking/alcohol).");
+        }
+        if (actions.length === 0){
+          actions.push("Keep up the good work. Re-screen periodically.");
+        }
+
+        $("resultsWrap").innerHTML = `
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-app-bg border border-app-line rounded-xl p-3">
+              <div class="text-[10px] uppercase tracking-wider text-app-mut font-bold">BMI</div>
+              <div class="mt-1 text-xl font-bold text-app-ink">${bmiTxt}</div>
+              <div class="text-[11px] text-app-mut mt-1">kg/m²</div>
+            </div>
+            <div class="bg-app-bg border border-app-line rounded-xl p-3">
+              <div class="text-[10px] uppercase tracking-wider text-app-mut font-bold">BP</div>
+              <div class="mt-1 text-xl font-bold text-app-ink">${d.sbp}/${d.dbp}</div>
+              <div class="text-[11px] text-app-mut mt-1">mmHg</div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-app-line rounded-xl p-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-app-mut font-bold">Thai Diabetes Score (prob.)</div>
+                <div class="mt-1 text-2xl font-bold text-app-ink">${dmPct}%</div>
+              </div>
+              ${riskBadge(dmLevel, dmLabel)}
+            </div>
+            <div class="mt-2 h-2 rounded-full bg-app-bg overflow-hidden border border-app-line">
+              <div class="h-full bg-app-pri" style="width:${clamp(dmPct,0,100)}%"></div>
+            </div>
+            <p class="mt-2 text-[11px] text-app-mut leading-relaxed">
+              Probability estimated from the Thai Diabetes Score logistic model. This is screening, not diagnosis.
+            </p>
+          </div>
+
+          <div class="bg-white border border-app-line rounded-xl p-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-app-mut font-bold">Blood pressure category</div>
+                <div class="mt-1 text-lg font-bold text-app-ink">${bp.cat}</div>
+              </div>
+              ${riskBadge(bp.level, bp.label)}
+            </div>
+            <p class="mt-2 text-[11px] text-app-mut leading-relaxed">
+              Category based on your SBP/DBP inputs. Repeat measurements improve accuracy.
+            </p>
+          </div>
+
+          <div class="bg-white border border-app-line rounded-xl p-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-app-mut font-bold">Lifestyle score</div>
+                <div class="mt-1 text-lg font-bold text-app-ink">${lifestyle.score}/8</div>
+              </div>
+              ${riskBadge(lifestyle.level, lifestyle.label)}
+            </div>
+            <p class="mt-2 text-[11px] text-app-mut leading-relaxed">
+              Higher score means more habit-related risk factors.
+            </p>
+          </div>
+
+          <div class="bg-app-bg border border-app-line rounded-xl p-3">
+            <div class="text-[10px] uppercase tracking-wider text-app-mut font-bold">Suggested next actions</div>
+            <ul class="mt-2 space-y-1 text-sm text-app-ink">
+              ${actions.map(a=>`<li class="flex gap-2"><span class="mt-1 text-app-sec"><i class="fas fa-check"></i></span><span>${a}</span></li>`).join("")}
+            </ul>
+          </div>
+        `;
+      }
+
+      // =========================
+      //   History Storage (UNCHANGED)
+      // =========================
+      function loadHistory(){
+        try{
+          return JSON.parse(localStorage.getItem(lsKey) || "[]");
+        }catch(e){ return []; }
+      }
+      function saveHistory(arr){
+        localStorage.setItem(lsKey, JSON.stringify(arr));
+      }
+      function loadSettings(){
+        try{
+          return JSON.parse(localStorage.getItem(lsSettingsKey) || "{}");
+        }catch(e){ return {}; }
+      }
+      function saveSettings(s){
+        localStorage.setItem(lsSettingsKey, JSON.stringify(s));
+      }
+
+      function makeRecord(d, out){
+        return {
+          ts: Date.now(),
+          inputs: d,
+          outputs: {
+            tds_prob: out.tds.prob,
+            bp_cat: out.bp.cat,
+            lifestyle_score: out.lifestyle.score
+          }
+        };
+      }
+
+      function renderHistory(){
+        const hist = loadHistory().sort((a,b)=>b.ts-a.ts);
+        const wrap = $("historyWrap");
+        if(hist.length === 0){
+          wrap.innerHTML = `<div class="text-center text-app-mut text-sm mt-8">
+            <i class="fas fa-inbox text-4xl text-stone-200"></i>
+            <p class="mt-3">No saved screenings yet.</p>
+          </div>`;
+          return;
+        }
+        wrap.innerHTML = hist.map(r=>{
+          const dt = new Date(r.ts);
+          const dm = round(r.outputs.tds_prob*100,1);
+          const bp = r.outputs.bp_cat;
+          const ls = r.outputs.lifestyle_score;
+          const name = `${dt.toLocaleDateString()} ${dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
+          return `
+            <div class="bg-app-bg border border-app-line rounded-xl p-3">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="text-sm font-bold text-app-ink">${name}</div>
+                  <div class="text-[11px] text-app-mut mt-0.5">DM: ${dm}% • BP: ${bp} • Lifestyle: ${ls}/8</div>
+                </div>
+                <button class="text-app-pri text-xs font-bold" onclick="loadRecord(${r.ts})">View</button>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      function loadRecord(ts){
+        const hist = loadHistory();
+        const r = hist.find(x=>x.ts===ts);
+        if(!r){ toast("Record not found."); return; }
+        // restore inputs
+        const d = r.inputs;
+        $("age").value = d.age ?? "";
+        $("sex").value = d.sex ?? "";
+        $("fh_dm").value = d.fh_dm ?? "";
+        $("weight").value = d.weight ?? "";
+        $("height").value = d.height ?? "";
+        $("waist").value = d.waist ?? "";
+        $("sbp").value = d.sbp ?? "";
+        $("dbp").value = d.dbp ?? "";
+        $("pa").value = d.pa ?? "";
+        $("veg").value = d.veg ?? "";
+        $("smoke").value = d.smoke ?? "";
+        $("alcohol").value = d.alcohol ?? "";
+
+        // compute and show
+        computeAndShow(false);
+        toast("Loaded record.");
+      }
+
+      // =========================
+      //   Main Action (UNCHANGED)
+      // =========================
+      function computeAndShow(maybeSave=true){
+        const d = readInputs();
+        const e1 = validateBasic(d);
+        const e2 = validateBehavior(d);
+        if(e1.length){ toast(e1[0]); openView("viewBasic"); return; }
+        if(e2.length){ toast(e2[0]); openView("viewBehavior"); return; }
+
+        const out = {
+          tds: calcTDS(d),
+          bp: calcBP(d),
+          lifestyle: calcLifestyle(d)
+        };
+
+        renderResults(d, out);
+        openView("viewResults");
+
+        const settings = loadSettings();
+        const autos = $("autoSave").checked;
+        if(maybeSave && autos){
+          const hist = loadHistory();
+          hist.push(makeRecord(d, out));
+          saveHistory(hist);
+        }
+      }
+
+      // =========================
+      //   Wire UI (UNCHANGED)
+      // =========================
+      function clearBasic(){
+        ["age","sex","fh_dm","weight","height","waist","sbp","dbp"].forEach(id=>$(id).value="");
+      }
+      function clearBehavior(){
+        ["pa","veg","smoke","alcohol"].forEach(id=>$(id).value="");
+      }
+      function newScreening(){
+        clearBasic();
+        clearBehavior();
+        $("resultsWrap").innerHTML = "";
+        openView("viewBasic");
+      }
+
+      // export/import history json
+      function exportHistory(){
+        const hist = loadHistory();
+        const blob = new Blob([JSON.stringify(hist, null, 2)], {type:"application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "ncd_screening_history.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+      function importHistoryFile(file){
+        const reader = new FileReader();
+        reader.onload = () => {
+          try{
+            const data = JSON.parse(reader.result);
+            if(!Array.isArray(data)) throw new Error("Not an array");
+            saveHistory(data);
+            toast("Imported history.");
+          }catch(e){
+            toast("Invalid JSON file.");
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      function init(){
+        // settings
+        const s = loadSettings();
+        $("autoSave").checked = (s.autoSave !== false); // default true
+        $("autoSave").addEventListener("change", ()=>{
+          saveSettings({ autoSave: $("autoSave").checked });
+        });
+
+        $("btnToBehavior").addEventListener("click", ()=>{
+          const d = readInputs();
+          const errs = validateBasic(d);
+          if(errs.length){ toast(errs[0]); return; }
+          openView("viewBehavior");
+        });
+
+        $("btnClearBasic").addEventListener("click", ()=>{ clearBasic(); toast("Cleared."); });
+        $("btnClearBehavior").addEventListener("click", ()=>{ clearBehavior(); toast("Cleared."); });
+
+        $("btnCompute").addEventListener("click", ()=> computeAndShow(true));
+        $("btnRecalc").addEventListener("click", ()=> openView("viewBasic"));
+        $("btnNew").addEventListener("click", ()=> newScreening());
+
+        $("btnSave").addEventListener("click", ()=>{
+          const d = readInputs();
+          const e1 = validateBasic(d);
+          const e2 = validateBehavior(d);
+          if(e1.length || e2.length){ toast("Complete survey before saving."); return; }
+          const out = { tds: calcTDS(d), bp: calcBP(d), lifestyle: calcLifestyle(d) };
+          const hist = loadHistory();
+          hist.push(makeRecord(d, out));
+          saveHistory(hist);
+          toast("Saved.");
+        });
+
+        $("btnClearHistory").addEventListener("click", ()=>{
+          saveHistory([]);
+          renderHistory();
+          toast("History cleared.");
+        });
+
+        $("btnExport").addEventListener("click", exportHistory);
+        $("btnImport").addEventListener("click", ()=> $("importFile").click());
+        $("importFile").addEventListener("change", (e)=>{
+          const f = e.target.files && e.target.files[0];
+          if(f) importHistoryFile(f);
+          e.target.value = "";
+        });
+
+        // nav buttons also work
+        $("navBasic").addEventListener("click", ()=> openView("viewBasic"));
+        $("navBehavior").addEventListener("click", ()=> openView("viewBehavior"));
+        $("navResults").addEventListener("click", ()=> openView("viewResults"));
+        $("navHistory").addEventListener("click", ()=> openView("viewHistory"));
+
+        openView("viewBasic");
+      }
+
+      init();
+    </script>
+  </body>
+</html>

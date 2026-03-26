@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PrevenLink - NCDs Prevention</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charm: {
+                            blue: '#5B6C9D',
+                            gold: '#C5A059',
+                            cream: '#F9F7F2',
+                            dark: '#1A1A1A',
+                            gray: '#8C8C8C',
+                            green: '#4A7A5E'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Bodoni Moda"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { -webkit-tap-highlight-color: transparent; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-section { display: none !important; }
+        .active-section { display: block; animation: fadeIn 0.3s ease-out; }
+        .glass-header { background: rgba(249, 247, 242, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
+        .nav-item-active { color: #5B6C9D; transform: translateY(-2px); }
+        .nav-item-inactive { color: #A8A29E; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Safe area for mobile bottoms */
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 1rem); }
+    </style>
+</head>
+<body class="bg-stone-200 flex justify-center min-h-screen font-sans text-charm-dark">
+
+    <div class="w-full max-w-md bg-charm-cream relative flex flex-col h-screen overflow-hidden shadow-2xl">
+        
+        <div class="flex-none px-6 py-5 flex justify-between items-end glass-header z-30">
+            <div>
+                <h1 class="font-serif text-2xl font-bold tracking-tight text-charm-dark">PrevenLink</h1>
+                <p class="text-[10px] tracking-[0.1em] uppercase text-charm-gold font-bold">Unlocking NCDs Prevention</p>
+            </div>
+            <div>
+                <div class="w-9 h-9 rounded-full bg-charm-blue text-white flex items-center justify-center font-bold text-sm shadow-md">
+                    PL
+                </div>
+            </div>
+        </div>
+
+        <div id="main-container" class="flex-1 overflow-y-auto no-scrollbar pb-24 bg-charm-cream relative">
+            
+            <div id="view-home" class="active-section px-6 py-6">
+                
+                <div class="bg-charm-dark text-white rounded-2xl p-5 mb-6 shadow-lg relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-charm-gold opacity-10 rounded-full -mr-10 -mt-10"></div>
+                    <div class="flex justify-between items-center mb-3">
+                        <div>
+                            <p class="text-xs text-charm-gold font-bold uppercase tracking-wider mb-1">Level 4: Health Seeker</p>
+                            <h2 class="text-xl font-serif font-bold">คุณทำได้ดีมาก!</h2>
+                        </div>
+                        <div class="w-12 h-12 bg-charm-gold text-charm-dark rounded-full flex items-center justify-center text-xl font-bold border-2 border-white">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-700 rounded-full h-1.5 mb-1">
+                        <div class="bg-charm-gold h-1.5 rounded-full" style="width: 65%"></div>
+                    </div>
+                    <p class="text-[10px] text-gray-300 text-right">1,300 / 2,000 XP จนกว่าจะถึงเลเวลถัดไป</p>
+                </div>
+
+                <div class="flex justify-between items-end mb-4">
+                    <h2 class="font-serif text-xl font-bold">Habit Tracker</h2>
+                    <span class="text-[10px] text-charm-gray font-medium">บันทึกประจำวัน</span>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-stone-100 mb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-charm-blue/10 flex items-center justify-center text-charm-blue">
+                            <i class="fas fa-shoe-prints text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold">กิจกรรมทางกาย</h4>
+                            <p class="text-[10px] text-gray-400">เป้าหมาย: 8,000 ก้าว</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold">6,420</p>
+                        <span class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold flex items-center gap-1 mt-1">
+                            <i class="fas fa-check-circle"></i> ซิงค์จาก Watch
+                        </span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-stone-100 mb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-charm-gold/10 flex items-center justify-center text-charm-gold">
+                            <i class="fas fa-utensils text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold">บันทึกมื้ออาหาร</h4>
+                            <p class="text-[10px] text-gray-400">หลักฐาน: การอัพโหลดภาพถ่าย</p>
+                        </div>
+                    </div>
+                    <button class="bg-stone-100 text-charm-dark px-4 py-2 rounded-lg text-xs font-bold hover:bg-stone-200 transition">
+                        เพิ่มรูปภาพ +
+                    </button>
+                </div>
+
+            </div>
+
+            <div id="view-risk" class="hide-section px-6 py-6">
+                <h2 class="font-serif text-xl font-bold mb-2">NCDs Risk Assessment</h2>
+                <p class="text-xs text-gray-500 mb-6 leading-relaxed">ประเมินความเสี่ยงโรคเบาหวานใน 12 ปี (Thai Diabetes Score) อ้างอิงจากหลักเกณฑ์กรมควบคุมโรค</p>
+
+                <div id="risk-form" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase">อายุ (ปี)</label>
+                            <input type="number" id="risk-age" class="w-full mt-1 bg-white border border-stone-200 rounded-xl p-3 text-sm focus:border-charm-gold outline-none" placeholder="เช่น 45">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase">เพศ</label>
+                            <select id="risk-sex" class="w-full mt-1 bg-white border border-stone-200 rounded-xl p-3 text-sm focus:border-charm-gold outline-none appearance-none">
+                                <option value="female">หญิง</option>
+                                <option value="male">ชาย</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase">น้ำหนัก (กก.)</label>
+                            <input type="number" id="risk-weight" class="w-full mt-1 bg-white border border-stone-200 rounded-xl p-3 text-sm outline-none" placeholder="เช่น 65">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase">ส่วนสูง (ซม.)</label>
+                            <input type="number" id="risk-height" class="w-full mt-1 bg-white border border-stone-200 rounded-xl p-3 text-sm outline-none" placeholder="เช่น 160">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-500 uppercase">เส้นรอบเอว (ซม.)</label>
+                        <input type="number" id="risk-waist" class="w-full mt-1 bg-white border border-stone-200 rounded-xl p-3 text-sm outline-none" placeholder="เช่น 85">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-500 uppercase">คุณเป็นโรคความดันโลหิตสูงหรือไม่?</label>
+                        <select id="risk-ht" class="w-full mt-1 bg-white border border-stone-200 rounded-xl p-3 text-sm outline-none appearance-none">
+                            <option value="no">ไม่มีเกณฑ์ / ปกติ</option>
+                            <option value="yes">มีความดันโลหิตสูง</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-500 uppercase">ประวัติเบาหวานในครอบครัวสายตรง?</label>
+                        <select id="risk-fam" class="w-full mt-1 bg-white border border-stone-200 rounded-xl p-3 text-sm outline-none appearance-none">
+                            <option value="no">ไม่มี</option>
+                            <option value="yes">มี (พ่อ แม่ พี่ น้อง)</option>
+                        </select>
+                    </div>
+
+                    <button onclick="calculateExactTDS()" class="w-full bg-charm-blue text-white py-4 rounded-xl font-bold mt-4 shadow-lg active:scale-95 transition flex justify-center items-center gap-2">
+                        <i class="fas fa-calculator"></i> วิเคราะห์ความเสี่ยง
+                    </button>
+                </div>
+
+                <div id="risk-result" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-stone-100 text-center mt-4">
+                    <div class="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-pie text-2xl text-charm-dark"></i>
+                    </div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">ผลการประเมินของคุณ</p>
+                    <h3 id="risk-result-level" class="font-serif font-bold text-2xl mb-2 text-charm-dark">รอการคำนวณ</h3>
+                    <div class="bg-stone-50 rounded-lg py-3 px-4 mb-4 inline-block">
+                        <p id="risk-result-desc" class="text-sm font-medium text-charm-dark">ความเสี่ยง 0%</p>
+                    </div>
+                    <p id="risk-result-rec" class="text-xs text-gray-500 leading-relaxed mb-6">คำแนะนำเพิ่มเติม...</p>
+                    
+                    <button onclick="resetRiskForm()" class="text-xs border border-stone-300 px-6 py-2 rounded-full text-gray-600 hover:bg-stone-50 transition">
+                        ประเมินใหม่อีกครั้ง
+                    </button>
+                </div>
+            </div>
+
+            <div id="view-community" class="hide-section px-6 py-6">
+                <div class="flex justify-between items-end mb-6">
+                    <h2 class="font-serif text-xl font-bold">Community</h2>
+                    <span class="text-[10px] bg-charm-gold text-white px-2 py-1 rounded-full font-bold">Healthy Network</span>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded-full bg-charm-blue/20 text-charm-blue flex items-center justify-center text-xs font-bold">P</div>
+                        <div>
+                            <h4 class="text-sm font-bold">Ploy_Healthy</h4>
+                            <p class="text-[10px] text-gray-400">1 ชั่วโมงที่แล้ว</p>
+                        </div>
+                    </div>
+                    <p class="text-sm mb-3">วันนี้ทำ Challenge เดิน 10,000 ก้าวสำเร็จแล้วค่ะ รู้สึกสดชื่นมาก ความดันเริ่มลดลงตามที่คุณหมอบอกจริงๆ #ลดNCDs</p>
+                    <div class="flex gap-4 text-gray-400 text-xs font-bold">
+                        <span class="text-charm-gold"><i class="fas fa-heart"></i> 24</span>
+                        <span><i class="fas fa-comment"></i> 5</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded-full bg-stone-200 text-gray-500 flex items-center justify-center text-xs font-bold">U</div>
+                        <div>
+                            <h4 class="text-sm font-bold">User_9982</h4>
+                            <p class="text-[10px] text-gray-400">2 ชั่วโมงที่แล้ว</p>
+                        </div>
+                    </div>
+                    <p class="text-sm mb-3">มีใครเคยกินยาสมุนไพรตัวนี้บ้างครับ เห็นโฆษณาในเน็ตบอกว่ารักษาน้ำตาลสูงให้หายขาดได้เลย ไม่ต้องกินยาหมอแล้ว!</p>
+                    
+                    <div class="bg-red-50 border border-red-200 rounded-xl p-3 flex gap-3 items-start mt-2">
+                        <i class="fas fa-robot text-red-500 mt-0.5"></i>
+                        <div>
+                            <p class="text-[11px] font-bold text-red-700 mb-1">AI Health Moderator แจ้งเตือน</p>
+                            <p class="text-[10px] text-red-600 leading-relaxed">
+                                <b>ความเสี่ยงข้อมูลคลาดเคลื่อน:</b> โรคเบาหวานไม่สามารถรักษาให้หายขาดได้ด้วยสมุนไพรเพียงอย่างเดียว และอาจเป็นอันตรายหากหยุดยาแผนปัจจุบันโดยไม่ปรึกษาแพทย์ โปรดอ้างอิงข้อมูลจากผู้เชี่ยวชาญ
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 text-gray-400 text-xs font-bold mt-3">
+                        <span><i class="fas fa-heart"></i> 2</span>
+                        <span><i class="fas fa-comment"></i> 1</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="flex-none bg-white border-t border-stone-200 flex justify-around py-3 pb-safe z-40 rounded-t-2xl shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+            <div onclick="navigateTo('view-home')" class="w-1/4 flex flex-col items-center cursor-pointer nav-item-active transition-all" id="nav-home">
+                <i class="fas fa-home text-xl mb-1"></i>
+                <span class="text-[9px] font-bold uppercase tracking-wider">Home</span>
+            </div>
+            <div onclick="navigateTo('view-risk')" class="w-1/4 flex flex-col items-center cursor-pointer nav-item-inactive transition-all" id="nav-risk">
+                <i class="fas fa-heartbeat text-xl mb-1"></i>
+                <span class="text-[9px] font-bold uppercase tracking-wider">Risk</span>
+            </div>
+            <div onclick="navigateTo('view-community')" class="w-1/4 flex flex-col items-center cursor-pointer nav-item-inactive transition-all" id="nav-community">
+                <i class="fas fa-users text-xl mb-1"></i>
+                <span class="text-[9px] font-bold uppercase tracking-wider">Community</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Navigation function
+        function navigateTo(targetId) {
+            const views = ['view-home', 'view-risk', 'view-community'];
+            const navs = ['nav-home', 'nav-risk', 'nav-community'];
+            
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hide-section');
+                document.getElementById(id).classList.remove('active-section');
+            });
+            
+            navs.forEach(id => {
+                document.getElementById(id).classList.remove('nav-item-active');
+                document.getElementById(id).classList.add('nav-item-inactive');
+            });
+            
+            document.getElementById(targetId).classList.remove('hide-section');
+            document.getElementById(targetId).classList.add('active-section');
+            
+            const activeNavId = targetId.replace('view-', 'nav-');
+            if(document.getElementById(activeNavId)) {
+                document.getElementById(activeNavId).classList.remove('nav-item-inactive');
+                document.getElementById(activeNavId).classList.add('nav-item-active');
+            }
+        }
+
+        // Exact Formula for Thai Diabetes Score based on the provided MOPH document (Logistic Regression)
+        function calculateExactTDS() {
+            const age = parseInt(document.getElementById('risk-age').value);
+            const sex = document.getElementById('risk-sex').value;
+            const weight = parseFloat(document.getElementById('risk-weight').value);
+            const height = parseFloat(document.getElementById('risk-height').value);
+            const waist = parseFloat(document.getElementById('risk-waist').value);
+            const ht = document.getElementById('risk-ht').value;
+            const fam = document.getElementById('risk-fam').value;
+
+            if(!age || !weight || !height || !waist) {
+                alert("กรุณากรอกข้อมูลตัวเลขให้ครบถ้วน");
+                return;
+            }
+
+            let C1 = 0, C2 = 0, C3 = 0, C4 = 0, C5 = 0, C6 = 0;
+
+            // 1. อายุ
+            if (age < 45) C1 = -0.0702134;
+            else if (age >= 45 && age < 60) C1 = 0.2718858;
+            else if (age >= 60) C1 = 0.6043599;
+
+            // 2. เพศ
+            if (sex === 'male') C2 = 0.4422573;
+            
+            // 3. BMI
+            const bmi = weight / ((height/100) * (height/100));
+            if (bmi >= 23 && bmi < 27.5) C3 = 0.6958621;
+            else if (bmi >= 27.5) C3 = 1.235097;
+
+            // 4. เส้นรอบเอว
+            if ((sex === 'male' && waist >= 90) || (sex === 'female' && waist >= 80)) {
+                C4 = 0.5567118;
+            }
+
+            // 5. ความดันโลหิตสูง
+            if (ht === 'yes') C5 = 0.6409517;
+
+            // 6. ประวัติครอบครัว
+            if (fam === 'yes') C6 = 1.081356;
+
+            // การคำนวณตามสูตร Logistic (ตารางที่ 6)
+            let sum = C1 + C2 + C3 + C4 + C5 + C6 - 3.580397;
+            let expVal = Math.exp(sum);
+            let riskPercent = (expVal / (1 + expVal)) * 100;
+
+            // แปลผลตามเกณฑ์ตารางที่ 7
+            let riskLevel = "";
+            let riskDesc = "โอกาสเกิดเบาหวานใน 12 ปี: " + riskPercent.toFixed(1) + "%";
+            let riskColor = "";
+            let rec = "";
+
+            if (riskPercent < 10) {
+                riskLevel = "เสี่ยงน้อย";
+                riskColor = "text-charm-green";
+                rec = "ควรออกกำลังกายสม่ำเสมอ ควบคุมน้ำหนักให้อยู่ในเกณฑ์ และทำการประเมินซ้ำทุก 3 ปี";
+            } else if (riskPercent < 20) {
+                riskLevel = "เสี่ยงปานกลาง";
+                riskColor = "text-yellow-600";
+                rec = "ควรออกกำลังกายสม่ำเสมอ ควบคุมน้ำหนักให้อยู่ในเกณฑ์ และตรวจวัดความดันโลหิต ประเมินซ้ำทุก 1-3 ปี";
+            } else if (riskPercent < 30) {
+                riskLevel = "เสี่ยงสูง";
+                riskColor = "text-orange-500";
+                rec = "ควบคุมอาหารและออกกำลังกายอย่างจริงจัง ควรพบแพทย์เพื่อตรวจระดับน้ำตาลในเลือด";
+            } else {
+                riskLevel = "เสี่ยงสูงมาก";
+                riskColor = "text-red-600";
+                rec = "มีความเสี่ยงอันตราย ควรพบแพทย์เพื่อตรวจวินิจฉัยโรคเบาหวานทันที และปรับเปลี่ยนพฤติกรรมอย่างเคร่งครัด";
+            }
+
+            // Update UI
+            document.getElementById('risk-result-level').innerText = riskLevel;
+            document.getElementById('risk-result-level').className = "font-serif font-bold text-2xl mb-2 " + riskColor;
+            document.getElementById('risk-result-desc').innerText = riskDesc;
+            document.getElementById('risk-result-rec').innerText = rec;
+            
+            document.getElementById('risk-form').classList.add('hidden');
+            document.getElementById('risk-result').classList.remove('hidden');
+        }
+
+        function resetRiskForm() {
+            document.getElementById('risk-result').classList.add('hidden');
+            document.getElementById('risk-form').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

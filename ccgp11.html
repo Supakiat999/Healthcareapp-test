@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Caremu</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            charm: {
+              blue: '#5B6C9D',
+              gold: '#C5A059',
+              cream: '#F9F7F2',
+              dark: '#1A1A1A',
+              gray: '#8C8C8C',
+              green: '#4A7A5E',
+              badgebg: '#F4EFE6',
+              badgetxt: '#8B6B4A'
+            }
+          },
+          fontFamily: {
+            serif: ['"Bodoni Moda"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 10px 40px -10px rgba(91, 108, 157, 0.15)',
+          },
+          animation: {
+            'bounce-in': 'bounceIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+          },
+          keyframes: {
+            bounceIn: {
+              '0%': { opacity: '0', transform: 'scale(0.9)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { -webkit-tap-highlight-color: transparent; background-color: #e5e5e4; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .glass-nav {
+      background: rgba(249, 247, 242, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(197, 160, 89, 0.20);
+    }
+    .glass-header {
+      background: rgba(249, 247, 242, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(197, 160, 89, 0.12);
+    }
+
+    .nav-item-active { color: #5B6C9D; transform: scale(1.05); }
+    .nav-item-inactive { color: #A8A29E; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+    .hide { display: none !important; }
+    
+    input[type="radio"] { accent-color: #5B6C9D; width: 1.1rem; height: 1.1rem; cursor: pointer; }
+    input[type="checkbox"] { accent-color: #5B6C9D; width: 1.1rem; height: 1.1rem; border-radius: 4px; cursor: pointer; }
+    input[type="time"]::-webkit-calendar-picker-indicator { cursor: pointer; filter: invert(0.4); }
+
+    /* Input styling */
+    .charm-input {
+      background-color: #F8F8F8;
+      border: 1px solid #E5E7EB;
+      color: #1A1A1A;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    .charm-input::placeholder {
+      color: #9CA3AF;
+    }
+    .charm-input:focus {
+      outline: none;
+      border-color: #C5A059;
+      background-color: #FFFFFF;
+      box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.2);
+    }
+    .charm-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="flex justify-center min-h-screen font-sans text-charm-dark">
+  
+  <div class="w-full max-w-md bg-charm-cream relative h-[100dvh] sm:h-[860px] sm:my-8 shadow-2xl sm:rounded-[2.25rem] overflow-hidden flex flex-col">
+
+    <header class="flex-none px-6 py-5 flex justify-between items-end glass-header z-30">
+      <div>
+        <div class="text-[10px] uppercase tracking-[0.22em] text-charm-gold font-bold">Health Guardian</div>
+        <h1 class="font-serif text-2xl font-bold tracking-tight text-charm-dark">CAREMU</h1>
+      </div>
+      <button onclick="openView('viewSettings')" class="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-charm-blue shadow-sm active:scale-95 transition">
+        <i class="fas fa-sliders-h"></i>
+      </button>
+    </header>
+
+    <main class="flex-1 overflow-y-auto no-scrollbar px-5 py-6 pb-32">
+      
+      <section id="viewProfile" class="fade-in">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold font-serif text-charm-dark">My Dashboard</h2>
+            <p class="text-xs text-charm-gray">Your daily health tracking.</p>
+          </div>
+          <img src="https://ui-avatars.com/api/?name=User&background=C5A059&color=fff" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
+        </div>
+
+        <div id="regionAlertBox" class="bg-white rounded-2xl p-5 border-l-4 border-l-charm-blue shadow-soft mb-4">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="text-[10px] font-bold text-charm-blue uppercase tracking-widest mb-1">Local Health Insight</p>
+              <h3 id="regionTitle" class="font-serif text-lg font-bold text-charm-dark">General Wellness</h3>
+            </div>
+            <i class="fas fa-map-marker-alt text-charm-blue/30 text-xl"></i>
+          </div>
+          <p id="regionDesc" class="text-xs text-charm-gray mt-2 leading-relaxed">
+            Please update your region in the Profile Survey to get localized health risk alerts.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-charm-dark"><i class="fas fa-bullseye text-charm-gold mr-1"></i> Daily Calories</h3>
+            <span class="text-xs font-bold text-charm-blue"><span id="calEaten">450</span> / 2000 kcal</span>
+          </div>
+          <div class="h-2.5 w-full bg-stone-100 rounded-full overflow-hidden">
+            <div id="calBar" class="h-full bg-charm-gold transition-all duration-500" style="width: 22.5%;"></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div class="bg-charm-blue/10 rounded-2xl p-4 border border-charm-blue/20">
+            <div class="flex justify-between items-start mb-2">
+              <i class="fas fa-shoe-prints text-charm-blue text-lg"></i>
+              <button onclick="toast('Syncing with Apple Health/Google Fit...')" class="text-charm-blue text-[10px]"><i class="fas fa-sync-alt"></i></button>
+            </div>
+            <p class="text-[10px] uppercase font-bold text-charm-blue tracking-wider">Steps Today</p>
+            <p class="text-xl font-serif font-bold text-charm-dark mt-1">6,432</p>
+            <p class="text-[10px] text-charm-gray mt-1">Goal: 10k</p>
+          </div>
+          
+          <div class="bg-charm-green/10 rounded-2xl p-4 border border-charm-green/20 relative">
+            <div class="flex justify-between items-start mb-1">
+              <i class="fas fa-moon text-charm-green text-lg"></i>
+              <span id="sleepTotal" class="text-xl font-serif font-bold text-charm-dark">--h --m</span>
+            </div>
+            <p class="text-[10px] uppercase font-bold text-charm-green tracking-wider mb-2">Sleep Duration</p>
+            
+            <div class="flex gap-1">
+              <div class="flex-1">
+                <label class="text-[8px] font-bold text-charm-gray block">BED</label>
+                <input type="time" id="bedtime" class="bg-white/50 border border-charm-green/30 rounded px-1 py-0.5 text-[10px] w-full text-charm-dark font-bold focus:outline-none" onchange="calcSleep()">
+              </div>
+              <div class="flex-1">
+                <label class="text-[8px] font-bold text-charm-gray block">WAKE</label>
+                <input type="time" id="waketime" class="bg-white/50 border border-charm-green/30 rounded px-1 py-0.5 text-[10px] w-full text-charm-dark font-bold focus:outline-none" onchange="calcSleep()">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-charm-dark rounded-2xl p-5 shadow-soft mb-4 relative overflow-hidden">
+          <div class="absolute -right-4 -top-4 opacity-10 text-white text-7xl"><i class="fas fa-khanda"></i></div>
+          <h3 class="font-bold text-sm text-charm-gold mb-1"><i class="fas fa-star mr-1"></i> Active Quest</h3>
+          <p id="questTitle" class="text-lg font-serif font-bold text-white">The Baseline Defender</p>
+          <p id="questDesc" class="text-xs text-stone-300 mt-2 font-light">Complete your first Health Assessment in the Survey tab to unlock your personalized track!</p>
+          <button onclick="toggleQuestModal()" class="mt-4 bg-charm-gold text-charm-dark text-xs font-bold px-4 py-2 rounded-lg shadow-sm active:scale-95 transition">
+            Pursue Quest
+          </button>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+          <h3 class="font-bold text-sm text-charm-dark mb-1"><i class="fas fa-camera text-charm-blue mr-1"></i> AI Food Logger</h3>
+          <p class="text-xs text-charm-gray mb-4">Snap a pic to calculate nutrition.</p>
+
+          <div class="relative w-full h-32 bg-stone-50 border-2 border-dashed border-stone-200 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-stone-100 transition" onclick="document.getElementById('foodInput').click()">
+            <i class="fas fa-cloud-upload-alt text-2xl text-charm-gray mb-2"></i>
+            <span class="text-xs font-bold text-charm-gray">Upload Meal Photo</span>
+            <input type="file" id="foodInput" accept="image/*" class="hidden" onchange="handleFoodUpload(this)">
+          </div>
+
+          <div id="foodPreviewBox" class="hidden mt-4">
+            <div class="relative w-full h-40 rounded-xl overflow-hidden shadow-sm mb-3">
+              <img id="foodPreviewImg" src="" class="w-full h-full object-cover">
+              <div id="foodAiAnalyzing" class="absolute inset-0 bg-charm-dark/70 backdrop-blur-sm flex flex-col items-center justify-center text-white">
+                <i class="fas fa-circle-notch fa-spin text-3xl text-charm-gold mb-2"></i>
+                <span class="text-xs font-bold tracking-wider mt-2">AI Analyzing Food...</span>
+              </div>
+            </div>
+
+            <div id="foodEditBox" class="hidden space-y-3 bg-charm-cream p-4 rounded-xl border border-stone-200">
+              <div class="flex justify-between items-center">
+                <p class="text-[10px] uppercase font-bold text-charm-blue">AI Prediction <i class="fas fa-magic"></i></p>
+                <p class="text-[10px] text-charm-gray">Edit if incorrect</p>
+              </div>
+              <input id="foodName" type="text" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
+              
+              <div class="grid grid-cols-4 gap-2">
+                <div>
+                  <label class="text-[9px] font-bold text-charm-gray uppercase">Cals</label>
+                  <input id="foodCals" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm text-center text-charm-dark focus:border-charm-gold outline-none">
+                </div>
+                <div>
+                  <label class="text-[9px] font-bold text-charm-gray uppercase">Carbs(g)</label>
+                  <input id="foodCarbs" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm text-center text-charm-dark focus:border-charm-gold outline-none">
+                </div>
+                <div>
+                  <label class="text-[9px] font-bold text-charm-gray uppercase">Pro(g)</label>
+                  <input id="foodPro" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm text-center text-charm-dark focus:border-charm-gold outline-none">
+                </div>
+                <div>
+                  <label class="text-[9px] font-bold text-charm-gray uppercase">Fat(g)</label>
+                  <input id="foodFat" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm text-center text-charm-dark focus:border-charm-gold outline-none">
+                </div>
+              </div>
+              
+              <button onclick="saveFoodEntry()" class="w-full mt-2 bg-charm-blue text-white text-xs font-bold py-3 rounded-lg shadow-soft active:scale-[0.98] transition">
+                Add to Daily Intake
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="viewSurvey" class="hide fade-in">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold font-serif text-charm-dark">Health Assessment</h2>
+            <p class="text-xs text-charm-gray">For clinical risk & behavioral scores.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
+          <div class="flex items-start justify-between mb-4">
+            <div>
+              <h3 class="font-bold text-lg font-serif text-charm-dark">Clinical Profile</h3>
+              <p class="text-[11px] text-charm-gray mt-0.5">Basic NCD risk factors.</p>
+            </div>
+            <span class="bg-charm-badgebg text-charm-badgetxt px-3 py-1 rounded-full text-[10px] font-bold tracking-wider">STEP 1</span>
+          </div>
+
+          <div class="space-y-5">
+            <div>
+              <label class="charm-label">YOUR REGION (For localized risk)</label>
+              <select id="region" class="charm-input appearance-none" onchange="updateRegionAlert()">
+                <option value="" disabled selected>Select Region</option>
+                <option value="bangkok">Bangkok & Metro</option>
+                <option value="central">Central Thailand</option>
+                <option value="north">North (Chiang Mai, etc.)</option>
+                <option value="northeast">Northeast (Isan)</option>
+                <option value="south">South</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="charm-label">DATE OF BIRTH</label>
+                <input id="dob" type="date" class="charm-input" onchange="updateQuests()">
+              </div>
+              <div>
+                <label class="charm-label">SEX</label>
+                <select id="sex" class="charm-input appearance-none">
+                  <option value="" disabled selected>Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="charm-label">WEIGHT (KG)</label>
+                <input id="weight" type="number" step="0.1" class="charm-input" placeholder="e.g. 65">
+              </div>
+              <div>
+                <label class="charm-label">HEIGHT (CM)</label>
+                <input id="height" type="number" step="0.1" class="charm-input" placeholder="e.g. 170">
+              </div>
+            </div>
+
+            <div>
+              <label class="charm-label">WAIST CIRCUMFERENCE (CM)</label>
+              <input id="waist" type="number" step="0.1" class="charm-input" placeholder="e.g. 85">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="charm-label">SYSTOLIC BP</label>
+                <input id="sbp" type="number" class="charm-input" placeholder="mmHg">
+              </div>
+              <div>
+                <label class="charm-label">DIASTOLIC BP</label>
+                <input id="dbp" type="number" class="charm-input" placeholder="mmHg">
+              </div>
+            </div>
+
+            <hr class="border-stone-100 my-2">
+
+            <div class="grid grid-cols-2 gap-y-4 pt-1">
+              <label class="flex items-center gap-2 text-sm text-charm-dark font-medium"><input id="hasDiabetes" type="checkbox"> Known Diabetes</label>
+              <label class="flex items-center gap-2 text-sm text-charm-dark font-medium"><input id="smokerNow" type="checkbox"> Current Smoker</label>
+              <label class="flex items-center gap-2 text-sm text-charm-dark font-medium"><input id="hasHTN" type="checkbox"> Hypertension</label>
+              <label class="flex items-center gap-2 text-sm text-charm-dark font-medium"><input id="fh_dm" type="checkbox"> Family Diabetes</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-bold text-lg font-serif text-charm-dark">Lab Results</h3>
+              <p class="text-[11px] text-charm-gray mt-0.5">ผลตรวจสุขภาพประจำปี (Optional)</p>
+            </div>
+            <span class="bg-charm-badgebg text-charm-badgetxt px-3 py-1 rounded-full text-[10px] font-bold tracking-wider">STEP 2</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-2">
+              <label class="charm-label">TOTAL CHOLESTEROL</label>
+              <input id="tc" type="number" class="charm-input" placeholder="mg/dL (Used in ASCVD score)">
+            </div>
+            <div>
+              <label class="charm-label">FASTING SUGAR</label>
+              <input id="fbs" type="number" class="charm-input" placeholder="mg/dL">
+            </div>
+            <div>
+              <label class="charm-label">TRIGLYCERIDES</label>
+              <input id="tg" type="number" class="charm-input" placeholder="mg/dL">
+            </div>
+            <div>
+              <label class="charm-label">LDL-C</label>
+              <input id="ldl" type="number" class="charm-input" placeholder="mg/dL">
+            </div>
+            <div>
+              <label class="charm-label">HDL-C</label>
+              <input id="hdl" type="number" class="charm-input" placeholder="mg/dL">
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-bold text-lg font-serif text-charm-dark">Lifestyle Survey</h3>
+              <p class="text-[11px] text-charm-gray mt-0.5">Answer honestly to assess behavior.</p>
+            </div>
+            <span class="bg-charm-badgebg text-charm-badgetxt px-3 py-1 rounded-full text-[10px] font-bold tracking-wider">STEP 3</span>
+          </div>
+          
+          <div class="space-y-3">
+            
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group" open>
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark">
+                <span><i class="fas fa-smoking mr-2 text-charm-gray"></i> 1. Smoking (4 items)</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-4 border-t border-stone-200">
+                <div>
+                  <div class="text-[11px] font-bold text-charm-blue mb-2">S1. Current tobacco use</div>
+                  <div class="space-y-2 text-sm text-charm-dark font-medium">
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="never" onchange="updateFollowups()"> Never</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="quit" onchange="updateFollowups()"> Used to smoke but quit</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="sometimes" onchange="updateFollowups()"> Sometimes</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="daily" onchange="updateFollowups()"> Every day</label>
+                  </div>
+                </div>
+
+                <div id="smokingFollowups" class="space-y-4">
+                  <div>
+                    <div class="text-[11px] font-bold text-charm-blue mb-2">S2. Cigarettes per day</div>
+                    <div class="space-y-2 text-sm text-charm-dark font-medium">
+                      <label class="flex items-center gap-2"><input type="radio" name="smk2" value="0"> Not smoking</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk2" value="1"> 1–9</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk2" value="2"> 10–19</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk2" value="3"> ≥20</label>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-[11px] font-bold text-charm-blue mb-2">S3. Time to first cigarette after waking</div>
+                    <div class="space-y-2 text-sm text-charm-dark font-medium">
+                      <label class="flex items-center gap-2"><input type="radio" name="smk3" value="0"> &gt;60 minutes</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk3" value="1"> 31–60 minutes</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk3" value="2"> 6–30 minutes</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk3" value="3"> ≤5 minutes</label>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-[11px] font-bold text-charm-blue mb-2">S4. Hard to refrain in no-smoking areas?</div>
+                    <div class="space-y-2 text-sm text-charm-dark font-medium">
+                      <label class="flex items-center gap-2"><input type="radio" name="smk4" value="0"> No</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk4" value="1"> Yes</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark">
+                <span><i class="fas fa-wine-glass mr-2 text-charm-gray"></i> 2. Alcohol (7 items)</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-4 border-t border-stone-200">
+                <div>
+                  <div class="text-[11px] font-bold text-charm-blue mb-2">A1. Alcohol in past 3 months?</div>
+                  <div class="space-y-2 text-sm text-charm-dark font-medium">
+                    <label class="flex items-center gap-2"><input type="radio" name="alc1" value="never" onchange="updateFollowups()"> Never</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="alc1" value="stopped" onchange="updateFollowups()"> Stopped &gt;1 year</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="alc1" value="yes" onchange="updateFollowups()"> Yes</label>
+                  </div>
+                </div>
+
+                <div id="alcoholFollowups" class="space-y-4">
+                  <div><div class="text-[11px] font-bold text-charm-blue mb-2">A2. How often do you drink?</div>
+                    <div class="space-y-2 text-sm text-charm-dark font-medium">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="2"> 1–2 times total</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="3"> 1–2 times/month</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="4"> 1–2 times/week</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="6"> Daily or almost daily</label>
+                    </div>
+                  </div>
+                  <div><div class="text-[11px] font-bold text-charm-blue mb-2">A3. Drinks per typical day?</div>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="0"> 1–2</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="1"> 3–4</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="2"> 5–6</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="3"> 7–9</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="4"> ≥10</label>
+                    </div>
+                  </div>
+                  <div><div class="text-[11px] font-bold text-charm-blue mb-2">A4. 6+ drinks on one occasion? (Past year)</div>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="1"> &lt; Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="2"> Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="3"> Weekly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="4"> Daily</label>
+                    </div>
+                  </div>
+                  <div><div class="text-[11px] font-bold text-charm-blue mb-2">A5. Couldn't stop drinking?</div>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="1"> &lt; Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="2"> Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="3"> Weekly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="4"> Daily</label>
+                    </div>
+                  </div>
+                  <div><div class="text-[11px] font-bold text-charm-blue mb-2">A6. Failed responsibilities due to drinking?</div>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="1"> &lt; Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="2"> Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="3"> Weekly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="4"> Daily</label>
+                    </div>
+                  </div>
+                  <div><div class="text-[11px] font-bold text-charm-blue mb-2">A7. Blackout / couldn't remember?</div>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="1"> &lt; Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="2"> Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="3"> Weekly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="4"> Daily</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark">
+                <span><i class="fas fa-running mr-2 text-charm-gray"></i> 3. Activity & Sleep (3 items)</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-4 border-t border-stone-200">
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">PA1. Weekly moderate+ activity (≥10 min sessions)</div>
+                  <div class="space-y-2 text-sm text-charm-dark font-medium">
+                    <label class="flex items-center gap-2"><input type="radio" name="pa1" value="3"> ≥150 min moderate OR ≥75 min vigorous</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="pa1" value="2"> Some activity (not enough)</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="pa1" value="1"> None</label>
+                  </div>
+                </div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">PA2. Sitting time per day</div>
+                  <div class="space-y-2 text-sm text-charm-dark font-medium">
+                    <label class="flex items-center gap-2"><input type="radio" name="sit1" value="3"> &lt;4 hours/day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="sit1" value="2"> 4–8 hours/day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="sit1" value="1"> &gt;8 hours/day</label>
+                  </div>
+                </div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">PA3. Sleep per day</div>
+                  <div class="space-y-2 text-sm text-charm-dark font-medium">
+                    <label class="flex items-center gap-2"><input type="radio" name="sleep1" value="3"> 7–9 hours/day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="sleep1" value="2"> 5–6 hours/day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="sleep1" value="1"> ≤4 hours/day</label>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark">
+                <span><i class="fas fa-utensils mr-2 text-charm-gray"></i> 4. Diet (9 items)</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-4 border-t border-stone-200">
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">D1. Vegetables (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="d1" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d1" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d1" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d1" value="3"> ≥5</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">D2. Fruits (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="d2" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d2" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d2" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d2" value="3"> ≥5</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">D3. Sweet drinks (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="d3" value="3"> ≥5</label><label class="flex items-center gap-2"><input type="radio" name="d3" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d3" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d3" value="0"> 0</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">D4. Sweet snacks (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="d4" value="3"> ≥5</label><label class="flex items-center gap-2"><input type="radio" name="d4" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d4" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d4" value="0"> 0</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">D5. Fried/high-fat foods (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="d5" value="3"> ≥5</label><label class="flex items-center gap-2"><input type="radio" name="d5" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d5" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d5" value="0"> 0</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">D6. Salty seasoning added (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="d6" value="3"> ≥5</label><label class="flex items-center gap-2"><input type="radio" name="d6" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d6" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d6" value="0"> 0</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">D7. Soup/broth intake per day</div>
+                  <div class="space-y-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="d7" value="2"> &gt;3 tbsp (many bowls)</label><label class="flex items-center gap-2"><input type="radio" name="d7" value="1"> 2–3 tbsp</label><label class="flex items-center gap-2"><input type="radio" name="d7" value="0"> ≤1 tbsp</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">D8. Fast food / restaurants (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="d8" value="2"> ≥3</label><label class="flex items-center gap-2"><input type="radio" name="d8" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d8" value="0"> 0</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">D9. Instant noodles (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="d9" value="2"> ≥3</label><label class="flex items-center gap-2"><input type="radio" name="d9" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d9" value="0"> 0</label></div></div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark">
+                <span><i class="fas fa-tooth mr-2 text-charm-gray"></i> 5. Oral Health (2 items)</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-4 border-t border-stone-200">
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">O1. Brush before bed daily?</div>
+                  <div class="space-y-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="o1" value="0"> Yes</label><label class="flex items-center gap-2"><input type="radio" name="o1" value="1"> No</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">O2. Use dental floss?</div>
+                  <div class="space-y-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="o2" value="0"> Yes</label><label class="flex items-center gap-2"><input type="radio" name="o2" value="1"> No</label></div></div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark">
+                <span><i class="fas fa-brain mr-2 text-charm-gray"></i> 6. Stress (ST-5) & Mood (7 items)</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-4 border-t border-stone-200">
+                <p class="text-[10px] text-charm-gray uppercase tracking-wider font-bold">ST-5 Questionnaire</p>
+                <p class="text-[10px] text-charm-dark mb-2">Rate: 0=Never, 1=Sometimes, 2=Often, 3=Very often</p>
+                
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">ST1. Trouble sleeping from worries</div>
+                  <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-1"><input type="radio" name="st1" value="0"> 0</label><label class="flex items-center gap-1"><input type="radio" name="st1" value="1"> 1</label><label class="flex items-center gap-1"><input type="radio" name="st1" value="2"> 2</label><label class="flex items-center gap-1"><input type="radio" name="st1" value="3"> 3</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">ST2. Bored / no desire to do things</div>
+                  <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-1"><input type="radio" name="st2" value="0"> 0</label><label class="flex items-center gap-1"><input type="radio" name="st2" value="1"> 1</label><label class="flex items-center gap-1"><input type="radio" name="st2" value="2"> 2</label><label class="flex items-center gap-1"><input type="radio" name="st2" value="3"> 3</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">ST3. Angry / irritated</div>
+                  <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-1"><input type="radio" name="st3" value="0"> 0</label><label class="flex items-center gap-1"><input type="radio" name="st3" value="1"> 1</label><label class="flex items-center gap-1"><input type="radio" name="st3" value="2"> 2</label><label class="flex items-center gap-1"><input type="radio" name="st3" value="3"> 3</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">ST4. Frustrated / stressed</div>
+                  <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-1"><input type="radio" name="st4" value="0"> 0</label><label class="flex items-center gap-1"><input type="radio" name="st4" value="1"> 1</label><label class="flex items-center gap-1"><input type="radio" name="st4" value="2"> 2</label><label class="flex items-center gap-1"><input type="radio" name="st4" value="3"> 3</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">ST5. Not wanting to meet people</div>
+                  <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-1"><input type="radio" name="st5" value="0"> 0</label><label class="flex items-center gap-1"><input type="radio" name="st5" value="1"> 1</label><label class="flex items-center gap-1"><input type="radio" name="st5" value="2"> 2</label><label class="flex items-center gap-1"><input type="radio" name="st5" value="3"> 3</label></div></div>
+                
+                <hr class="border-stone-200 my-4">
+                
+                <p class="text-[10px] text-charm-gray uppercase tracking-wider font-bold">2Q Depression Screen</p>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">2Q1. Past 2 weeks: felt down/depressed?</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="dq1" value="no"> No</label><label class="flex items-center gap-2"><input type="radio" name="dq1" value="yes"> Yes</label></div></div>
+                <div><div class="text-[11px] font-bold text-charm-blue mb-2">2Q2. Past 2 weeks: little interest in doing things?</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-2"><input type="radio" name="dq2" value="no"> No</label><label class="flex items-center gap-2"><input type="radio" name="dq2" value="yes"> Yes</label></div></div>
+              </div>
+            </details>
+
+          </div>
+        </div>
+
+        <button onclick="computeAndShowResults()" class="w-full bg-charm-blue text-white font-bold py-4 rounded-xl shadow-soft active:scale-[0.98] transition">
+          Generate Full Report <i class="fas fa-chart-pie ml-1"></i>
+        </button>
+      </section>
+
+      <section id="viewResults" class="hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-lg font-bold font-serif text-charm-dark">Health Report</h2>
+              <p class="text-[10px] text-charm-gray mt-1" id="resultStamp">Just now</p>
+            </div>
+            <button onclick="saveToHistory()" class="text-[10px] px-4 py-2 rounded-full bg-charm-gold text-white font-bold shadow-soft active:scale-95 transition">
+              Save
+            </button>
+          </div>
+          
+          <div id="resultsGrid" class="space-y-3">
+             </div>
+          
+          <button onclick="openView('viewCommunity')" class="mt-6 w-full bg-charm-cream border border-charm-gold/30 text-charm-gold font-bold py-4 rounded-xl active:scale-[0.98] transition">
+            Share in Community <i class="fas fa-users ml-1"></i>
+          </button>
+        </div>
+      </section>
+
+      <section id="viewCommunity" class="hide fade-in h-full flex flex-col">
+        <div class="flex-none bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
+          <h2 class="text-lg font-bold font-serif text-charm-dark mb-3">Community Hub</h2>
+          <textarea id="postInput" rows="2" class="w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-sm focus:outline-none focus:border-charm-gold text-charm-dark" placeholder="Share your progress or ask for tips..."></textarea>
+          <div class="flex justify-between items-center mt-3">
+            <div class="flex gap-2">
+              <span class="text-[10px] px-2 py-1 bg-white border border-stone-200 rounded-full text-charm-gray">#Milestone</span>
+            </div>
+            <button onclick="createPost()" class="bg-charm-blue text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm active:scale-95 transition">Post</button>
+          </div>
+        </div>
+        <div class="flex-1 space-y-3" id="communityFeed"></div>
+      </section>
+
+      <section id="viewHistory" class="hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
+          <h2 class="text-lg font-bold font-serif text-charm-dark mb-1">My Progress</h2>
+          <p class="text-xs text-charm-gray mb-4">Risk % Over Time</p>
+          <div class="relative w-full h-48 bg-charm-cream rounded-xl p-2 border border-stone-100">
+             <canvas id="riskChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-lg font-bold font-serif text-charm-dark">My Journey</h2>
+            </div>
+            <button onclick="clearHistory()" class="text-[10px] px-3 py-2 rounded-full bg-red-50 text-red-600 font-bold active:scale-95 transition">Clear</button>
+          </div>
+          <div id="historyList" class="space-y-3"></div>
+        </div>
+      </section>
+
+      <section id="viewSettings" class="hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <h2 class="text-lg font-bold font-serif text-charm-dark">Settings</h2>
+            <button onclick="openView('viewProfile')" class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-charm-gray active:scale-95 transition"><i class="fas fa-times"></i></button>
+          </div>
+          <div class="space-y-4">
+            <div><p class="text-xs font-bold text-charm-gray uppercase mb-2">Export Data</p><button class="w-full bg-charm-cream border border-stone-200 text-charm-dark text-sm font-bold py-3 rounded-xl">Download JSON Backup</button></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <nav class="flex-none h-24 glass-nav flex justify-around items-start pt-4 px-2 z-30 absolute bottom-0 w-full">
+      <button id="navProfile" onclick="openView('viewProfile')" class="nav-item-active flex flex-col items-center w-14 group transition">
+        <i class="fas fa-user text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">Dash</span>
+      </button>
+      <button id="navSurvey" onclick="openView('viewSurvey')" class="nav-item-inactive flex flex-col items-center w-14 group transition">
+        <i class="fas fa-clipboard-list text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">Survey</span>
+      </button>
+      <button id="navResults" onclick="openView('viewResults')" class="nav-item-inactive flex flex-col items-center w-14 group transition">
+        <i class="fas fa-heart-pulse text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">Scores</span>
+      </button>
+      <button id="navCommunity" onclick="openView('viewCommunity')" class="nav-item-inactive flex flex-col items-center w-14 group transition relative">
+        <i class="fas fa-users text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">Forum</span>
+      </button>
+      <button id="navHistory" onclick="openView('viewHistory')" class="nav-item-inactive flex flex-col items-center w-14 group transition">
+        <i class="fas fa-chart-area text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">History</span>
+      </button>
+    </nav>
+  </div>
+
+  <div id="questModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="toggleQuestModal()"></div>
+    <div class="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl border-2 border-charm-gold animate-bounce-in">
+      <div class="flex justify-between items-start mb-4">
+        <div><p class="text-[10px] font-bold text-charm-gold uppercase tracking-widest">Current Mission</p><h3 id="modalQuestTitle" class="text-xl font-serif font-bold text-charm-dark">The Baseline Defender</h3></div>
+        <button onclick="toggleQuestModal()" class="w-8 h-8 rounded-full bg-stone-100 text-charm-gray flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="space-y-3" id="modalQuestItems">
+        </div>
+      <div class="mt-6 flex justify-between items-center pt-4 border-t border-stone-100"><span class="text-xs font-bold text-charm-gray">Reward:</span><span class="text-xs font-bold text-charm-gold bg-charm-gold/10 px-2 py-1 rounded-lg">+50 XP & Badge</span></div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    //   Navigation & UI State
+    // ==========================================
+    const VIEWS = ['viewProfile','viewSurvey','viewResults','viewCommunity','viewHistory','viewSettings'];
+    const NAV = { viewProfile: 'navProfile', viewSurvey: 'navSurvey', viewResults: 'navResults', viewCommunity: 'navCommunity', viewHistory: 'navHistory' };
+
+    function openView(id) {
+      VIEWS.forEach(v => document.getElementById(v).classList.add('hide'));
+      document.getElementById(id).classList.remove('hide');
+
+      Object.values(NAV).forEach(nid => {
+        const el = document.getElementById(nid);
+        if(el) { el.classList.remove('nav-item-active'); el.classList.add('nav-item-inactive'); }
+      });
+      if (NAV[id]) {
+        const el = document.getElementById(NAV[id]);
+        el.classList.add('nav-item-active'); el.classList.remove('nav-item-inactive');
+      }
+
+      if(id === 'viewHistory') renderHistory();
+      if(id === 'viewCommunity') renderFeed();
+      if(id === 'viewProfile') updateQuests();
+    }
+
+    function toggleQuestModal() {
+      const el = document.getElementById('questModal');
+      el.classList.toggle('hidden');
+      updateQuests(); // Refresh data inside
+    }
+
+    function toast(msg) {
+      const el = document.createElement("div");
+      el.className = "fixed bottom-28 left-1/2 -translate-x-1/2 bg-charm-dark text-charm-cream text-xs px-5 py-2.5 rounded-full shadow-lg z-50 transition-opacity whitespace-nowrap";
+      el.textContent = msg;
+      document.body.appendChild(el);
+      setTimeout(() => el.style.opacity = '0', 2000);
+      setTimeout(() => el.remove(), 2300);
+    }
+
+    // Dynamic Followups for Survey
+    function updateFollowups() {
+      const smk1 = radioVal('smk1');
+      const smkBox = document.getElementById('smokingFollowups');
+      if(smkBox) {
+        if (!smk1 || smk1 === 'never' || smk1 === 'quit') smkBox.classList.add('hide');
+        else smkBox.classList.remove('hide');
+      }
+
+      const a1 = radioVal('alc1');
+      const alcBox = document.getElementById('alcoholFollowups');
+      if(alcBox) {
+        if (!a1 || a1 === 'never' || a1 === 'stopped') alcBox.classList.add('hide');
+        else alcBox.classList.remove('hide');
+      }
+    }
+
+    // ==========================================
+    //   Logic: Age, Dashboard, Food AI, Quests
+    // ==========================================
+    
+    // Calculate Age helper
+    function calcAge() {
+      const dobVal = document.getElementById('dob').value;
+      if (!dobVal) return 25; // Default fallback
+      const dob = new Date(dobVal);
+      const diff = Date.now() - dob.getTime();
+      const ageDate = new Date(diff);
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
+    function updateRegionAlert() {
+      const region = document.getElementById('region').value;
+      const title = document.getElementById('regionTitle');
+      const desc = document.getElementById('regionDesc');
+      const box = document.getElementById('regionAlertBox');
+
+      if(region === 'northeast') {
+        // Specific Isan Risk (Liver Fluke / Strep. Suis)
+        box.className = "bg-red-50 rounded-2xl p-5 border-l-4 border-l-red-500 shadow-soft mb-4 transition-all duration-500";
+        title.innerHTML = "<span class='text-red-700'><i class='fas fa-exclamation-triangle mr-1'></i> Northeast Alert: Parasite Risk</span>";
+        desc.innerHTML = "High risk of <b>Liver Fluke</b> (from raw fish/Koi Pla) and <b>Strep. Suis</b> (raw pork). <br><span class='font-bold mt-1 block text-red-800'>Advice: Cook all meat >70°C. Avoid raw freshwater fish.</span>";
+      } else {
+        // Default / General
+        box.className = "bg-white rounded-2xl p-5 border-l-4 border-l-charm-blue shadow-soft mb-4 transition-all duration-500";
+        title.innerHTML = "General Wellness";
+        desc.innerHTML = "PM2.5 levels are fluctuating. Stay hydrated and check local air quality index daily.";
+      }
+    }
+
+    function updateQuests() {
+      const age = calcAge();
+      let qTitle, qDesc, tasks = [];
+
+      if (age < 30) {
+        qTitle = "Active Youth Challenge";
+        qDesc = "Hit 10,000 steps 3 days in a row and log a healthy meal to level up metabolism.";
+        tasks = [
+          { icon: 'shoe-prints', label: 'Step Master', sub: 'Hit 10k Steps', progress: '6.4k/10k', bar: 64, color: 'blue' },
+          { icon: 'carrot', label: 'Clean Fuel', sub: 'Log >20g Protein', progress: 'Done', bar: 100, color: 'green' },
+          { icon: 'tint', label: 'Hydrate', sub: 'Drink 2L Water', progress: '0/2L', bar: 0, color: 'gold' }
+        ];
+      } else if (age < 50) {
+        qTitle = "Prime Vitality Quest";
+        qDesc = "Maintain 7+ hours of sleep and track your blood pressure twice this week.";
+        tasks = [
+          { icon: 'moon', label: 'Sleep King', sub: '7h Sleep', progress: '6h/7h', bar: 85, color: 'blue' },
+          { icon: 'heartbeat', label: 'BP Check', sub: 'Log BP', progress: '0/1', bar: 0, color: 'green' },
+          { icon: 'brain', label: 'De-Stress', sub: '5 min Breath', progress: 'Done', bar: 100, color: 'gold' }
+        ];
+      } else {
+        qTitle = "Longevity Guardian";
+        qDesc = "Complete 150 mins of moderate activity and prioritize daily vegetable intake.";
+        tasks = [
+          { icon: 'walking', label: 'Steady Flow', sub: '20 min Walk', progress: '10/20', bar: 50, color: 'blue' },
+          { icon: 'apple-alt', label: 'Sodium Watch', sub: 'Low Salt Meal', progress: '0/1', bar: 0, color: 'green' },
+          { icon: 'pills', label: 'Routine', sub: 'Med Check', progress: 'Done', bar: 100, color: 'gold' }
+        ];
+      }
+
+      // Update Dashboard Card
+      document.getElementById('questTitle').innerText = qTitle;
+      document.getElementById('questDesc').innerText = qDesc;
+      document.getElementById('modalQuestTitle').innerText = qTitle;
+
+      // Update Modal List
+      const list = document.getElementById('modalQuestItems');
+      list.innerHTML = tasks.map(t => `
+        <div class="flex items-center gap-3 p-3 rounded-xl bg-charm-cream border border-stone-100 ${t.bar===0?'opacity-70':''}">
+          <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-charm-${t.color} shadow-sm"><i class="fas fa-${t.icon}"></i></div>
+          <div class="flex-1">
+            <div class="flex justify-between text-xs font-bold text-charm-dark mb-1"><span>${t.label}</span><span>${t.progress}</span></div>
+            <div class="h-1.5 w-full bg-stone-200 rounded-full overflow-hidden"><div class="h-full bg-charm-${t.color}" style="width:${t.bar}%"></div></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function calcSleep() {
+      const bed = document.getElementById('bedtime').value;
+      const wake = document.getElementById('waketime').value;
+      if(bed && wake) {
+        let b = new Date("2000-01-01 " + bed);
+        let w = new Date("2000-01-02 " + wake);
+        if(w < b) w.setDate(w.getDate() + 1); // handle overnight
+        let diffMs = w - b;
+        // if wake is earlier than bed in same day, assume next day
+        if (diffMs < 0) {
+           w = new Date("2000-01-02 " + wake);
+           diffMs = w - b;
+        }
+        const diffHrs = diffMs / (1000 * 60 * 60);
+        const h = Math.floor(diffHrs);
+        const m = Math.round((diffHrs - h) * 60);
+        document.getElementById('sleepTotal').innerText = `${h}h ${m}m`;
+      }
+    }
+
+    function handleFoodUpload(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+           document.getElementById('foodPreviewBox').classList.remove('hidden');
+           document.getElementById('foodPreviewImg').src = e.target.result;
+           document.getElementById('foodAiAnalyzing').classList.remove('hidden');
+           document.getElementById('foodEditBox').classList.add('hidden');
+           
+           // Simulate AI delay
+           setTimeout(() => {
+              document.getElementById('foodAiAnalyzing').classList.add('hidden');
+              document.getElementById('foodEditBox').classList.remove('hidden');
+              // Mock AI extraction values
+              document.getElementById('foodName').value = "Grilled Salmon & Quinoa";
+              document.getElementById('foodCals').value = "450";
+              document.getElementById('foodCarbs').value = "35";
+              document.getElementById('foodPro').value = "40";
+              document.getElementById('foodFat').value = "18";
+           }, 1500);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function saveFoodEntry() {
+      const cals = Number(document.getElementById('foodCals').value) || 0;
+      const current = Number(document.getElementById('calEaten').innerText);
+      const newTotal = current + cals;
+      document.getElementById('calEaten').innerText = newTotal;
+      document.getElementById('calBar').style.width = Math.min(100, (newTotal/2000)*100) + "%";
+      
+      document.getElementById('foodPreviewBox').classList.add('hidden');
+      document.getElementById('foodInput').value = "";
+      toast("Meal added to daily goals!");
+    }
+
+    // ==========================================
+    //   Core Logic & Scoring Helpers
+    // ==========================================
+    function num(id) { const v = document.getElementById(id).value; return Number.isFinite(Number(v)) && v !== "" ? Number(v) : NaN; }
+    function checked(id) { return document.getElementById(id).checked; }
+    function radioVal(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : null; }
+    function sumRadio(names) { let s=0; for(const n of names){const v=radioVal(n); if(v===null)return null; s+=Number(v);} return s; }
+    function bmiKgCm(kg, cm) { const m = cm/100; return (m > 0) ? kg/(m*m) : NaN; }
+
+    function charmBadge(level, label) {
+      const map = { 
+        low: "bg-charm-green/10 text-charm-green border-charm-green/20", 
+        mod: "bg-yellow-100 text-yellow-700 border-yellow-200", 
+        high: "bg-red-50 text-red-600 border-red-200", 
+        info: "bg-charm-blue/10 text-charm-blue border-charm-blue/20" 
+      };
+      return `<span class="inline-flex items-center text-[9px] px-2 py-1 rounded border font-bold uppercase tracking-wider ${map[level]||map.info}">${label}</span>`;
+    }
+
+    function resultCard(title, badgeHtml, detail) {
+      return `<div class="bg-charm-cream border border-stone-200 rounded-xl p-4"><div class="flex items-start justify-between gap-2"><h3 class="font-bold text-sm text-charm-dark">${title}</h3>${badgeHtml}</div><p class="text-xs text-charm-gray mt-2 leading-relaxed">${detail}</p></div>`;
+    }
+
+    // --- Scoring Algorithms ---
+    function calcTDS(age, sex, bmi, waist, sbp, dbp, fh) {
+      if(!age || !bmi) return { pct: NaN, level: 'info', detail: 'Missing required inputs.' };
+      let x_age=0; if(age>=55) x_age=4; else if(age>=45) x_age=3; else if(age>=35) x_age=2;
+      let x_sex = sex==='male'?2:0;
+      let x_bmi=0; if(bmi>=27.5) x_bmi=4; else if(bmi>=23) x_bmi=2;
+      let x_waist=0;
+      if(sex==='male' && waist>=90) x_waist=2; else if(sex==='male' && waist>=80) x_waist=1;
+      if(sex==='female' && waist>=80) x_waist=2; else if(sex==='female' && waist>=70) x_waist=1;
+      let x_bp=0; if(sbp>=140||dbp>=90) x_bp=4; else if(sbp>=130||dbp>=85) x_bp=2;
+      let x_fh=0; if(fh) x_fh=2;
+
+      const logit = (x_age*0.2737) + (x_sex*0.2188) + (x_bmi*0.1832) + (x_waist*0.2284) + (x_bp*0.2072) + (x_fh*0.2548) - 3.580397;
+      const p = 1/(1+Math.exp(-logit));
+      const pct = p*100;
+      let level='low'; if(pct>=20) level='high'; else if(pct>=10) level='mod';
+      return { pct, level, detail: `12-year DM risk: ${pct.toFixed(1)}%` };
+    }
+
+    function calcASCVD(sex, age, sbp, tc, waist, dm, smk) {
+      if(!age || !sbp || !tc || !waist) return { pct: NaN, level: 'info', detail: 'Need Age, SBP, TC, Waist.' };
+      const ln = Math.log, lA=ln(age), lS=ln(sbp), lT=ln(tc), lW=ln(waist);
+      const d = dm?1:0, s = smk?1:0;
+      let full = 0;
+      if(sex === 'male') {
+        full = (lA*2.593) + (lS*1.312) + (lT*0.510) + (lW*0.618) + (d*0.708) + (s*0.373) + ((lA*d)*-0.432) + ((lA*lS)*-0.349) + ((lA*lW)*-0.105);
+      } else {
+        full = (lA*4.086) + (lS*3.577) + (lT*0.611) + (lW*2.449) + (d*0.487) + (s*0.863) + ((lA*d)*-0.502) + ((lA*lS)*-0.950) + ((lA*lW)*-0.838);
+      }
+      const pct = (1 - Math.pow(0.978296, Math.exp(full - 7.720484))) * 100;
+      let level='low'; if(pct>=20) level='high'; else if(pct>=10) level='mod';
+      return { pct, level, detail: `10-year CV risk: ${pct.toFixed(1)}%` };
+    }
+
+    function evaluateLabs(fbs, tc, tg, ldl, hdl, sex) {
+      let issues = [];
+      if(Number.isFinite(fbs)) {
+        if(fbs >= 126) issues.push(`FBS High (${fbs})`);
+        else if(fbs >= 100) issues.push(`FBS Pre-DM (${fbs})`);
+      }
+      if(Number.isFinite(tc) && tc >= 200) issues.push(`Total Chol High (${tc})`);
+      if(Number.isFinite(ldl) && ldl >= 130) issues.push(`LDL High (${ldl})`);
+      if(Number.isFinite(tg) && tg >= 150) issues.push(`Triglycerides High (${tg})`);
+      if(Number.isFinite(hdl)) {
+         if((sex === 'male' && hdl < 40) || (sex === 'female' && hdl < 50)) issues.push(`HDL Low (${hdl})`);
+      }
+      if(issues.length === 0 && (Number.isFinite(fbs) || Number.isFinite(tc) || Number.isFinite(ldl))) {
+        return { level: 'low', detail: 'Standard labs appear within optimal limits.' };
+      } else if (issues.length > 0) {
+        return { level: 'high', detail: 'Flags: ' + issues.join(", ") };
+      }
+      return { level: 'info', detail: 'No lab data provided.' };
+    }
+
+    // --- Survey Scorers (Full 32 item Logic) ---
+    function scoreSmoking() {
+      const smk1 = radioVal('smk1');
+      if(!smk1) return { level: 'info', detail: 'Incomplete' };
+      const s1 = (smk1 === 'sometimes') ? 1 : (smk1 === 'daily') ? 2 : 0;
+      if (smk1 === 'never' || smk1 === 'quit') return { level:'low', detail: 'Low risk (No current tobacco use).' };
+      const total = s1 + Number(radioVal('smk2')) + Number(radioVal('smk3')) + Number(radioVal('smk4'));
+      if(isNaN(total)) return { level: 'info', detail: 'Incomplete' };
+      let level='mod'; if(total >= 5) level='high'; else if(total === 0) level='low';
+      return { level, detail: `Smoking risk score: ${total}` };
+    }
+
+    function scoreAlcohol() {
+      const a1 = radioVal('alc1');
+      if(!a1) return { level: 'info', detail: 'Incomplete' };
+      if(a1 === 'never' || a1 === 'stopped') return { level:'low', detail: 'Low risk (No drinking).' };
+      const total = sumRadio(['alc2','alc3','alc4','alc5','alc6','alc7']);
+      if(total === null) return { level: 'info', detail: 'Incomplete' };
+      let level='low'; if(total >= 27) level='high'; else if(total >= 11) level='mod';
+      return { level, detail: `Alcohol risk score: ${total}` };
+    }
+
+    function scoreActivity() {
+      const pa = radioVal('pa1');
+      if(!pa) return { level: 'info', detail: 'Incomplete' };
+      let level='low'; if(pa === '2') level='mod'; else if(pa === '1') level='high';
+      return { level, detail: `Activity level is ${pa==='3'?'Adequate':(pa==='2'?'Insufficient':'Sedentary')}.` };
+    }
+
+    function scoreDiet() {
+      const total = sumRadio(['d1','d2','d3','d4','d5','d6','d7','d8','d9']);
+      if(total === null) return { level: 'info', detail: 'Incomplete' };
+      let level='high'; if(total >= 11) level='low'; else if(total >= 4) level='mod';
+      return { level, detail: `Diet quality score: ${total} (Higher is better)` };
+    }
+
+    function scoreOral() {
+      const total = sumRadio(['o1','o2']);
+      if(total === null) return { level: 'info', detail: 'Incomplete' };
+      let level='low'; if(total >= 1) level='mod';
+      return { level, detail: `Oral health risk score: ${total}` };
+    }
+
+    function scoreStress() {
+      const total = sumRadio(['st1','st2','st3','st4','st5']);
+      if(total === null) return { level: 'info', detail: 'Incomplete' };
+      let level='low'; if(total >= 8) level='high'; else if(total >= 5) level='mod';
+      return { level, detail: `ST-5 Stress score: ${total}` };
+    }
+
+    function scoreMood() {
+      const q1 = radioVal('dq1'), q2 = radioVal('dq2');
+      if(!q1 || !q2) return { level: 'info', detail: 'Incomplete' };
+      if(q1 === 'yes' || q2 === 'yes') return { level: 'mod', detail: 'Positive screen (Consult a professional).' };
+      return { level: 'low', detail: 'Negative 2Q screen.' };
+    }
+
+    let lastResult = null;
+
+    function computeAndShowResults() {
+      const age = calcAge(); // Use calculated Age
+      const weight = num('weight'), height = num('height'), waist = num('waist');
+      const sbp = num('sbp'), dbp = num('dbp'), tc = num('tc');
+      const fbs = num('fbs'), tg = num('tg'), ldl = num('ldl'), hdl = num('hdl');
+      const sex = document.getElementById('sex').value;
+      const fh_dm = checked('fh_dm'); const dm = checked('hasDiabetes'); const smkNow = checked('smokerNow');
+      const bmi = bmiKgCm(weight, height);
+
+      const tds = calcTDS(age, sex, bmi, waist, sbp, dbp, fh_dm);
+      const ascvd = calcASCVD(sex, age, sbp, tc, waist, dm, smkNow);
+      const labs = evaluateLabs(fbs, tc, tg, ldl, hdl, sex);
+
+      const smk = scoreSmoking();
+      const alc = scoreAlcohol();
+      const act = scoreActivity();
+      const diet = scoreDiet();
+      const oral = scoreOral();
+      const stress = scoreStress();
+      const mood = scoreMood();
+
+      const html = [];
+      html.push(resultCard("Thai Diabetes Score", charmBadge(tds.level, tds.level), tds.detail));
+      html.push(resultCard("Thai ASCVD Score", charmBadge(ascvd.level, ascvd.level), ascvd.detail));
+      
+      if(Number.isFinite(fbs) || Number.isFinite(tc) || Number.isFinite(tg) || Number.isFinite(ldl) || Number.isFinite(hdl)) {
+         html.push(resultCard("Lab Insights", charmBadge(labs.level, labs.level === 'low' ? 'Optimal' : 'Flagged'), labs.detail));
+      }
+
+      html.push(resultCard("Diet & Nutrition", charmBadge(diet.level, diet.level), diet.detail));
+      html.push(resultCard("Physical Activity", charmBadge(act.level, act.level), act.detail));
+      html.push(resultCard("Smoking & Alcohol", charmBadge(smk.level, "Review"), smk.detail + "<br>" + alc.detail));
+      html.push(resultCard("Mental & Oral Health", charmBadge(stress.level, "Review"), stress.detail + "<br>" + mood.detail + "<br>" + oral.detail));
+
+      document.getElementById('resultsGrid').innerHTML = html.join("");
+      document.getElementById('resultStamp').innerText = new Date().toLocaleString();
+
+      lastResult = { ts: Date.now(), tds: tds.pct, ascvd: ascvd.pct };
+      openView('viewResults');
+    }
+
+    // ==========================================
+    //   History & Chart.js Integration
+    // ==========================================
+    const HIST_KEY = "charmjai_ncd_history";
+    let chartInstance = null;
+
+    function saveToHistory() {
+      if(!lastResult) {
+        toast("Calculate results first!");
+        return;
+      }
+      let arr = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+      arr.unshift(lastResult);
+      localStorage.setItem(HIST_KEY, JSON.stringify(arr));
+      toast("Saved to My Journey!");
+      renderHistory(); 
+    }
+
+    function renderHistory() {
+      const arr = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+      const c = document.getElementById('historyList');
+      if(!arr.length) { 
+        c.innerHTML = `<p class="text-sm text-charm-gray">No records saved yet.</p>`; 
+        updateChart([]); return; 
+      }
+      
+      c.innerHTML = arr.map(r => `
+        <div class="bg-charm-cream border border-stone-200 rounded-xl p-4 flex justify-between items-center">
+          <div>
+            <div class="text-sm font-bold text-charm-dark">${new Date(r.ts).toLocaleDateString()}</div>
+            <div class="text-[10px] text-charm-gray mt-1">DM Risk: ${Number.isFinite(r.tds)?r.tds.toFixed(1):'--'}% | CV Risk: ${Number.isFinite(r.ascvd)?r.ascvd.toFixed(1):'--'}%</div>
+          </div>
+          <i class="fas fa-chevron-right text-stone-300"></i>
+        </div>
+      `).join("");
+      updateChart(arr);
+    }
+
+    function updateChart(historyData) {
+      const ctx = document.getElementById('riskChart').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+      if (!historyData || historyData.length < 1) return;
+
+      const sorted = [...historyData].sort((a,b) => a.ts - b.ts);
+      const labels = sorted.map(d => `${new Date(d.ts).getDate()}/${new Date(d.ts).getMonth()+1}`);
+      const tdsData = sorted.map(d => Number.isFinite(d.tds) ? d.tds : null);
+      const ascvdData = sorted.map(d => Number.isFinite(d.ascvd) ? d.ascvd : null);
+
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'DM Risk %', data: tdsData, borderColor: '#C5A059', backgroundColor: 'rgba(197, 160, 89, 0.1)', borderWidth: 2, fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#C5A059' },
+            { label: 'CV Risk %', data: ascvdData, borderColor: '#5B6C9D', borderWidth: 2, fill: false, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#5B6C9D' }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { labels: { usePointStyle: true, boxWidth: 6, font: { family: "'Inter', sans-serif", size: 10 } } } },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#8C8C8C' } },
+            y: { grid: { color: '#EAE6DC', borderDash: [5, 5] }, ticks: { font: { size: 10 }, color: '#8C8C8C' }, beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    function clearHistory() { localStorage.removeItem(HIST_KEY); renderHistory(); }
+
+    // ==========================================
+    //   Community Feature
+    // ==========================================
+    const POSTS_KEY = "charmjai_ncd_posts";
+
+    function getPosts() {
+      let p = JSON.parse(localStorage.getItem(POSTS_KEY) || "null");
+      if(!p) {
+        // Hardcoded Flagged Example (Per Instructions)
+        p = [
+          { id: 3, author: "Somsak B.", time: "10m ago", text: "You can eat herbs and no need doctor visit. It cures everything!", likes: 5, triage: "flagged", reason: "Potential False Info: Claims about replacing medical care with herbs require clinical verification." },
+          { id: 2, author: "Sarah W.", time: "2h ago", text: "Finally hit my 10k steps today! Adding an evening walk really helps.", likes: 12, triage: "safe" },
+          { id: 1, author: "Dr. K (Pharm)", time: "5h ago", text: "Reminder: NCD scores are just guides. Don't stop your meds without consulting your doctor!", likes: 45, triage: "expert" }
+        ];
+        localStorage.setItem(POSTS_KEY, JSON.stringify(p));
+      }
+      return p;
+    }
+
+    function renderFeed() {
+      const posts = getPosts();
+      document.getElementById('communityFeed').innerHTML = posts.map(p => {
+        let badgeHTML = "";
+        if(p.triage === 'flagged') badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-red-50 text-red-600 border-red-200"><i class="fas fa-exclamation-triangle mr-1"></i> Flagged</span>`;
+        else if(p.triage === 'expert') badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-charm-gold/10 text-yellow-700 border-charm-gold/30"><i class="fas fa-check-circle mr-1"></i> Expert</span>`;
+        else badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-stone-100 text-stone-500 border-stone-200">Safe</span>`;
+        
+        let warningBox = "";
+        if(p.triage === 'flagged') {
+          warningBox = `<div class="mt-2 bg-red-50 border-l-2 border-red-400 p-2 text-[10px] text-red-800 leading-relaxed font-medium"><i class="fas fa-robot mr-1"></i> AI Safety Alert: ${p.reason}</div>`;
+        }
+
+        return `
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <div class="flex justify-between items-start mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-charm-blue text-white flex items-center justify-center font-bold text-sm">${p.author.charAt(0)}</div>
+              <div><div class="text-xs font-bold text-charm-dark">${p.author}</div><div class="text-[9px] text-charm-gray">${p.time}</div></div>
+            </div>
+            ${badgeHTML}
+          </div>
+          <p class="text-sm text-charm-dark leading-relaxed font-light">${p.text}</p>
+          ${warningBox}
+        </div>`;
+      }).join("");
+    }
+
+    function createPost() {
+      const txt = document.getElementById('postInput').value.trim();
+      if(!txt) return;
+      // New posts default to safe (per instructions to remove active detection logic)
+      const newPost = { id: Date.now(), author: "Me", time: "Just now", text: txt, likes: 0, triage: "safe" };
+      const posts = getPosts();
+      posts.unshift(newPost);
+      localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+      document.getElementById('postInput').value = "";
+      renderFeed();
+      toast("Posted successfully!");
+    }
+
+    // Init
+    openView('viewProfile');
+
+  </script>
+</body>
+</html>

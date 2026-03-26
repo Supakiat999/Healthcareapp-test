@@ -1,0 +1,1729 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>NCD Prevent — Demo App</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#111b2f;
+      --card2:#0f1930;
+      --text:#eaf0ff;
+      --muted:#a9b6d6;
+      --muted2:#7f8bb0;
+      --accent:#5ad6ff;
+      --accent2:#7c5cff;
+      --good:#48e29a;
+      --warn:#ffd166;
+      --bad:#ff5c7a;
+      --line:rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --radius2:14px;
+      --tap: 12px;
+      --maxw: 520px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      background: radial-gradient(1100px 600px at 20% -10%, rgba(90,214,255,.18), transparent 60%),
+                  radial-gradient(900px 500px at 110% 10%, rgba(124,92,255,.16), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .app{
+      min-height:100%;
+      display:flex;
+      justify-content:center;
+    }
+    .phone{
+      width:100%;
+      max-width:var(--maxw);
+      min-height:100vh;
+      padding: 18px 16px 96px;
+      position:relative;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 8px 2px 16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .logo{
+      width:38px;height:38px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(90,214,255,.95), rgba(124,92,255,.95));
+      box-shadow: var(--shadow);
+      display:grid;place-items:center;
+      font-weight:800;
+      letter-spacing:.3px;
+      color:#0a1020;
+    }
+    .brand h1{
+      font-size:16px;
+      margin:0;
+      line-height:1.1;
+    }
+    .brand p{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .pill{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      padding:10px 12px;
+      border-radius: 999px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      color:var(--muted);
+      font-size:12px;
+      user-select:none;
+    }
+    .pill strong{color:var(--text); font-weight:700}
+    .grid{
+      display:grid;
+      gap:12px;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+    .card.flat{box-shadow:none; background: rgba(255,255,255,.03)}
+    .row{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .title{
+      font-size:14px;
+      margin:0 0 6px;
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    .kpi .mini{
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .mini .label{
+      color:var(--muted2);
+      font-size:11px;
+      margin-bottom:6px;
+    }
+    .mini .value{
+      font-size:16px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .tag{
+      font-size:11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      user-select:none;
+    }
+    .tag.good{color:rgba(72,226,154,.95); border-color: rgba(72,226,154,.25)}
+    .tag.warn{color:rgba(255,209,102,.95); border-color: rgba(255,209,102,.25)}
+    .tag.bad{color:rgba(255,92,122,.95); border-color: rgba(255,92,122,.25)}
+    .btnrow{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    button, .btn{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      border-radius: 14px;
+      padding: 12px 12px;
+      font-family:inherit;
+      font-size:13px;
+      font-weight:700;
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      min-height:44px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      user-select:none;
+    }
+    button.primary, .btn.primary{
+      background: linear-gradient(135deg, rgba(90,214,255,.92), rgba(124,92,255,.92));
+      color:#091024;
+      border: none;
+    }
+    button.ghost{
+      background: transparent;
+    }
+    button.danger{
+      background: rgba(255,92,122,.15);
+      border-color: rgba(255,92,122,.25);
+      color: rgba(255,220,226,.98);
+    }
+    button:active{transform: translateY(1px)}
+    .divider{
+      height:1px;
+      background: var(--line);
+      margin: 12px 0;
+    }
+    .section{
+      display:none;
+      animation: fade .15s ease-out;
+    }
+    .section.active{display:block}
+    @keyframes fade{
+      from{opacity:.65; transform: translateY(6px)}
+      to{opacity:1; transform: translateY(0)}
+    }
+    .bottomnav{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      display:flex;
+      justify-content:center;
+      padding: 12px 10px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, transparent, rgba(11,18,32,.75) 25%, rgba(11,18,32,.95));
+      backdrop-filter: blur(10px);
+    }
+    .navwrap{
+      width:100%;
+      max-width:var(--maxw);
+      display:grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap:10px;
+      padding: 10px;
+      border:1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.04);
+      box-shadow: var(--shadow);
+    }
+    .navbtn{
+      border-radius: 16px;
+      padding: 10px 6px;
+      background: transparent;
+      border: 1px solid transparent;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      align-items:center;
+      justify-content:center;
+      color: var(--muted);
+      font-size:10px;
+      min-height:54px;
+    }
+    .navbtn span.icon{
+      width:28px;height:28px;
+      border-radius: 12px;
+      display:grid;place-items:center;
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      font-size:14px;
+    }
+    .navbtn.active{
+      color: var(--text);
+      border-color: rgba(90,214,255,.25);
+      background: rgba(90,214,255,.08);
+    }
+    .navbtn.active span.icon{
+      border-color: rgba(90,214,255,.28);
+      background: rgba(90,214,255,.10);
+    }
+
+    /* forms */
+    label{
+      font-size:12px;
+      color: var(--muted);
+      display:block;
+      margin: 10px 0 6px;
+    }
+    input, select, textarea{
+      width:100%;
+      background: rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 12px;
+      color: var(--text);
+      font-size:13px;
+      outline:none;
+      min-height:44px;
+    }
+    textarea{min-height:92px; resize:vertical}
+    input::placeholder, textarea::placeholder{color: rgba(169,182,214,.55)}
+    .twocol{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .threecol{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:10px;
+    }
+    .hint{
+      font-size:11px;
+      color: var(--muted2);
+      margin-top:6px;
+      line-height:1.35;
+    }
+    .notice{
+      border-radius: 16px;
+      padding: 12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+    .notice strong{color:var(--text)}
+    .notice.good{border-color: rgba(72,226,154,.25); background: rgba(72,226,154,.06)}
+    .notice.warn{border-color: rgba(255,209,102,.25); background: rgba(255,209,102,.06)}
+    .notice.bad{border-color: rgba(255,92,122,.25); background: rgba(255,92,122,.06)}
+    .list{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+    .post{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .post .meta{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      color: var(--muted2);
+      font-size:11px;
+      margin-bottom:6px;
+    }
+    .post .content{
+      margin:0;
+      font-size:13px;
+      line-height:1.4;
+      color: rgba(234,240,255,.95);
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    .chiprow{
+      margin-top:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+    .right{
+      text-align:right;
+    }
+    .small{
+      font-size:11px;
+      color: var(--muted2);
+    }
+    .progress{
+      height:10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(90,214,255,.9), rgba(124,92,255,.9));
+    }
+    .nowrap{white-space:nowrap}
+
+    @media (max-width:360px){
+      .kpi{grid-template-columns:1fr}
+      .twocol{grid-template-columns:1fr}
+      .threecol{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <div class="phone">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">N</div>
+        <div>
+          <h1>NCD Prevent (Demo)</h1>
+          <p>Risk • Habits • Community (offline)</p>
+        </div>
+      </div>
+      <div class="pill" id="pillSummary">
+        <span>Risk:</span> <strong id="pillRisk">—</strong>
+        <span class="nowrap">• XP</span> <strong id="pillXP">0</strong>
+      </div>
+    </div>
+
+    <!-- HOME -->
+    <section class="section active" id="sec-home">
+      <div class="card">
+        <div class="row">
+          <div>
+            <p class="title">Today Dashboard</p>
+            <p class="sub" id="homeHello">Welcome. Start with risk screening, then track daily habits.</p>
+          </div>
+          <span class="tag" id="tagRisk">No screening</span>
+        </div>
+
+        <div class="kpi">
+          <div class="mini">
+            <div class="label">Risk score</div>
+            <div class="value" id="kpiScore">—</div>
+          </div>
+          <div class="mini">
+            <div class="label">Streak</div>
+            <div class="value" id="kpiStreak">0</div>
+          </div>
+          <div class="mini">
+            <div class="label">Weekly progress</div>
+            <div class="value" id="kpiWeekly">0/7</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <div>
+            <p class="title">Your next best step</p>
+            <p class="sub" id="homeNext">Complete the screening to unlock a plan.</p>
+          </div>
+        </div>
+
+        <div class="btnrow">
+          <button class="primary" onclick="go('risk')">🧪 Do risk screening</button>
+          <button onclick="go('track')">✅ Log today</button>
+          <button class="ghost" onclick="go('community')">💬 Community</button>
+        </div>
+      </div>
+
+      <div class="card flat">
+        <p class="title">Safety note</p>
+        <p class="sub">
+          This demo provides <strong>screening-style estimates</strong>, not diagnosis.
+          If someone has severe symptoms or urgent concerns, they should seek professional care.
+        </p>
+      </div>
+    </section>
+
+    <!-- RISK -->
+    <section class="section" id="sec-risk">
+      <div class="card">
+        <p class="title">Risk screening (simple, prevention-focused)</p>
+        <p class="sub">
+          This score is designed for <strong>NCD prevention</strong>. It uses common risk factors:
+          age, BMI/waist, activity, diet, smoking/alcohol, sleep, and optional BP.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="twocol">
+          <div>
+            <label>Display name</label>
+            <input id="f_name" placeholder="e.g., Konkruad" />
+          </div>
+          <div>
+            <label>Age (years)</label>
+            <input id="f_age" type="number" inputmode="numeric" placeholder="e.g., 19" />
+          </div>
+        </div>
+
+        <div class="twocol">
+          <div>
+            <label>Sex</label>
+            <select id="f_sex">
+              <option value="">Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other / Prefer not</option>
+            </select>
+          </div>
+          <div>
+            <label>Family history (any)</label>
+            <select id="f_famhx">
+              <option value="">Select</option>
+              <option value="none">No</option>
+              <option value="yes">Yes (diabetes / HT / heart)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="twocol">
+          <div>
+            <label>Height (cm)</label>
+            <input id="f_h" type="number" inputmode="decimal" placeholder="e.g., 175" />
+          </div>
+          <div>
+            <label>Weight (kg)</label>
+            <input id="f_w" type="number" inputmode="decimal" placeholder="e.g., 70" />
+          </div>
+        </div>
+
+        <div class="twocol">
+          <div>
+            <label>Waist (cm) (optional)</label>
+            <input id="f_waist" type="number" inputmode="decimal" placeholder="e.g., 85" />
+            <div class="hint">Used only if you enter it.</div>
+          </div>
+          <div>
+            <label>Activity per week</label>
+            <select id="f_act">
+              <option value="">Select</option>
+              <option value="low">&lt; 150 min/week</option>
+              <option value="ok">≥ 150 min/week</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="twocol">
+          <div>
+            <label>Smoking</label>
+            <select id="f_smoke">
+              <option value="">Select</option>
+              <option value="no">No</option>
+              <option value="former">Former</option>
+              <option value="yes">Current</option>
+            </select>
+          </div>
+          <div>
+            <label>Alcohol</label>
+            <select id="f_alc">
+              <option value="">Select</option>
+              <option value="none">None / rare</option>
+              <option value="moderate">1–3 drinks/week</option>
+              <option value="high">4+ drinks/week / binge</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="twocol">
+          <div>
+            <label>Sugary drinks</label>
+            <select id="f_sugar">
+              <option value="">Select</option>
+              <option value="low">0–1 times/week</option>
+              <option value="mid">2–3 times/week</option>
+              <option value="high">4+ times/week</option>
+            </select>
+          </div>
+          <div>
+            <label>Vegetables/fruit</label>
+            <select id="f_veg">
+              <option value="">Select</option>
+              <option value="low">&lt; 3 days/week</option>
+              <option value="ok">≥ 3 days/week</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="twocol">
+          <div>
+            <label>High-salt foods (often)</label>
+            <select id="f_salt">
+              <option value="">Select</option>
+              <option value="no">No / sometimes</option>
+              <option value="yes">Often</option>
+            </select>
+          </div>
+          <div>
+            <label>Sleep (typical)</label>
+            <select id="f_sleep">
+              <option value="">Select</option>
+              <option value="ok">6–9 hours</option>
+              <option value="low">&lt; 6 hours</option>
+              <option value="high">&gt; 9 hours</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="title">Optional: blood pressure (if you know it)</p>
+        <div class="twocol">
+          <div>
+            <label>Systolic (mmHg)</label>
+            <input id="f_sys" type="number" inputmode="numeric" placeholder="e.g., 120" />
+          </div>
+          <div>
+            <label>Diastolic (mmHg)</label>
+            <input id="f_dia" type="number" inputmode="numeric" placeholder="e.g., 80" />
+          </div>
+        </div>
+
+        <div class="btnrow">
+          <button class="primary" onclick="saveScreening()">💾 Save & calculate</button>
+          <button onclick="resetScreening()">↩︎ Reset</button>
+        </div>
+      </div>
+
+      <div class="card" id="riskResultCard" style="display:none;">
+        <div class="row">
+          <div>
+            <p class="title">Your screening result</p>
+            <p class="sub" id="riskExplain">—</p>
+          </div>
+          <span class="tag" id="riskBadge">—</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="kpi">
+          <div class="mini">
+            <div class="label">Total score</div>
+            <div class="value" id="riskScore">—</div>
+          </div>
+          <div class="mini">
+            <div class="label">BMI (calc)</div>
+            <div class="value" id="riskBMI">—</div>
+          </div>
+          <div class="mini">
+            <div class="label">Key driver</div>
+            <div class="value" id="riskDriver">—</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="notice" id="riskPlanBox">
+          <strong>Plan</strong>
+          <div id="riskPlan" style="margin-top:8px;"></div>
+        </div>
+
+        <div class="btnrow">
+          <button class="primary" onclick="go('track')">✅ Start tracking</button>
+          <button onclick="go('community')">💬 Find a buddy</button>
+        </div>
+      </div>
+
+      <div class="card flat">
+        <p class="title">How the score works (editable)</p>
+        <p class="sub">
+          This demo uses a <strong>transparent points model</strong> so your team can replace it with
+          the exact formula from your PDF/research later (weights + thresholds).
+        </p>
+        <div class="btnrow">
+          <button onclick="go('settings')">⚙️ View / edit model</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRACK -->
+    <section class="section" id="sec-track">
+      <div class="card">
+        <div class="row">
+          <div>
+            <p class="title">Daily habit log</p>
+            <p class="sub">Fast check-in (aim &lt; 30 seconds).</p>
+          </div>
+          <span class="tag" id="trackDateTag">—</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="twocol">
+          <div>
+            <label>Steps (manual / “self report”)</label>
+            <input id="t_steps" type="number" inputmode="numeric" placeholder="e.g., 6000" />
+            <div class="hint">In a real app, connect phone/wearable for “verified”.</div>
+          </div>
+          <div>
+            <label>Active minutes</label>
+            <input id="t_active" type="number" inputmode="numeric" placeholder="e.g., 30" />
+          </div>
+        </div>
+
+        <div class="twocol">
+          <div>
+            <label>Sleep (hours)</label>
+            <input id="t_sleep" type="number" inputmode="decimal" placeholder="e.g., 7" />
+          </div>
+          <div>
+            <label>Meals quality (today)</label>
+            <select id="t_meal">
+              <option value="">Select</option>
+              <option value="good">Balanced (veg + protein)</option>
+              <option value="ok">Okay</option>
+              <option value="poor">High sugar/salt/fried</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="threecol">
+          <div>
+            <label>Sugary drinks</label>
+            <select id="t_sug">
+              <option value="">Select</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2+</option>
+            </select>
+          </div>
+          <div>
+            <label>Smoking</label>
+            <select id="t_smoke">
+              <option value="">Select</option>
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+          <div>
+            <label>Alcohol</label>
+            <select id="t_alc">
+              <option value="">Select</option>
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="twocol">
+          <div>
+            <label>BP systolic (optional)</label>
+            <input id="t_sys" type="number" inputmode="numeric" placeholder="e.g., 120" />
+          </div>
+          <div>
+            <label>BP diastolic (optional)</label>
+            <input id="t_dia" type="number" inputmode="numeric" placeholder="e.g., 80" />
+          </div>
+        </div>
+
+        <div class="btnrow">
+          <button class="primary" onclick="saveToday()">💾 Save today</button>
+          <button onclick="fillExample()">✨ Example data</button>
+        </div>
+      </div>
+
+      <div class="card" id="trackSummaryCard">
+        <p class="title">This week</p>
+        <p class="sub" id="weekText">—</p>
+        <div class="divider"></div>
+        <div class="row">
+          <div>
+            <p class="sub">Consistency score</p>
+            <div class="progress"><div class="bar" id="weekBar"></div></div>
+            <div class="hint" id="weekHint">—</div>
+          </div>
+          <div class="right">
+            <div class="tag good" id="xpTag">XP +0</div>
+            <div class="small">XP rewards consistency</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card flat">
+        <p class="title">Anti-cheat approach (demo)</p>
+        <p class="sub">
+          “Verified” data (wearables/phone) should earn more XP than manual entries.
+          This demo simulates it by giving more XP when numbers look consistent over time.
+        </p>
+      </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section class="section" id="sec-community">
+      <div class="card">
+        <p class="title">Community</p>
+        <p class="sub">
+          Buddy challenges + forum posts. Posts are checked by a basic safety filter
+          (triage only — not medical authority).
+        </p>
+
+        <div class="divider"></div>
+
+        <label>Post to forum</label>
+        <textarea id="c_post" placeholder="Share your experience, tips, or a question..."></textarea>
+        <div class="hint">
+          Please avoid giving medical orders (e.g., “stop meds”). Share personal experience + sources if possible.
+        </div>
+
+        <div class="btnrow">
+          <button class="primary" onclick="addPost()">📝 Post</button>
+          <button onclick="seedPosts()">🌱 Add demo posts</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <p class="title" style="margin:0;">Forum feed</p>
+          <span class="tag">AI review: triage</span>
+        </div>
+        <div class="list" id="feed"></div>
+      </div>
+
+      <div class="card flat">
+        <p class="title">Community challenges (demo)</p>
+        <p class="sub">
+          Prefer <strong>co-op</strong> goals (team streaks) over strict PvP leaderboards to reduce frustration and “cheating pressure”.
+        </p>
+        <div class="btnrow">
+          <button onclick="joinChallenge('7-day walking streak')">👟 Join: 7-day walking streak</button>
+          <button onclick="joinChallenge('No sugary drink week')">🥤 Join: No sugary drink week</button>
+        </div>
+        <div class="hint" id="challengeText">No challenge joined yet.</div>
+      </div>
+    </section>
+
+    <!-- INSIGHTS -->
+    <section class="section" id="sec-insights">
+      <div class="card">
+        <p class="title">Insights</p>
+        <p class="sub">
+          Quick patterns from your logs. (In a real product: charts + adaptive nudges.)
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="kpi">
+          <div class="mini">
+            <div class="label">Avg steps (7d)</div>
+            <div class="value" id="i_steps">—</div>
+          </div>
+          <div class="mini">
+            <div class="label">Avg sleep (7d)</div>
+            <div class="value" id="i_sleep">—</div>
+          </div>
+          <div class="mini">
+            <div class="label">Sugary drinks (7d)</div>
+            <div class="value" id="i_sug">—</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="notice" id="i_tipBox">
+          <strong>Next micro-goal</strong>
+          <div id="i_tip" style="margin-top:8px;">—</div>
+        </div>
+
+        <div class="btnrow">
+          <button class="primary" onclick="go('track')">✅ Log today</button>
+          <button onclick="go('risk')">🧪 Update screening</button>
+        </div>
+      </div>
+
+      <div class="card flat">
+        <p class="title">What we measure (minimal set)</p>
+        <p class="sub">
+          For NCD prevention: activity, diet quality (not only calories), smoking/alcohol, sleep, and optional BP.
+          Keep input low-friction so retention stays high.
+        </p>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="section" id="sec-settings">
+      <div class="card">
+        <p class="title">Settings & Model</p>
+        <p class="sub">
+          Edit the risk-scoring weights here (so you can paste the exact formula from your PDF later).
+        </p>
+
+        <div class="divider"></div>
+
+        <label>Risk model JSON (advanced)</label>
+        <textarea id="modelJson" spellcheck="false"></textarea>
+        <div class="hint">
+          Tip: You can replace weights/thresholds to match your research. Keep it a screening tool, not diagnosis.
+        </div>
+
+        <div class="btnrow">
+          <button class="primary" onclick="saveModel()">💾 Save model</button>
+          <button onclick="resetModel()">↩︎ Reset model</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="title">Privacy (PDPA-friendly basics)</p>
+        <p class="sub">
+          Store minimal data, ask consent, allow export/delete, and avoid sharing sensitive health details publicly.
+          This demo stores data only on your device (localStorage).
+        </p>
+
+        <div class="btnrow">
+          <button onclick="exportData()">📦 Export JSON</button>
+          <button class="danger" onclick="wipeAll()">🗑️ Delete all data</button>
+        </div>
+        <div class="hint" id="exportHint"></div>
+      </div>
+    </section>
+
+    <!-- Bottom nav -->
+    <div class="bottomnav">
+      <div class="navwrap">
+        <button class="navbtn active" id="nav-home" onclick="go('home')">
+          <span class="icon">🏠</span><span>Home</span>
+        </button>
+        <button class="navbtn" id="nav-risk" onclick="go('risk')">
+          <span class="icon">🧪</span><span>Risk</span>
+        </button>
+        <button class="navbtn" id="nav-track" onclick="go('track')">
+          <span class="icon">✅</span><span>Track</span>
+        </button>
+        <button class="navbtn" id="nav-community" onclick="go('community')">
+          <span class="icon">💬</span><span>Forum</span>
+        </button>
+        <button class="navbtn" id="nav-insights" onclick="go('insights')">
+          <span class="icon">📈</span><span>Insights</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/**
+ * NCD Prevent (Demo)
+ * - Single-file, offline friendly
+ * - Stores data in localStorage
+ * - Transparent risk scoring model (replace with your PDF / research-based formula later)
+ */
+
+const LS = {
+  profile: "ncd_profile_v1",
+  screening: "ncd_screening_v1",
+  logs: "ncd_logs_v1",
+  posts: "ncd_posts_v1",
+  xp: "ncd_xp_v1",
+  model: "ncd_model_v1",
+  challenge: "ncd_challenge_v1"
+};
+
+const DEFAULT_MODEL = {
+  version: "demo-points-v1",
+  thresholds: { lowMax: 9, modMax: 19 }, // 0-9 low, 10-19 moderate, 20+ high
+  weights: {
+    age: [
+      { max: 29, pts: 0 },
+      { max: 44, pts: 2 },
+      { max: 54, pts: 4 },
+      { max: 64, pts: 6 },
+      { max: 200, pts: 8 }
+    ],
+    bmi: [
+      { max: 22.9, pts: 0 },   // Asian-friendly cut
+      { max: 27.4, pts: 3 },
+      { max: 99,   pts: 6 }
+    ],
+    waist: { // optional, if provided
+      maleHigh: 90,
+      femaleHigh: 80,
+      ptsIfHigh: 4
+    },
+    activityLowPts: 4,
+    familyHistoryPts: 3,
+    smoking: { no: 0, former: 2, yes: 4 },
+    alcohol: { none: 0, moderate: 1, high: 2 },
+    sugarDrinks: { low: 0, mid: 1, high: 3 },
+    veg: { low: 2, ok: 0 },
+    saltOftenPts: 2,
+    sleep: { ok: 0, low: 1, high: 1 },
+    bp: { // optional
+      normalPts: 0,
+      elevatedPts: 3,   // systolic 130-139 or diastolic 85-89 (rough screening)
+      highPts: 6        // systolic >=140 or diastolic >=90
+    }
+  }
+};
+
+function $(id){ return document.getElementById(id); }
+
+function loadJSON(key, fallback){
+  try{
+    const raw = localStorage.getItem(key);
+    if(!raw) return fallback;
+    return JSON.parse(raw);
+  }catch(e){
+    return fallback;
+  }
+}
+function saveJSON(key, obj){
+  localStorage.setItem(key, JSON.stringify(obj));
+}
+
+function todayKey(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function nowStamp(){
+  const d = new Date();
+  return d.toLocaleString();
+}
+
+function go(tab){
+  const sections = ["home","risk","track","community","insights","settings"];
+  sections.forEach(s=>{
+    const sec = $("sec-"+s);
+    if(sec) sec.classList.toggle("active", s===tab);
+    const nav = $("nav-"+s);
+    if(nav) nav.classList.toggle("active", s===tab);
+  });
+  // Settings is not in bottom nav; allow route anyway
+  if(tab==="settings"){
+    sections.forEach(s=>{
+      const nav = $("nav-"+s);
+      if(nav) nav.classList.remove("active");
+    });
+  }
+  refreshAll();
+}
+
+function calcBMI(hCm, wKg){
+  const h = (Number(hCm)||0)/100;
+  const w = Number(wKg)||0;
+  if(!h || !w) return null;
+  return w/(h*h);
+}
+
+function pointsFromRanges(value, ranges){
+  for(const r of ranges){
+    if(value <= r.max) return r.pts;
+  }
+  return 0;
+}
+
+function calcRisk(screening, model){
+  const w = model.weights;
+
+  // Basic required values
+  const age = Number(screening.age);
+  const bmi = calcBMI(screening.h, screening.w);
+
+  // Score breakdown (also helps explain “key driver”)
+  const breakdown = [];
+  let score = 0;
+
+  if(Number.isFinite(age)){
+    const pts = pointsFromRanges(age, w.age);
+    score += pts; breakdown.push({k:"Age", pts});
+  }
+  if(Number.isFinite(bmi)){
+    const pts = pointsFromRanges(Number(bmi.toFixed(1)), w.bmi);
+    score += pts; breakdown.push({k:"BMI", pts});
+  }
+
+  // Optional waist
+  const waist = Number(screening.waist);
+  if(Number.isFinite(waist) && waist>0 && screening.sex){
+    const high = (screening.sex==="male" && waist >= w.waist.maleHigh) ||
+                 (screening.sex==="female" && waist >= w.waist.femaleHigh);
+    if(high){
+      score += w.waist.ptsIfHigh;
+      breakdown.push({k:"Waist", pts:w.waist.ptsIfHigh});
+    }
+  }
+
+  // Activity
+  if(screening.act==="low"){
+    score += w.activityLowPts; breakdown.push({k:"Activity", pts:w.activityLowPts});
+  }
+
+  // Family history
+  if(screening.famhx==="yes"){
+    score += w.familyHistoryPts; breakdown.push({k:"Family hx", pts:w.familyHistoryPts});
+  }
+
+  // Smoking
+  if(screening.smoke){
+    const pts = w.smoking[screening.smoke] ?? 0;
+    score += pts; breakdown.push({k:"Smoking", pts});
+  }
+
+  // Alcohol
+  if(screening.alc){
+    const pts = w.alcohol[screening.alc] ?? 0;
+    score += pts; breakdown.push({k:"Alcohol", pts});
+  }
+
+  // Diet proxies
+  if(screening.sugar){
+    const pts = w.sugarDrinks[screening.sugar] ?? 0;
+    score += pts; breakdown.push({k:"Sugary drinks", pts});
+  }
+  if(screening.veg){
+    const pts = w.veg[screening.veg] ?? 0;
+    score += pts; breakdown.push({k:"Veg/Fruit", pts});
+  }
+  if(screening.salt==="yes"){
+    score += w.saltOftenPts; breakdown.push({k:"High-salt", pts:w.saltOftenPts});
+  }
+
+  // Sleep
+  if(screening.sleep){
+    const pts = w.sleep[screening.sleep] ?? 0;
+    score += pts; breakdown.push({k:"Sleep", pts});
+  }
+
+  // Optional BP
+  const sys = Number(screening.sys);
+  const dia = Number(screening.dia);
+  if(Number.isFinite(sys) && Number.isFinite(dia) && sys>0 && dia>0){
+    let pts = w.bp.normalPts;
+    if(sys >= 140 || dia >= 90) pts = w.bp.highPts;
+    else if(sys >= 130 || dia >= 85) pts = w.bp.elevatedPts;
+    score += pts; breakdown.push({k:"BP", pts});
+  }
+
+  // Determine key driver
+  breakdown.sort((a,b)=>b.pts-a.pts);
+  const top = breakdown.find(x=>x.pts>0) || {k:"—", pts:0};
+
+  // Category
+  let category = "low";
+  if(score > model.thresholds.modMax) category = "high";
+  else if(score > model.thresholds.lowMax) category = "moderate";
+
+  return { score, bmi, category, driver: top.k, breakdown };
+}
+
+function categoryBadge(category){
+  if(category==="low") return { text:"Low", cls:"good" };
+  if(category==="moderate") return { text:"Moderate", cls:"warn" };
+  if(category==="high") return { text:"High", cls:"bad" };
+  return { text:"—", cls:"" };
+}
+
+function buildPlan(category){
+  // Keep it prevention-focused and safe (not medical orders).
+  const plans = {
+    low: [
+      "Keep a simple weekly goal: ≥150 min activity/week (or daily walks).",
+      "Limit sugary drinks (swap to water/unsweetened).",
+      "Log 3 days this week to build consistency."
+    ],
+    moderate: [
+      "Set a 14-day micro-plan: daily walk + reduce sugary drinks.",
+      "Track sleep consistency (aim 6–9 hours).",
+      "If you can, check blood pressure at home/pharmacy and record it.",
+      "Join a buddy challenge for accountability."
+    ],
+    high: [
+      "Prioritize screening pathways: check BP, blood sugar, and lipids if available in your setting.",
+      "Start with small behavior targets (walk + diet quality) — consistency matters more than intensity.",
+      "Use community support (buddy/group) for follow-through.",
+      "If BP is very high or you have concerning symptoms, seek professional advice."
+    ]
+  };
+  return plans[category] || plans.low;
+}
+
+function setTag(el, badge){
+  el.className = "tag " + (badge.cls || "");
+  el.textContent = badge.text;
+}
+
+function saveScreening(){
+  const screening = {
+    name: $("f_name").value.trim(),
+    age: $("f_age").value,
+    sex: $("f_sex").value,
+    famhx: $("f_famhx").value,
+    h: $("f_h").value,
+    w: $("f_w").value,
+    waist: $("f_waist").value,
+    act: $("f_act").value,
+    smoke: $("f_smoke").value,
+    alc: $("f_alc").value,
+    sugar: $("f_sugar").value,
+    veg: $("f_veg").value,
+    salt: $("f_salt").value,
+    sleep: $("f_sleep").value,
+    sys: $("f_sys").value,
+    dia: $("f_dia").value,
+    updatedAt: nowStamp()
+  };
+
+  saveJSON(LS.screening, screening);
+
+  if(screening.name){
+    saveJSON(LS.profile, { name: screening.name });
+  }
+
+  // Calculate risk + show
+  refreshRiskResult(true);
+  refreshAll();
+}
+
+function resetScreening(){
+  localStorage.removeItem(LS.screening);
+  // clear fields
+  [
+    "f_name","f_age","f_sex","f_famhx","f_h","f_w","f_waist","f_act","f_smoke","f_alc",
+    "f_sugar","f_veg","f_salt","f_sleep","f_sys","f_dia"
+  ].forEach(id=>$(id).value="");
+  $("riskResultCard").style.display="none";
+  refreshAll();
+}
+
+function refreshRiskForm(){
+  const s = loadJSON(LS.screening, null);
+  if(!s) return;
+  $("f_name").value = s.name || "";
+  $("f_age").value = s.age || "";
+  $("f_sex").value = s.sex || "";
+  $("f_famhx").value = s.famhx || "";
+  $("f_h").value = s.h || "";
+  $("f_w").value = s.w || "";
+  $("f_waist").value = s.waist || "";
+  $("f_act").value = s.act || "";
+  $("f_smoke").value = s.smoke || "";
+  $("f_alc").value = s.alc || "";
+  $("f_sugar").value = s.sugar || "";
+  $("f_veg").value = s.veg || "";
+  $("f_salt").value = s.salt || "";
+  $("f_sleep").value = s.sleep || "";
+  $("f_sys").value = s.sys || "";
+  $("f_dia").value = s.dia || "";
+}
+
+function refreshRiskResult(showIfAvailable=false){
+  const model = loadJSON(LS.model, DEFAULT_MODEL);
+  const s = loadJSON(LS.screening, null);
+  if(!s){
+    $("riskResultCard").style.display="none";
+    return;
+  }
+  const r = calcRisk(s, model);
+  if(!r){
+    $("riskResultCard").style.display="none";
+    return;
+  }
+
+  const badge = categoryBadge(r.category);
+  $("riskResultCard").style.display = (showIfAvailable ? "block" : $("riskResultCard").style.display);
+
+  $("riskExplain").textContent =
+    `Updated ${s.updatedAt || "—"}. This is a screening estimate to guide prevention steps.`;
+  $("riskBadge").className = "tag " + badge.cls;
+  $("riskBadge").textContent = badge.text;
+
+  $("riskScore").textContent = String(r.score);
+  $("riskBMI").textContent = (r.bmi ? r.bmi.toFixed(1) : "—");
+  $("riskDriver").textContent = r.driver || "—";
+
+  const plan = buildPlan(r.category);
+  $("riskPlan").innerHTML = `<ul style="margin:8px 0 0 18px; padding:0; color: var(--muted); line-height:1.45;">
+    ${plan.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}
+  </ul>`;
+
+  // Plan box styling
+  const planBox = $("riskPlanBox");
+  planBox.className = "notice " + (badge.cls || "");
+}
+
+function escapeHTML(str){
+  return String(str)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;");
+}
+
+function loadLogs(){
+  return loadJSON(LS.logs, []);
+}
+function saveLogs(logs){
+  saveJSON(LS.logs, logs);
+}
+
+function saveToday(){
+  const k = todayKey();
+  const logs = loadLogs();
+  const idx = logs.findIndex(x=>x.date===k);
+
+  const entry = {
+    date: k,
+    steps: numOrNull($("t_steps").value),
+    active: numOrNull($("t_active").value),
+    sleep: numOrNull($("t_sleep").value),
+    meal: $("t_meal").value || null,
+    sug: $("t_sug").value || null,
+    smoke: $("t_smoke").value || null,
+    alc: $("t_alc").value || null,
+    sys: numOrNull($("t_sys").value),
+    dia: numOrNull($("t_dia").value),
+    updatedAt: nowStamp()
+  };
+
+  if(idx>=0) logs[idx]=entry;
+  else logs.push(entry);
+
+  // Keep last 120 days
+  logs.sort((a,b)=>a.date.localeCompare(b.date));
+  const trimmed = logs.slice(Math.max(0, logs.length-120));
+  saveLogs(trimmed);
+
+  // XP: reward consistency more than big numbers
+  const gained = calcXPForEntry(entry, trimmed);
+  addXP(gained);
+
+  refreshAll();
+  toast(`Saved for ${k}. XP +${gained}`);
+}
+
+function calcXPForEntry(entry, logs){
+  // Evidence-aligned idea: avoid rewarding “perfect one-day” entries too much.
+  // Reward: (1) logging itself, (2) streak/consistency, (3) plausibility trend.
+  let xp = 5; // base for logging
+
+  const streak = calcStreak(logs);
+  if(streak>=3) xp += 3;
+  if(streak>=7) xp += 6;
+
+  // plausibility / consistency bonus: compare steps to 7-day median-ish
+  const last7 = lastNDays(logs, 7).map(x=>x.steps).filter(x=>Number.isFinite(x));
+  if(Number.isFinite(entry.steps) && last7.length>=3){
+    const med = median(last7);
+    const ratio = med>0 ? entry.steps/med : 1;
+    // if extremely high compared to normal, don't boost
+    if(ratio <= 2.5) xp += 3;
+  } else if(Number.isFinite(entry.steps)){
+    // early user: small bonus
+    xp += 1;
+  }
+
+  // meal quality bonus (small)
+  if(entry.meal==="good") xp += 2;
+  if(entry.sug==="0") xp += 1;
+  if(entry.smoke==="no") xp += 1;
+
+  // cap daily XP to avoid “spam”
+  return Math.min(20, xp);
+}
+
+function addXP(n){
+  const cur = loadJSON(LS.xp, 0);
+  saveJSON(LS.xp, Math.max(0, cur + (Number(n)||0)));
+}
+
+function numOrNull(v){
+  const n = Number(v);
+  return Number.isFinite(n) && v!=="" ? n : null;
+}
+
+function fillExample(){
+  $("t_steps").value = 6500;
+  $("t_active").value = 35;
+  $("t_sleep").value = 7.2;
+  $("t_meal").value = "ok";
+  $("t_sug").value = "1";
+  $("t_smoke").value = "no";
+  $("t_alc").value = "no";
+  $("t_sys").value = "";
+  $("t_dia").value = "";
+  refreshAll();
+}
+
+function calcStreak(logs){
+  const set = new Set(logs.map(x=>x.date));
+  let d = new Date();
+  let streak = 0;
+  for(let i=0;i<365;i++){
+    const key = d.toISOString().slice(0,10);
+    if(set.has(key)) streak++;
+    else break;
+    d.setDate(d.getDate()-1);
+  }
+  return streak;
+}
+
+function lastNDays(logs, n){
+  const end = new Date();
+  const start = new Date();
+  start.setDate(end.getDate() - (n-1));
+  const startKey = start.toISOString().slice(0,10);
+  const endKey = end.toISOString().slice(0,10);
+  return logs.filter(x=>x.date>=startKey && x.date<=endKey);
+}
+
+function median(arr){
+  const a = arr.slice().sort((x,y)=>x-y);
+  const mid = Math.floor(a.length/2);
+  if(a.length%2) return a[mid];
+  return (a[mid-1] + a[mid]) / 2;
+}
+
+function refreshTrackUI(){
+  $("trackDateTag").textContent = todayKey();
+
+  const logs = loadLogs();
+  const week = lastNDays(logs, 7);
+  const daysLogged = new Set(week.map(x=>x.date)).size;
+  const streak = calcStreak(logs);
+
+  $("kpiStreak").textContent = String(streak);
+  $("kpiWeekly").textContent = `${daysLogged}/7`;
+
+  const pct = Math.round((daysLogged/7)*100);
+  $("weekBar").style.width = pct + "%";
+  $("weekText").textContent = `You logged ${daysLogged} day(s) in the last 7 days. Streak: ${streak}.`;
+  $("weekHint").textContent = pct>=70 ? "Nice consistency. Keep it simple." : "Aim for 3–5 logs/week to build a habit.";
+}
+
+function loadPosts(){
+  return loadJSON(LS.posts, []);
+}
+function savePosts(posts){
+  saveJSON(LS.posts, posts);
+}
+
+function triagePost(text){
+  // Simple risk triage (not medical). Flags content that often leads to harm in forums.
+  const t = text.toLowerCase();
+
+  // high-risk patterns: medication changes, miracle cures, dangerous instructions
+  const high = [
+    "stop med", "stop meds", "quit med", "quit meds", "don’t take", "dont take",
+    "miracle cure", "cure instantly", "no need doctor", "no need to see a doctor",
+    "insulin is bad", "throw away", "avoid all medicine", "replace medication",
+    "take this instead of", "overdose", "double the dose"
+  ];
+
+  // questionable: definitive claims without evidence, extreme diets
+  const mid = [
+    "guaranteed", "100% cure", "always works", "never fails",
+    "extreme fast", "lose 10kg", "starve", "no carbs ever", "detox", "cleanse"
+  ];
+
+  const hitHigh = high.some(p=>t.includes(p));
+  if(hitHigh) return { tier:"high", note:"Potentially harmful medical directive. Needs human review." };
+
+  const hitMid = mid.some(p=>t.includes(p));
+  if(hitMid) return { tier:"mid", note:"Strong claim / extreme advice. Ask for sources and rephrase to personal experience." };
+
+  return { tier:"ok", note:"Looks okay. Keep it personal and avoid medical orders." };
+}
+
+function addPost(){
+  const text = $("c_post").value.trim();
+  if(!text){
+    toast("Write something first.");
+    return;
+  }
+  const posts = loadPosts();
+  const tri = triagePost(text);
+
+  posts.unshift({
+    id: cryptoId(),
+    when: nowStamp(),
+    text,
+    triage: tri
+  });
+  savePosts(posts);
+  $("c_post").value = "";
+
+  // Small XP for contributing (but don’t over-incentivize posting)
+  addXP(2);
+
+  refreshFeed();
+  refreshAll();
+  toast("Posted.");
+}
+
+function cryptoId(){
+  // fallback-friendly id
+  return Math.random().toString(16).slice(2) + Date.now().toString(16);
+}
+
+function seedPosts(){
+  const posts = loadPosts();
+  const examples = [
+    "I started walking 20 minutes after dinner. My sleep improved.",
+    "Any tips to reduce sugary drinks? I keep buying milk tea.",
+    "My friend said you can stop meds if you feel fine. Is that true?"
+  ];
+  examples.reverse().forEach(t=>{
+    posts.unshift({ id: cryptoId(), when: nowStamp(), text: t, triage: triagePost(t) });
+  });
+  savePosts(posts);
+  refreshFeed();
+  toast("Demo posts added.");
+}
+
+function joinChallenge(name){
+  saveJSON(LS.challenge, { name, joinedAt: nowStamp() });
+  refreshAll();
+  toast(`Joined: ${name}`);
+}
+
+function refreshFeed(){
+  const feed = $("feed");
+  const posts = loadPosts();
+  feed.innerHTML = "";
+  if(posts.length===0){
+    feed.innerHTML = `<div class="notice">No posts yet. Be the first to share.</div>`;
+    return;
+  }
+
+  posts.slice(0, 30).forEach(p=>{
+    const badge = p.triage?.tier==="high" ? {text:"Flagged", cls:"bad"} :
+                  p.triage?.tier==="mid" ? {text:"Check", cls:"warn"} :
+                  {text:"OK", cls:"good"};
+
+    const el = document.createElement("div");
+    el.className = "post";
+    el.innerHTML = `
+      <div class="meta">
+        <div>${escapeHTML(p.when || "")}</div>
+        <div class="tag ${badge.cls}">${badge.text}</div>
+      </div>
+      <p class="content">${escapeHTML(p.text)}</p>
+      <div class="chiprow">
+        <span class="tag">🛡️ Review: ${escapeHTML(p.triage?.note || "")}</span>
+        <button class="ghost" onclick="removePost('${p.id}')">🗑️ Remove</button>
+      </div>
+    `;
+    feed.appendChild(el);
+  });
+}
+
+function removePost(id){
+  const posts = loadPosts().filter(p=>p.id!==id);
+  savePosts(posts);
+  refreshFeed();
+  toast("Removed.");
+}
+
+function refreshInsights(){
+  const logs = loadLogs();
+  const week = lastNDays(logs, 7);
+
+  const steps = avg(week.map(x=>x.steps).filter(Number.isFinite));
+  const sleep = avg(week.map(x=>x.sleep).filter(Number.isFinite));
+  const sug = week.reduce((acc,x)=>{
+    if(x.sug==="2") return acc+2;
+    if(x.sug==="1") return acc+1;
+    if(x.sug==="0") return acc+0;
+    return acc;
+  }, 0);
+
+  $("i_steps").textContent = Number.isFinite(steps) ? Math.round(steps) : "—";
+  $("i_sleep").textContent = Number.isFinite(sleep) ? sleep.toFixed(1) : "—";
+  $("i_sug").textContent = String(sug);
+
+  // micro-goal suggestion (simple rule)
+  let tip = "Log 3–5 days/week to build consistency.";
+  if(Number.isFinite(steps) && steps < 6000) tip = "Try +800 steps/day this week (small increase).";
+  if(sug >= 4) tip = "Pick 2 days this week with 0 sugary drinks (start small).";
+  if(Number.isFinite(sleep) && sleep < 6) tip = "Aim for one earlier bedtime this week (sleep consistency).";
+  $("i_tip").textContent = tip;
+
+  // style tip box based on “most urgent”
+  const box = $("i_tipBox");
+  box.className = "notice " + (sug>=4 || (Number.isFinite(steps)&&steps<6000) ? "warn" : "good");
+}
+
+function avg(arr){
+  if(!arr.length) return NaN;
+  return arr.reduce((a,b)=>a+b,0)/arr.length;
+}
+
+function refreshHome(){
+  const profile = loadJSON(LS.profile, {name:""});
+  const s = loadJSON(LS.screening, null);
+  const model = loadJSON(LS.model, DEFAULT_MODEL);
+
+  const logs = loadLogs();
+  const streak = calcStreak(logs);
+  const week = lastNDays(logs, 7);
+  const daysLogged = new Set(week.map(x=>x.date)).size;
+
+  $("homeHello").textContent =
+    profile.name ? `Hi, ${profile.name}. Keep prevention simple and consistent.` :
+    `Welcome. Start with risk screening, then track daily habits.`;
+
+  $("kpiStreak").textContent = String(streak);
+  $("kpiWeekly").textContent = `${daysLogged}/7`;
+
+  if(!s){
+    $("tagRisk").textContent = "No screening";
+    $("tagRisk").className = "tag";
+    $("kpiScore").textContent = "—";
+    $("homeNext").textContent = "Complete the screening to unlock a plan.";
+    $("pillRisk").textContent = "—";
+    return;
+  }
+
+  const r = calcRisk(s, model);
+  $("kpiScore").textContent = String(r.score);
+
+  const badge = categoryBadge(r.category);
+  $("tagRisk").className = "tag " + badge.cls;
+  $("tagRisk").textContent = badge.text;
+
+  $("pillRisk").textContent = badge.text;
+
+  if(r.category==="low") $("homeNext").textContent = "Keep habits steady. Join a light challenge.";
+  if(r.category==="moderate") $("homeNext").textContent = "Pick 1–2 micro-goals for 14 days and track them.";
+  if(r.category==="high") $("homeNext").textContent = "Consider screening pathways (BP/sugar/lipids) if available; focus on consistency.";
+
+  // weekly text is set in track UI; keep here minimal
+}
+
+function refreshHeader(){
+  const xp = loadJSON(LS.xp, 0);
+  $("pillXP").textContent = String(xp);
+
+  // xp tag in track page
+  $("xpTag").textContent = `XP ${xp}`;
+}
+
+function refreshModelEditor(){
+  const model = loadJSON(LS.model, DEFAULT_MODEL);
+  $("modelJson").value = JSON.stringify(model, null, 2);
+}
+
+function saveModel(){
+  try{
+    const parsed = JSON.parse($("modelJson").value);
+    // basic check
+    if(!parsed || !parsed.weights || !parsed.thresholds){
+      toast("Model JSON missing fields.");
+      return;
+    }
+    saveJSON(LS.model, parsed);
+    toast("Model saved.");
+    refreshAll();
+  }catch(e){
+    toast("Invalid JSON. Check commas/brackets.");
+  }
+}
+
+function resetModel(){
+  localStorage.removeItem(LS.model);
+  refreshModelEditor();
+  toast("Model reset.");
+}
+
+function exportData(){
+  const bundle = {
+    profile: loadJSON(LS.profile, null),
+    screening: loadJSON(LS.screening, null),
+    logs: loadJSON(LS.logs, []),
+    posts: loadJSON(LS.posts, []),
+    xp: loadJSON(LS.xp, 0),
+    model: loadJSON(LS.model, DEFAULT_MODEL),
+    challenge: loadJSON(LS.challenge, null),
+    exportedAt: nowStamp()
+  };
+  const text = JSON.stringify(bundle, null, 2);
+  // Try to download file
+  const blob = new Blob([text], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `ncd-prevent-export-${todayKey()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  $("exportHint").textContent = "Exported. Check your downloads.";
+}
+
+function wipeAll(){
+  if(!confirm("Delete all local data on this device?")) return;
+  Object.values(LS).forEach(k=>localStorage.removeItem(k));
+  toast("All data deleted.");
+  location.reload();
+}
+
+function refreshChallenge(){
+  const c = loadJSON(LS.challenge, null);
+  $("challengeText").textContent = c ? `Joined: ${c.name} (since ${c.joinedAt})` : "No challenge joined yet.";
+}
+
+function refreshAll(){
+  refreshHeader();
+  refreshRiskForm();
+  refreshRiskResult(false);
+  refreshTrackUI();
+  refreshFeed();
+  refreshInsights();
+  refreshHome();
+  refreshModelEditor();
+  refreshChallenge();
+}
+
+function toast(msg){
+  // minimal toast
+  let t = document.getElementById("toast");
+  if(!t){
+    t = document.createElement("div");
+    t.id = "toast";
+    t.style.position="fixed";
+    t.style.left="50%";
+    t.style.bottom="92px";
+    t.style.transform="translateX(-50%)";
+    t.style.background="rgba(0,0,0,.55)";
+    t.style.border="1px solid rgba(255,255,255,.14)";
+    t.style.color="white";
+    t.style.padding="10px 12px";
+    t.style.borderRadius="14px";
+    t.style.backdropFilter="blur(10px)";
+    t.style.boxShadow="0 10px 30px rgba(0,0,0,.35)";
+    t.style.fontSize="12px";
+    t.style.zIndex="9999";
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity="1";
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>{ t.style.opacity="0"; }, 1600);
+}
+
+// init
+(function init(){
+  // Ensure defaults
+  if(localStorage.getItem(LS.model)===null){
+    saveJSON(LS.model, DEFAULT_MODEL);
+  }
+  if(localStorage.getItem(LS.xp)===null){
+    saveJSON(LS.xp, 0);
+  }
+  $("trackDateTag").textContent = todayKey();
+  refreshAll();
+})();
+</script>
+</body>
+</html>

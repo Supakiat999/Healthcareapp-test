@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Complete NCD Screening • Thailand Health Score</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            charm: {
+              blue: '#5B6C9D',
+              gold: '#C5A059',
+              cream: '#F9F7F2',
+              dark: '#1A1A1A',
+              gray: '#8C8C8C',
+              green: '#4A7A5E'
+            }
+          },
+          fontFamily: {
+            serif: ['"Bodoni Moda"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 10px 40px -10px rgba(91, 108, 157, 0.2)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .glass-header { background: rgba(249, 247, 242, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(197, 160, 89, 0.12); }
+    .glass-nav { background: rgba(249, 247, 242, 0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(197, 160, 89, 0.20); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease-out; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+
+<body class="bg-stone-200 flex justify-center min-h-screen font-sans">
+  <!-- Phone frame -->
+  <div class="w-full max-w-md bg-charm-cream relative flex flex-col h-screen overflow-hidden shadow-2xl">
+
+    <!-- Header -->
+    <div class="flex-none px-6 py-5 pt-8 glass-header z-30">
+      <div class="flex items-end justify-between">
+        <div>
+          <h1 class="font-serif text-2xl font-bold tracking-tight text-charm-dark">COMPREHENSIVE SCREENING</h1>
+          <p class="text-[10px] tracking-[0.2em] uppercase text-charm-gold">Thailand NCD Risk Tools</p>
+        </div>
+        <div class="text-xs text-charm-gray font-medium">
+          <i class="fa-solid fa-mobile-screen mr-1"></i> Mobile
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 overflow-y-auto no-scrollbar pb-24 bg-charm-cream">
+
+      <!-- Basic Info Screen -->
+      <section id="screenBasic" class="px-6 py-6 fade-in">
+        <div class="mb-5">
+          <h2 class="font-serif text-xl font-bold text-charm-dark">Step 1: Basic Information</h2>
+          <p class="text-xs text-gray-500 font-light mt-1 leading-relaxed">
+            Start with your demographics and measurements.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Demographics</h3>
+
+            <div class="space-y-3">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Age (years)</label>
+                <input id="age" type="number" inputmode="numeric" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 35" />
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Sex</label>
+                <select id="sex" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none">
+                  <option value="">-- Select --</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Family history (Diabetes)</label>
+                <select id="fh_dm" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none">
+                  <option value="">-- Select --</option>
+                  <option value="none">None</option>
+                  <option value="parent">Parent</option>
+                  <option value="sibling">Sibling</option>
+                  <option value="both">Parent + Sibling</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Measurements</h3>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Weight (kg)</label>
+                <input id="weight" type="number" inputmode="decimal" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 68" />
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Height (cm)</label>
+                <input id="height" type="number" inputmode="decimal" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 172" />
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <div class="flex items-center justify-between">
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">BMI</label>
+                <span id="bmiBadge" class="text-[10px] font-bold px-3 py-1 rounded-full bg-stone-100 text-stone-600 border border-stone-200">—</span>
+              </div>
+              <div class="mt-2 h-2 rounded-full bg-stone-100 overflow-hidden">
+                <div id="bmiBar" class="h-full bg-charm-green transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Waist Circumference (cm)</label>
+              <input id="waist" type="number" inputmode="decimal" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 88" />
+              <p class="text-[11px] text-gray-500 mt-2">Midway between lowest rib and hip bone.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Systolic BP (mmHg)</label>
+                <input id="sbp" type="number" inputmode="numeric" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 128" />
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Diastolic BP (mmHg)</label>
+                <input id="dbp" type="number" inputmode="numeric" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 80" />
+              </div>
+            </div>
+          </div>
+
+          <button id="btnToLifestyle" class="w-full bg-charm-blue text-white font-bold py-3 rounded-xl shadow-soft active:scale-95 transition">
+            Continue to Lifestyle
+          </button>
+        </div>
+      </section>
+
+      <!-- Lifestyle Survey Screen -->
+      <section id="screenLifestyle" class="px-6 py-6 fade-in hidden">
+        <div class="mb-5">
+          <h2 class="font-serif text-xl font-bold text-charm-dark">Step 2: Lifestyle & Habits</h2>
+          <p class="text-xs text-gray-500 font-light mt-1 leading-relaxed">
+            Answer all questions honestly for the best estimate.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Physical Activity</h3>
+            <div class="space-y-2">
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="pa1" value="3" class="mr-3" />
+                <span class="text-sm">Adequate (≥150 min/week)</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="pa1" value="2" class="mr-3" />
+                <span class="text-sm">Some, not enough (30-149 min)</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="pa1" value="1" class="mr-3" />
+                <span class="text-sm">Insufficient (&lt;30 min/week)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Sitting Time (PA2)</h3>
+            <div class="space-y-2">
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="sit1" value="3" class="mr-3" />
+                <span class="text-sm">Low (&lt;4 hours/day)</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="sit1" value="2" class="mr-3" />
+                <span class="text-sm">Moderate (4-8 hours/day)</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="sit1" value="1" class="mr-3" />
+                <span class="text-sm">High (&gt;8 hours/day)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Sleep Duration (PA3)</h3>
+            <div class="space-y-2">
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="sleep1" value="3" class="mr-3" />
+                <span class="text-sm">Adequate (7-9 hours)</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="sleep1" value="2" class="mr-3" />
+                <span class="text-sm">Short (5-6 hours)</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="sleep1" value="1" class="mr-3" />
+                <span class="text-sm">Very short (≤4 hours)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Smoking (S1)</h3>
+            <div class="space-y-2">
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="smk1" value="never" class="mr-3" />
+                <span class="text-sm">Never</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="smk1" value="quit" class="mr-3" />
+                <span class="text-sm">Quit (&gt;1 year)</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="smk1" value="sometimes" class="mr-3" />
+                <span class="text-sm">Sometimes</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="smk1" value="daily" class="mr-3" />
+                <span class="text-sm">Daily</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="smokingFollowups" class="hidden space-y-4">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Smoking: Years Smoking (S2)</h3>
+              <div class="space-y-2">
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="smk2" value="0" class="mr-3" />
+                  <span class="text-sm">&lt;1 year</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="smk2" value="1" class="mr-3" />
+                  <span class="text-sm">1-10 years</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="smk2" value="2" class="mr-3" />
+                  <span class="text-sm">&gt;10 years</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Cigarettes/Day (S3)</h3>
+              <div class="space-y-2">
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="smk3" value="0" class="mr-3" />
+                  <span class="text-sm">1-5</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="smk3" value="1" class="mr-3" />
+                  <span class="text-sm">6-10</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="smk3" value="2" class="mr-3" />
+                  <span class="text-sm">&gt;10</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Secondhand Smoke (S4)</h3>
+              <div class="space-y-2">
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="smk4" value="0" class="mr-3" />
+                  <span class="text-sm">No exposure</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="smk4" value="1" class="mr-3" />
+                  <span class="text-sm">&lt;1 hour/day</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="smk4" value="2" class="mr-3" />
+                  <span class="text-sm">≥1 hour/day</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Alcohol (A1)</h3>
+            <div class="space-y-2">
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="alc1" value="never" class="mr-3" />
+                <span class="text-sm">Never</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="alc1" value="stopped" class="mr-3" />
+                <span class="text-sm">Stopped (&gt;1 year)</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="alc1" value="current" class="mr-3" />
+                <span class="text-sm">Current drinker</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="alcoholFollowups" class="hidden space-y-4">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Alcohol: Frequency (A2)</h3>
+              <div class="space-y-2">
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc2" value="0" class="mr-3" />
+                  <span class="text-sm">Never</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc2" value="1" class="mr-3" />
+                  <span class="text-sm">Monthly or less</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc2" value="2" class="mr-3" />
+                  <span class="text-sm">2-4 times/month</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc2" value="3" class="mr-3" />
+                  <span class="text-sm">2-3 times/week</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc2" value="4" class="mr-3" />
+                  <span class="text-sm">≥4 times/week</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Drinks/Occasion (A3)</h3>
+              <div class="space-y-2">
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc3" value="0" class="mr-3" />
+                  <span class="text-sm">1-2</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc3" value="1" class="mr-3" />
+                  <span class="text-sm">3-4</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc3" value="2" class="mr-3" />
+                  <span class="text-sm">5-6</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc3" value="3" class="mr-3" />
+                  <span class="text-sm">≥7</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Binge Drinking (A4)</h3>
+              <div class="space-y-2">
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc4" value="0" class="mr-3" />
+                  <span class="text-sm">Never</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc4" value="1" class="mr-3" />
+                  <span class="text-sm">&lt;1/month</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc4" value="2" class="mr-3" />
+                  <span class="text-sm">Monthly</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc4" value="3" class="mr-3" />
+                  <span class="text-sm">Weekly+</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Unable to Stop (A5)</h3>
+              <div class="space-y-2">
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc5" value="0" class="mr-3" />
+                  <span class="text-sm">No</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc5" value="2" class="mr-3" />
+                  <span class="text-sm">Yes</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Failed Cutting Down (A6)</h3>
+              <div class="space-y-2">
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc6" value="0" class="mr-3" />
+                  <span class="text-sm">No</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc6" value="2" class="mr-3" />
+                  <span class="text-sm">Yes</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Morning Drinking (A7)</h3>
+              <div class="space-y-2">
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc7" value="0" class="mr-3" />
+                  <span class="text-sm">No</span>
+                </label>
+                <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                  <input type="radio" name="alc7" value="2" class="mr-3" />
+                  <span class="text-sm">Yes</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Diet (D1-D9)</h3>
+            <p class="text-[11px] text-gray-600 mb-4">How often do you eat these foods?</p>
+            <div class="space-y-2">
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d1" value="1" class="mr-3" />
+                <span class="text-sm">D1: Vegetables daily? Daily=1</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d1" value="0" class="mr-3" />
+                <span class="text-sm">D1: Not daily</span>
+              </label>
+              
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d2" value="1" class="mr-3" />
+                <span class="text-sm">D2: Fruit daily? Daily=1</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d2" value="0" class="mr-3" />
+                <span class="text-sm">D2: Not daily</span>
+              </label>
+
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d3" value="1" class="mr-3" />
+                <span class="text-sm">D3: Legumes ≥1x/week? Yes=1</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d3" value="0" class="mr-3" />
+                <span class="text-sm">D3: No</span>
+              </label>
+
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d4" value="1" class="mr-3" />
+                <span class="text-sm">D4: Whole grains? Yes=1</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d4" value="0" class="mr-3" />
+                <span class="text-sm">D4: No</span>
+              </label>
+
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d5" value="1" class="mr-3" />
+                <span class="text-sm">D5: Fish ≥1x/week? Yes=1</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d5" value="0" class="mr-3" />
+                <span class="text-sm">D5: No</span>
+              </label>
+
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d6" value="1" class="mr-3" />
+                <span class="text-sm">D6: Soft drinks rarely? Yes=1</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d6" value="0" class="mr-3" />
+                <span class="text-sm">D6: Frequent</span>
+              </label>
+
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d7" value="1" class="mr-3" />
+                <span class="text-sm">D7: Salt moderation? Yes=1</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d7" value="0" class="mr-3" />
+                <span class="text-sm">D7: High salt</span>
+              </label>
+
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d8" value="1" class="mr-3" />
+                <span class="text-sm">D8: Fried foods rarely? Yes=1</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d8" value="0" class="mr-3" />
+                <span class="text-sm">D8: Frequent</span>
+              </label>
+
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d9" value="1" class="mr-3" />
+                <span class="text-sm">D9: Sweets rarely? Yes=1</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="d9" value="0" class="mr-3" />
+                <span class="text-sm">D9: Frequent</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Oral Health (O1-O2)</h3>
+            <div class="space-y-2">
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="o1" value="0" class="mr-3" />
+                <span class="text-sm">O1: Regular teeth brushing? Yes=0</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="o1" value="1" class="mr-3" />
+                <span class="text-sm">O1: Irregular</span>
+              </label>
+
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="o2" value="0" class="mr-3" />
+                <span class="text-sm">O2: Dental visit ≥1x/year? Yes=0</span>
+              </label>
+              <label class="flex items-center p-3 border border-stone-200 rounded-lg cursor-pointer hover:bg-stone-50">
+                <input type="radio" name="o2" value="1" class="mr-3" />
+                <span class="text-sm">O2: No regular visits</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Stress (ST1-ST5)</h3>
+            <p class="text-[11px] text-gray-600 mb-3">Past 2 weeks: How often felt stressed?</p>
+            <div class="space-y-3">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">ST1: Stressed?</label>
+                <div class="flex gap-2 mt-2">
+                  <label class="flex-1"><input type="radio" name="st1" value="0" class="mr-1" />Never (0)</label>
+                  <label class="flex-1"><input type="radio" name="st1" value="1" class="mr-1" />Rarely (1)</label>
+                  <label class="flex-1"><input type="radio" name="st1" value="2" class="mr-1" />Often (2)</label>
+                </div>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">ST2: Anxious?</label>
+                <div class="flex gap-2 mt-2">
+                  <label class="flex-1"><input type="radio" name="st2" value="0" class="mr-1" />Never (0)</label>
+                  <label class="flex-1"><input type="radio" name="st2" value="1" class="mr-1" />Rarely (1)</label>
+                  <label class="flex-1"><input type="radio" name="st2" value="2" class="mr-1" />Often (2)</label>
+                </div>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">ST3: Overwhelmed?</label>
+                <div class="flex gap-2 mt-2">
+                  <label class="flex-1"><input type="radio" name="st3" value="0" class="mr-1" />Never (0)</label>
+                  <label class="flex-1"><input type="radio" name="st3" value="1" class="mr-1" />Rarely (1)</label>
+                  <label class="flex-1"><input type="radio" name="st3" value="2" class="mr-1" />Often (2)</label>
+                </div>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">ST4: Irritable?</label>
+                <div class="flex gap-2 mt-2">
+                  <label class="flex-1"><input type="radio" name="st4" value="0" class="mr-1" />Never (0)</label>
+                  <label class="flex-1"><input type="radio" name="st4" value="1" class="mr-1" />Rarely (1)</label>
+                  <label class="flex-1"><input type="radio" name="st4" value="2" class="mr-1" />Often (2)</label>
+                </div>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">ST5: Depressed?</label>
+                <div class="flex gap-2 mt-2">
+                  <label class="flex-1"><input type="radio" name="st5" value="0" class="mr-1" />Never (0)</label>
+                  <label class="flex-1"><input type="radio" name="st5" value="1" class="mr-1" />Rarely (1)</label>
+                  <label class="flex-1"><input type="radio" name="st5" value="2" class="mr-1" />Often (2)</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Depression Screen (2Q)</h3>
+            <div class="space-y-2">
+              <div>
+                <label class="text-[10px] font-bold text-gray-600 mb-2 block">2Q1: Feel little interest/pleasure in activities?</label>
+                <div class="flex gap-2">
+                  <label><input type="radio" name="dq1" value="no" class="mr-1" />No</label>
+                  <label><input type="radio" name="dq1" value="yes" class="mr-1" />Yes</label>
+                </div>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-600 mb-2 block">2Q2: Feel down/hopeless?</label>
+                <div class="flex gap-2">
+                  <label><input type="radio" name="dq2" value="no" class="mr-1" />No</label>
+                  <label><input type="radio" name="dq2" value="yes" class="mr-1" />Yes</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <button id="btnCompute" class="flex-1 bg-charm-blue text-white font-bold py-3 rounded-xl shadow-soft active:scale-95 transition">
+              Calculate All Scores
+            </button>
+            <button id="btnBackToBasic" class="w-14 bg-white border border-stone-200 text-charm-gray font-bold py-3 rounded-xl active:scale-95 transition">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Screen -->
+      <section id="screenResults" class="px-6 py-6 fade-in hidden">
+        <div class="mb-5">
+          <h2 class="font-serif text-xl font-bold text-charm-dark">Your Results</h2>
+          <p class="text-xs text-gray-500 font-light mt-1 leading-relaxed">
+            Comprehensive screening summary.
+          </p>
+        </div>
+
+        <div id="resultsContainer" class="space-y-4">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="flex gap-3 mt-4">
+          <button id="btnEdit" class="flex-1 bg-white border border-stone-200 text-charm-blue font-bold py-3 rounded-xl shadow-soft active:scale-95 transition">
+            Edit Answers
+          </button>
+          <button id="btnSaveResult" class="flex-1 bg-charm-gold text-charm-dark font-bold py-3 rounded-xl shadow-soft active:scale-95 transition">
+            <i class="fas fa-bookmark mr-2"></i> Save
+          </button>
+        </div>
+
+        <p class="text-[11px] text-gray-500 mt-4 leading-relaxed">
+          This tool is for screening and education only, not a diagnosis. Consult healthcare providers for confirmatory tests.
+        </p>
+      </section>
+
+    </div>
+
+    <!-- Bottom nav -->
+    <div class="flex-none h-24 glass-nav flex justify-around items-start pt-4 px-2 z-30">
+      <button id="nav-basic" onclick="openScreen('screenBasic')" class="text-charm-blue flex flex-col items-center w-16 group transition">
+        <i class="fas fa-info-circle text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Basic Info</span>
+      </button>
+      <button id="nav-lifestyle" onclick="openScreen('screenLifestyle')" class="text-stone-400 flex flex-col items-center w-16 group transition">
+        <i class="fas fa-heart-pulse text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Lifestyle</span>
+      </button>
+      <button id="nav-results" onclick="openScreen('screenResults')" class="text-stone-400 flex flex-col items-center w-16 group transition">
+        <i class="fas fa-chart-line text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Results</span>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    // ============================================
+    // Utilities
+    // ============================================
+    const $ = (id) => document.getElementById(id);
+    
+    function openScreen(screenId) {
+      ['screenBasic', 'screenLifestyle', 'screenResults'].forEach(s => {
+        $(s).classList.add('hidden');
+      });
+      $(screenId).classList.remove('hidden');
+
+      // Update nav colors
+      ['nav-basic', 'nav-lifestyle', 'nav-results'].forEach(n => {
+        $(n).className = $(n).className.replace('text-charm-blue', 'text-stone-400');
+      });
+      
+      if (screenId === 'screenBasic') $('nav-basic').classList.add('text-charm-blue');
+      else if (screenId === 'screenLifestyle') $('nav-lifestyle').classList.add('text-charm-blue');
+      else if (screenId === 'screenResults') $('nav-results').classList.add('text-charm-blue');
+    }
+
+    function num(val) {
+      const n = Number(val);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function round(n, d = 1) {
+      const p = Math.pow(10, d);
+      return Math.round(n * p) / p;
+    }
+
+    function safeNum(v) {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    // ============================================
+    // Calculations
+    // ============================================
+    function calcBMI(weightKg, heightCm) {
+      if (!weightKg || !heightCm) return null;
+      const h = heightCm / 100;
+      if (h <= 0) return null;
+      return weightKg / (h * h);
+    }
+
+    function bmiCategory(bmi) {
+      if (bmi == null) return null;
+      if (bmi < 23) return 'lt23';
+      if (bmi < 27.5) return 'a23_2749';
+      return 'ge275';
+    }
+
+    function ageCategory(age) {
+      if (age == null) return null;
+      if (age < 45) return 'lt45';
+      if (age < 50) return 'a45_49';
+      return 'ge50';
+    }
+
+    function waistIsHigh(sex, waist) {
+      if (!sex || waist == null) return null;
+      const cutoff = sex === 'male' ? 90 : 80;
+      return waist >= cutoff;
+    }
+
+    function bpIsHigh(sbp, dbp) {
+      if (sbp == null || dbp == null) return null;
+      return sbp >= 140 || dbp >= 90;
+    }
+
+    // Thai Diabetes Score
+    const COEF = {
+      age: {
+        lt45: { A: 1, B: -0.0702134, label: "Age < 45" },
+        a45_49: { A: 1, B: 0.0699869, label: "Age 45–49" },
+        ge50: { A: 1, B: 0.6043599, label: "Age ≥ 50" },
+      },
+      sex: {
+        female: { A: 0, B: 0.0, label: "Female" },
+        male: { A: 2, B: 0.4422573, label: "Male" },
+      },
+      bmi: {
+        lt23: { A: 0, B: 0.0, label: "BMI < 23" },
+        a23_2749: { A: 1, B: 0.6958621, label: "BMI 23–27.49" },
+        ge275: { A: 1, B: 1.235097, label: "BMI ≥ 27.5" },
+      },
+      waist: {
+        normal: { A: 0, B: 0.0, label: "Waist below cutoff" },
+        high: { A: 1, B: 0.5567118, label: "Waist at/above cutoff" },
+      },
+      bp: {
+        normal: { A: 0, B: 0.0, label: "BP < 140/90" },
+        high: { A: 1, B: 0.6409517, label: "BP ≥ 140/90" },
+      },
+      fam: {
+        no: { A: 0, B: 0.0, label: "No family history" },
+        yes: { A: 1, B: 1.081356, label: "Family history: yes" },
+      }
+    };
+
+    const CONSTANT = -3.580397;
+
+    function calcTDS(age, sex, bmi, waist, sbp, dbp, fh) {
+      const ageCat = ageCategory(age);
+      const bmiCat = bmiCategory(bmi);
+      const waistHigh = waistIsHigh(sex, waist);
+      const bpHigh = bpIsHigh(sbp, dbp);
+
+      if (!ageCat || !bmiCat || !sex || waistHigh == null || bpHigh == null || !fh) return null;
+
+      const parts = [];
+      parts.push({ name: COEF.age[ageCat].label, ...COEF.age[ageCat] });
+      parts.push({ name: COEF.sex[sex].label, ...COEF.sex[sex] });
+      parts.push({ name: COEF.bmi[bmiCat].label, ...COEF.bmi[bmiCat] });
+      parts.push({ name: waistHigh ? COEF.waist.high.label : COEF.waist.normal.label, ...(waistHigh ? COEF.waist.high : COEF.waist.normal) });
+      parts.push({ name: bpHigh ? COEF.bp.high.label : COEF.bp.normal.label, ...(bpHigh ? COEF.bp.high : COEF.bp.normal) });
+      parts.push({ name: COEF.fam[fh].label, ...COEF.fam[fh] });
+
+      let sumC = 0;
+      parts.forEach(p => { sumC += p.A * p.B; });
+
+      const logit = sumC + CONSTANT;
+      const expLogit = Math.exp(logit);
+      const risk = expLogit / (1 + expLogit);
+
+      return { prob: risk, pct: risk * 100, logit, parts };
+    }
+
+    function calcBPCategory(sbp, dbp) {
+      if (sbp >= 180 || dbp >= 120) return { level: 'vhigh', label: 'URGENT', desc: 'Hypertensive crisis' };
+      if (sbp >= 160 || dbp >= 100) return { level: 'high', label: 'High', desc: 'Stage 2 hypertension' };
+      if (sbp >= 140 || dbp >= 90) return { level: 'high', label: 'High', desc: 'Stage 1 hypertension' };
+      if ((sbp >= 130 && sbp <= 139) || (dbp >= 80 && dbp <= 89)) return { level: 'mid', label: 'Elevated', desc: 'High-normal' };
+      return { level: 'low', label: 'Normal', desc: 'Normal BP' };
+    }
+
+    function calcLifestyleScore(pa, sit, sleep, dScore) {
+      let score = 0;
+      if (pa) score += Number(pa);
+      if (sit) score += Number(sit);
+      if (sleep) score += Number(sleep);
+      if (dScore !== null) score += Number(dScore);
+
+      let level = 'low', label = 'Good';
+      if (score <= 7) { level = 'low'; label = 'Good lifestyle'; }
+      else if (score <= 11) { level = 'mid'; label = 'Moderate lifestyle'; }
+      else { level = 'high'; label = 'Needs improvement'; }
+
+      return { score, level, label };
+    }
+
+    function readAllInputs() {
+      // Basic
+      const age = safeNum($('age').value);
+      const sex = $('sex').value;
+      const fh_dm = $('fh_dm').value;
+      const weight = safeNum($('weight').value);
+      const height = safeNum($('height').value);
+      const waist = safeNum($('waist').value);
+      const sbp = safeNum($('sbp').value);
+      const dbp = safeNum($('dbp').value);
+      const bmi = calcBMI(weight, height);
+
+      // Lifestyle
+      const pa = document.querySelector('input[name="pa1"]:checked')?.value;
+      const sit = document.querySelector('input[name="sit1"]:checked')?.value;
+      const sleep = document.querySelector('input[name="sleep1"]:checked')?.value;
+
+      // Smoking
+      const smk1 = document.querySelector('input[name="smk1"]:checked')?.value;
+      const smk2 = document.querySelector('input[name="smk2"]:checked')?.value;
+      const smk3 = document.querySelector('input[name="smk3"]:checked')?.value;
+      const smk4 = document.querySelector('input[name="smk4"]:checked')?.value;
+
+      // Alcohol
+      const alc1 = document.querySelector('input[name="alc1"]:checked')?.value;
+      const alc2 = document.querySelector('input[name="alc2"]:checked')?.value;
+      const alc3 = document.querySelector('input[name="alc3"]:checked')?.value;
+      const alc4 = document.querySelector('input[name="alc4"]:checked')?.value;
+      const alc5 = document.querySelector('input[name="alc5"]:checked')?.value;
+      const alc6 = document.querySelector('input[name="alc6"]:checked')?.value;
+      const alc7 = document.querySelector('input[name="alc7"]:checked')?.value;
+
+      // Diet (D1-D9)
+      const dVals = [];
+      for (let i = 1; i <= 9; i++) {
+        const d = document.querySelector(`input[name="d${i}"]:checked`)?.value;
+        if (d !== undefined) dVals.push(Number(d));
+      }
+      const dScore = dVals.length === 9 ? dVals.reduce((a, b) => a + b, 0) : null;
+
+      // Oral (O1-O2)
+      const oVals = [];
+      for (let i = 1; i <= 2; i++) {
+        const o = document.querySelector(`input[name="o${i}"]:checked`)?.value;
+        if (o !== undefined) oVals.push(Number(o));
+      }
+      const oScore = oVals.length === 2 ? oVals.reduce((a, b) => a + b, 0) : null;
+
+      // Stress (ST1-ST5)
+      const stVals = [];
+      for (let i = 1; i <= 5; i++) {
+        const st = document.querySelector(`input[name="st${i}"]:checked`)?.value;
+        if (st !== undefined) stVals.push(Number(st));
+      }
+      const stScore = stVals.length === 5 ? stVals.reduce((a, b) => a + b, 0) : null;
+
+      // Depression
+      const dq1 = document.querySelector('input[name="dq1"]:checked')?.value;
+      const dq2 = document.querySelector('input[name="dq2"]:checked')?.value;
+      const depPositive = (dq1 === 'yes' || dq2 === 'yes');
+
+      return {
+        age, sex, fh_dm, weight, height, waist, sbp, dbp, bmi,
+        pa, sit, sleep, dScore,
+        smk1, smk2, smk3, smk4,
+        alc1, alc2, alc3, alc4, alc5, alc6, alc7,
+        oScore, stScore, dq1, dq2, depPositive
+      };
+    }
+
+    function calculateSmokingScore(smk1, smk2, smk3, smk4) {
+      if (!smk1) return { score: null, level: 'info', label: 'Incomplete' };
+      if (smk1 === 'never' || smk1 === 'quit') return { score: 0, level: 'low', label: 'Non-smoker' };
+      const s1 = (smk1 === 'sometimes') ? 1 : 2;
+      if (!smk2 || !smk3 || !smk4) return { score: null, level: 'info', label: 'Complete S2-S4' };
+      const total = s1 + Number(smk2) + Number(smk3) + Number(smk4);
+      let level = 'mid', label = 'Moderate';
+      if (total === 0) { level = 'low'; label = 'Low'; }
+      else if (total >= 5) { level = 'high'; label = 'High'; }
+      return { score: total, level, label };
+    }
+
+    function calculateAlcoholScore(alc1, alc2, alc3, alc4, alc5, alc6, alc7) {
+      if (!alc1) return { score: null, level: 'info', label: 'Incomplete' };
+      if (alc1 === 'never' || alc1 === 'stopped') return { score: 0, level: 'low', label: 'Non-/ex-drinker' };
+      if (!alc2 || !alc3 || !alc4 || !alc5 || !alc6 || !alc7) return { score: null, level: 'info', label: 'Complete A2-A7' };
+      const total = Number(alc2) + Number(alc3) + Number(alc4) + Number(alc5) + Number(alc6) + Number(alc7);
+      let level = 'low', label = 'Low';
+      if (total >= 27) { level = 'high'; label = 'High'; }
+      else if (total >= 11) { level = 'mid'; label = 'Moderate'; }
+      return { score: total, level, label };
+    }
+
+    function formatMaybe(n, d = 1) {
+      if (n == null) return '—';
+      return round(n, d).toFixed(d);
+    }
+
+    function setBMIUI(bmi) {
+      if (bmi == null) {
+        $('bmiBadge').textContent = '—';
+        $('bmiBadge').className = "text-[10px] font-bold px-3 py-1 rounded-full bg-stone-100 text-stone-600 border border-stone-200";
+        $('bmiBar').style.width = '0%';
+        return;
+      }
+
+      const pct = Math.max(0, Math.min(100, (bmi / 40) * 100));
+      $('bmiBar').style.width = pct + '%';
+
+      const cat = bmiCategory(bmi);
+      const label = cat === 'lt23' ? 'BMI < 23' : (cat === 'a23_2749' ? 'BMI 23–27.49' : 'BMI ≥ 27.5');
+      $('bmiBadge').textContent = `${bmi.toFixed(1)} • ${label}`;
+
+      if (cat === 'lt23') $('bmiBadge').className = "text-[10px] font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
+      else if (cat === 'a23_2749') $('bmiBadge').className = "text-[10px] font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200";
+      else $('bmiBadge').className = "text-[10px] font-bold px-3 py-1 rounded-full bg-orange-50 text-orange-800 border border-orange-200";
+    }
+
+    function updateFollowups() {
+      const smk1 = document.querySelector('input[name="smk1"]:checked')?.value;
+      const smokingFollowups = document.querySelector('.hidden') || {};
+      if (!smk1 || smk1 === 'never' || smk1 === 'quit') {
+        document.getElementById('smokingFollowups').classList.add('hidden');
+      } else {
+        document.getElementById('smokingFollowups').classList.remove('hidden');
+      }
+
+      const alc1 = document.querySelector('input[name="alc1"]:checked')?.value;
+      if (!alc1 || alc1 === 'never' || alc1 === 'stopped') {
+        document.getElementById('alcoholFollowups').classList.add('hidden');
+      } else {
+        document.getElementById('alcoholFollowups').classList.remove('hidden');
+      }
+    }
+
+    function renderResults(data) {
+      const {
+        age, sex, bmi, sbp, dbp, fh_dm,
+        tds, bp, lifestyle,
+        smokingScore, alcoholScore, oScore, stScore, depPositive
+      } = data;
+
+      const bmiTxt = formatMaybe(bmi, 1);
+      const tdsPct = formatMaybe(tds.pct, 1);
+
+      const riskBadgeClass = (level) => {
+        switch(level) {
+          case 'low': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+          case 'mid': return 'bg-amber-50 text-amber-800 border-amber-200';
+          case 'high': return 'bg-orange-50 text-orange-800 border-orange-200';
+          case 'vhigh': return 'bg-red-50 text-red-700 border-red-200';
+          default: return 'bg-stone-100 text-stone-600 border-stone-200';
+        }
+      };
+
+      const html = `
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-3">Clinical Measurements</h3>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-charm-cream rounded-lg p-3">
+              <div class="text-[10px] text-charm-gray uppercase font-bold">BMI</div>
+              <div class="text-lg font-bold text-charm-dark mt-1">${bmiTxt}</div>
+              <div class="text-[11px] text-charm-gray mt-1">kg/m²</div>
+            </div>
+            <div class="bg-charm-cream rounded-lg p-3">
+              <div class="text-[10px] text-charm-gray uppercase font-bold">Blood Pressure</div>
+              <div class="text-lg font-bold text-charm-dark mt-1">${sbp}/${dbp}</div>
+              <div class="text-[11px] text-charm-gray mt-1">mmHg</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider">Thai Diabetes Score (12y)</h3>
+              <div class="text-2xl font-bold text-charm-dark mt-2">${tdsPct}%</div>
+            </div>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${riskBadgeClass(tds.level || 'info')}">
+              ${tds.pct >= 20 ? 'Very High' : tds.pct >= 10 ? 'High' : tds.pct >= 5 ? 'Moderate' : 'Low'}
+            </span>
+          </div>
+          <div class="h-2 rounded-full bg-stone-200 overflow-hidden">
+            <div class="h-full bg-charm-blue transition-all" style="width: ${Math.min(100, tds.pct)}%"></div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider">Blood Pressure Category</h3>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${riskBadgeClass(bp.level)}">${bp.label}</span>
+          </div>
+          <p class="text-sm text-charm-dark">${bp.desc}</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-2">Smoking Score</h3>
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-bold text-charm-dark">${smokingScore.score !== null ? smokingScore.score : '—'}</span>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${riskBadgeClass(smokingScore.level)}">${smokingScore.label}</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-2">Alcohol Score</h3>
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-bold text-charm-dark">${alcoholScore.score !== null ? alcoholScore.score : '—'}</span>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${riskBadgeClass(alcoholScore.level)}">${alcoholScore.label}</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-2">Diet Score</h3>
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-bold text-charm-dark">${lifestyle.dScore !== null ? lifestyle.dScore + '/9' : '—'}</span>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${riskBadgeClass(lifestyle.dLevel)}">${lifestyle.dLabel}</span>
+          </div>
+          <p class="text-[11px] text-charm-gray mt-2">(0-3: inadequate, 4-10: partial, ≥11: adequate)</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-2">Oral Health Score</h3>
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-bold text-charm-dark">${oScore !== null ? oScore + '/2' : '—'}</span>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${riskBadgeClass(oScore === 0 ? 'low' : oScore === 1 ? 'mid' : 'high')}">${oScore === 0 ? 'Low Risk' : 'Moderate Risk'}</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-2">Stress Score (ST-5)</h3>
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-bold text-charm-dark">${stScore !== null ? stScore + '/10' : '—'}</span>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${riskBadgeClass(stScore >= 8 ? 'high' : stScore >= 5 ? 'mid' : 'low')}">${stScore >= 8 ? 'High' : stScore >= 5 ? 'Moderate' : 'Low'}</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-2">Depression Screen (2Q)</h3>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-charm-dark">${depPositive ? 'Positive' : 'Negative'}</span>
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full border ${depPositive ? riskBadgeClass('mid') : riskBadgeClass('low')}">${depPositive ? 'Follow-up advised' : 'Negative'}</span>
+          </div>
+        </div>
+      `;
+
+      $('resultsContainer').innerHTML = html;
+    }
+
+    // ============================================
+    // Event Listeners
+    // ============================================
+    document.addEventListener('change', (e) => {
+      if (e.target.matches('input[name="pa1"]') || e.target.matches('input[name="age"]') || e.target.matches('input[name="height"]') || e.target.matches('input[name="weight"]')) {
+        const bmi = calcBMI(safeNum($('weight').value), safeNum($('height').value));
+        setBMIUI(bmi);
+      }
+      if (e.target.matches('input[name="smk1"], input[name="alc1"]')) {
+        updateFollowups();
+      }
+    });
+
+    $('btnToLifestyle').addEventListener('click', () => {
+      const age = safeNum($('age').value);
+      const sex = $('sex').value;
+      if (!Number.isFinite(age) || !sex) {
+        alert('Please fill in Age and Sex first.');
+        return;
+      }
+      openScreen('screenLifestyle');
+    });
+
+    $('btnBackToBasic').addEventListener('click', () => {
+      openScreen('screenBasic');
+    });
+
+    $('btnCompute').addEventListener('click', () => {
+      const inputs = readAllInputs();
+
+      // Validate
+      if (!Number.isFinite(inputs.age) || !inputs.sex || !inputs.fh_dm || !Number.isFinite(inputs.weight) || !Number.isFinite(inputs.height) || !Number.isFinite(inputs.waist) || !Number.isFinite(inputs.sbp) || !Number.isFinite(inputs.dbp)) {
+        alert('Please complete all basic information.');
+        return;
+      }
+
+      // Validate lifestyle
+      if (!inputs.pa || !inputs.sit || !inputs.sleep) {
+        alert('Please answer all lifestyle questions (PA, Sitting, Sleep).');
+        return;
+      }
+
+      // Calculate scores
+      const tds = calcTDS(inputs.age, inputs.sex, inputs.bmi, inputs.waist, inputs.sbp, inputs.dbp, inputs.fh_dm === 'none' ? 'no' : 'yes');
+      const bp = calcBPCategory(inputs.sbp, inputs.dbp);
+      const smokingScore = calculateSmokingScore(inputs.smk1, inputs.smk2, inputs.smk3, inputs.smk4);
+      const alcoholScore = calculateAlcoholScore(inputs.alc1, inputs.alc2, inputs.alc3, inputs.alc4, inputs.alc5, inputs.alc6, inputs.alc7);
+
+      let dLevel = 'low', dLabel = 'Adequate';
+      if (inputs.dScore !== null) {
+        if (inputs.dScore >= 11) { dLevel = 'low'; dLabel = 'Adequate'; }
+        else if (inputs.dScore >= 4) { dLevel = 'mid'; dLabel = 'Possibly adequate'; }
+        else { dLevel = 'high'; dLabel = 'Needs improvement'; }
+      }
+
+      const lifestyle = {
+        dScore: inputs.dScore,
+        dLevel,
+        dLabel
+      };
+
+      const results = {
+        age: inputs.age, sex: inputs.sex, bmi: inputs.bmi, sbp: inputs.sbp, dbp: inputs.dbp, fh_dm: inputs.fh_dm,
+        tds, bp, lifestyle,
+        smokingScore, alcoholScore,
+        oScore: inputs.oScore,
+        stScore: inputs.stScore,
+        depPositive: inputs.depPositive
+      };
+
+      renderResults(results);
+      openScreen('screenResults');
+    });
+
+    $('btnEdit').addEventListener('click', () => {
+      openScreen('screenBasic');
+    });
+
+    $('btnSaveResult').addEventListener('click', () => {
+      alert('Results saved (feature ready for backend integration).');
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      openScreen('screenBasic');
+      setBMIUI(null);
+      updateFollowups();
+    });
+  </script>
+</body>
+</html>

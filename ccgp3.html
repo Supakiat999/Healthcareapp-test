@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Thailand NCD Screening (Demo)</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          colors: {
+            app: {
+              bg:  '#F6F7FB',
+              card:'#FFFFFF',
+              ink: '#0F172A',
+              mut: '#64748B',
+              line:'#E2E8F0',
+              pri: '#2563EB',
+              ok:  '#16A34A',
+              warn:'#F59E0B',
+              bad: '#EF4444',
+              info:'#0EA5E9'
+            }
+          },
+          boxShadow: {
+            soft: '0 10px 30px -12px rgba(2, 6, 23, 0.25)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .hide { display: none !important; }
+    .fade-in { animation: fadeIn 0.18s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
+    input[type="radio"] { accent-color: #2563EB; }
+  </style>
+</head>
+
+<body class="bg-slate-200 min-h-screen flex items-center justify-center font-sans">
+  <!-- Phone frame -->
+  <div class="w-full max-w-md h-[100vh] sm:h-[860px] bg-app-bg shadow-2xl sm:rounded-[2.25rem] overflow-hidden flex flex-col">
+    <!-- Header -->
+    <header class="px-5 pt-6 pb-4 bg-app-card border-b border-app-line flex items-center justify-between">
+      <div>
+        <div class="text-[11px] uppercase tracking-[0.18em] text-app-mut font-semibold">Thailand NCD</div>
+        <h1 class="text-xl font-bold text-app-ink">Screening & Risk Scores</h1>
+      </div>
+      <button onclick="openView('viewSettings')" class="w-10 h-10 rounded-xl bg-app-bg border border-app-line flex items-center justify-center text-app-mut">
+        <span class="text-lg">⚙️</span>
+      </button>
+    </header>
+
+    <!-- Content -->
+    <main class="flex-1 overflow-y-auto no-scrollbar px-5 py-5 pb-28">
+      <!-- View: Step 1 -->
+      <section id="viewBasic" class="fade-in">
+        <div class="bg-app-card border border-app-line rounded-2xl p-4 shadow-soft">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="font-semibold text-app-ink">Step 1 — Health data</h2>
+              <p class="text-xs text-app-mut mt-1">Used for BP status, Thai Diabetes Score (TDS), and Thai ASCVD Score.</p>
+            </div>
+            <span class="text-[10px] px-2 py-1 rounded-full bg-app-bg border border-app-line text-app-mut font-semibold">A</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 mt-4">
+            <div>
+              <label class="text-[11px] font-semibold text-app-mut">Sex</label>
+              <select id="sex" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm">
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-app-mut">Age (years)</label>
+              <input id="age" type="number" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" placeholder="e.g., 21" />
+            </div>
+
+            <div>
+              <label class="text-[11px] font-semibold text-app-mut">Weight (kg)</label>
+              <input id="weight" type="number" step="0.1" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" placeholder="e.g., 68" />
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-app-mut">Height (cm)</label>
+              <input id="height" type="number" step="0.1" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" placeholder="e.g., 172" />
+            </div>
+
+            <div class="col-span-2">
+              <label class="text-[11px] font-semibold text-app-mut">Waist circumference (cm)</label>
+              <input id="waist" type="number" step="0.1" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" placeholder="e.g., 82" />
+              <p class="text-[10px] text-app-mut mt-1">Used for ASCVD and TDS (male cutoff 90 cm; female cutoff 80 cm).</p>
+            </div>
+
+            <div>
+              <label class="text-[11px] font-semibold text-app-mut">Systolic BP (mmHg)</label>
+              <input id="sbp" type="number" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" placeholder="e.g., 118" />
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-app-mut">Diastolic BP (mmHg)</label>
+              <input id="dbp" type="number" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" placeholder="e.g., 78" />
+            </div>
+
+            <div class="col-span-2">
+              <label class="text-[11px] font-semibold text-app-mut">Total cholesterol (mg/dL)</label>
+              <input id="tc" type="number" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" placeholder="e.g., 190" />
+              <p class="text-[10px] text-app-mut mt-1">ASCVD model in your PDF uses total cholesterol + waist + SBP.</p>
+            </div>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <label class="flex items-center gap-2 text-sm">
+              <input id="hasDiabetes" type="checkbox" class="w-4 h-4" />
+              <span class="text-app-ink">Known diabetes</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm">
+              <input id="smokerNow" type="checkbox" class="w-4 h-4" />
+              <span class="text-app-ink">Current smoker</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm">
+              <input id="hasHTN" type="checkbox" class="w-4 h-4" />
+              <span class="text-app-ink">HTN (≥140/90 or meds)</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm">
+              <input id="fhxDM" type="checkbox" class="w-4 h-4" />
+              <span class="text-app-ink">Parent has diabetes</span>
+            </label>
+          </div>
+
+          <div class="mt-5 flex gap-3">
+            <button onclick="openView('viewBehavior')" class="flex-1 rounded-xl bg-app-pri text-white py-3 font-semibold">
+              Next: Behavior survey →
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4 bg-app-card border border-app-line rounded-2xl p-4">
+          <h3 class="font-semibold text-app-ink">What’s inside (implemented)</h3>
+          <ul class="mt-2 text-sm text-app-mut list-disc pl-5 space-y-1">
+            <li>BP status (Thai guideline categories)</li>
+            <li>Thai ASCVD Score (male/female equations from your PDF)</li>
+            <li>Thai Diabetes Score (TDS) logistic equation (from your PDF’s Table 10 coefficients)</li>
+            <li>Behavior survey implemented: 32 / 43 items (≥50%)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- View: Step 2 -->
+      <section id="viewBehavior" class="hide fade-in">
+        <div class="bg-app-card border border-app-line rounded-2xl p-4 shadow-soft">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="font-semibold text-app-ink">Step 2 — Behavior survey</h2>
+              <p class="text-xs text-app-mut mt-1">Scores follow the tables in your PDF (smoking, alcohol, activity, diet, oral health, stress, 2Q).</p>
+            </div>
+            <span class="text-[10px] px-2 py-1 rounded-full bg-app-bg border border-app-line text-app-mut font-semibold">B</span>
+          </div>
+
+          <!-- Accordion cards -->
+          <div class="mt-4 space-y-3">
+
+            <!-- Smoking -->
+            <details class="bg-app-bg border border-app-line rounded-xl p-3" open>
+              <summary class="cursor-pointer font-semibold text-app-ink">1) Smoking (4 items)</summary>
+              <div class="mt-3 space-y-3">
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">S1. Current tobacco use</div>
+                  <div class="mt-2 space-y-2 text-sm text-app-ink">
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="never"> Never</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="quit"> Used to smoke but quit</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="sometimes"> Sometimes</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="daily"> Every day</label>
+                  </div>
+                </div>
+
+                <div id="smokingFollowups" class="space-y-3">
+                  <div class="q">
+                    <div class="text-sm font-medium text-app-ink">S2. Cigarettes per day (if smoking)</div>
+                    <div class="mt-2 space-y-2 text-sm text-app-ink">
+                      <label class="flex items-center gap-2"><input type="radio" name="smk2" value="0"> Not smoking</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk2" value="1"> 1–9</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk2" value="2"> 10–19</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk2" value="3"> ≥20</label>
+                    </div>
+                  </div>
+
+                  <div class="q">
+                    <div class="text-sm font-medium text-app-ink">S3. Time to first cigarette after waking</div>
+                    <div class="mt-2 space-y-2 text-sm text-app-ink">
+                      <label class="flex items-center gap-2"><input type="radio" name="smk3" value="0"> &gt;60 minutes</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk3" value="1"> 31–60 minutes</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk3" value="2"> 6–30 minutes</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk3" value="3"> ≤5 minutes</label>
+                    </div>
+                  </div>
+
+                  <div class="q">
+                    <div class="text-sm font-medium text-app-ink">S4. Hard to refrain in no-smoking areas?</div>
+                    <div class="mt-2 space-y-2 text-sm text-app-ink">
+                      <label class="flex items-center gap-2"><input type="radio" name="smk4" value="0"> No</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="smk4" value="1"> Yes</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Alcohol -->
+            <details class="bg-app-bg border border-app-line rounded-xl p-3">
+              <summary class="cursor-pointer font-semibold text-app-ink">2) Alcohol (7 items)</summary>
+              <div class="mt-3 space-y-3">
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">A1. In the past 3 months, did you drink alcohol?</div>
+                  <div class="mt-2 space-y-2 text-sm text-app-ink">
+                    <label class="flex items-center gap-2"><input type="radio" name="alc1" value="never"> Never</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="alc1" value="stopped"> Stopped &gt;1 year</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="alc1" value="yes"> Yes (in last 3 months)</label>
+                  </div>
+                </div>
+
+                <div id="alcoholFollowups" class="space-y-3">
+                  <div class="q">
+                    <div class="text-sm font-medium text-app-ink">A2. How often do you drink?</div>
+                    <div class="mt-2 space-y-2 text-sm text-app-ink">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="2"> 1–2 times</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="3"> 1–2 times / month</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="4"> 1–2 times / week</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc2" value="6"> Daily or almost daily</label>
+                    </div>
+                  </div>
+
+                  <div class="q">
+                    <div class="text-sm font-medium text-app-ink">A3. On a typical drinking day, how many drinks?</div>
+                    <div class="mt-2 space-y-2 text-sm text-app-ink">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="0"> 1–2</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="1"> 3–4</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="2"> 5–6</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="3"> 7–9</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc3" value="4"> ≥10</label>
+                    </div>
+                  </div>
+
+                  <div class="q">
+                    <div class="text-sm font-medium text-app-ink">A4. Past year: 6+ drinks on one occasion?</div>
+                    <div class="mt-2 space-y-2 text-sm text-app-ink">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="1"> Less than monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="2"> Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="3"> Weekly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc4" value="4"> Daily/almost daily</label>
+                    </div>
+                  </div>
+
+                  <div class="q">
+                    <div class="text-sm font-medium text-app-ink">A5. Past year: couldn’t stop once started?</div>
+                    <div class="mt-2 space-y-2 text-sm text-app-ink">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="1"> Less than monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="2"> Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="3"> Weekly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc5" value="4"> Daily/almost daily</label>
+                    </div>
+                  </div>
+
+                  <div class="q">
+                    <div class="text-sm font-medium text-app-ink">A6. Past year: failed responsibilities because of drinking?</div>
+                    <div class="mt-2 space-y-2 text-sm text-app-ink">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="1"> Less than monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="2"> Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="3"> Weekly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc6" value="4"> Daily/almost daily</label>
+                    </div>
+                  </div>
+
+                  <div class="q">
+                    <div class="text-sm font-medium text-app-ink">A7. Past year: blackout / couldn’t remember?</div>
+                    <div class="mt-2 space-y-2 text-sm text-app-ink">
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="0"> Never</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="1"> Less than monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="2"> Monthly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="3"> Weekly</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="alc7" value="4"> Daily/almost daily</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Activity / Sedentary / Sleep -->
+            <details class="bg-app-bg border border-app-line rounded-xl p-3">
+              <summary class="cursor-pointer font-semibold text-app-ink">3) Activity, sitting, sleep (3 items)</summary>
+              <div class="mt-3 space-y-3">
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">PA1. Weekly moderate+ activity (≥10 min each time)</div>
+                  <div class="mt-2 space-y-2 text-sm text-app-ink">
+                    <label class="flex items-center gap-2"><input type="radio" name="pa1" value="3"> ≥150 min moderate OR ≥75 min vigorous (or equivalent)</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="pa1" value="2"> Some activity (but not enough)</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="pa1" value="1"> None</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">PA2. Sitting time per day</div>
+                  <div class="mt-2 space-y-2 text-sm text-app-ink">
+                    <label class="flex items-center gap-2"><input type="radio" name="sit1" value="3"> &lt;4 hours/day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="sit1" value="2"> 4–8 hours/day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="sit1" value="1"> &gt;8 hours/day</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">PA3. Sleep per day</div>
+                  <div class="mt-2 space-y-2 text-sm text-app-ink">
+                    <label class="flex items-center gap-2"><input type="radio" name="sleep1" value="3"> 7–9 hours/day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="sleep1" value="2"> 5–6 hours/day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="sleep1" value="1"> ≤4 hours/day</label>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Diet -->
+            <details class="bg-app-bg border border-app-line rounded-xl p-3">
+              <summary class="cursor-pointer font-semibold text-app-ink">4) Diet (9 items)</summary>
+              <div class="mt-3 space-y-4">
+                <div class="text-xs text-app-mut">Scoring uses your PDF Table 23 (vegetable/fruit good; sweet/fat/salty worse).</div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D1. Vegetables (days/week)</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="d1" value="0"> 0 day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d1" value="1"> 1–2 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d1" value="2"> 3–4 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d1" value="3"> ≥5 days</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D2. Fruits (days/week)</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="d2" value="0"> 0 day</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d2" value="1"> 1–2 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d2" value="2"> 3–4 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d2" value="3"> ≥5 days</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D3. Sweet drinks (days/week)</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="d3" value="3"> ≥5 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d3" value="2"> 3–4 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d3" value="1"> 1–2 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d3" value="0"> 0 day</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D4. Sweet snacks (days/week)</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="d4" value="3"> ≥5 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d4" value="2"> 3–4 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d4" value="1"> 1–2 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d4" value="0"> 0 day</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D5. Fried/high-fat foods (days/week)</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="d5" value="3"> ≥5 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d5" value="2"> 3–4 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d5" value="1"> 1–2 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d5" value="0"> 0 day</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D6. Salty seasoning (fish sauce/soy sauce/MSG) (days/week)</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="d6" value="3"> ≥5 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d6" value="2"> 3–4 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d6" value="1"> 1–2 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d6" value="0"> 0 day</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D7. Soup/broth intake per day</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="d7" value="2"> &gt;3 tablespoons (many bowls)</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d7" value="1"> 2–3 tablespoons</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d7" value="0"> ≤1 tablespoon</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D8. Fast food / restaurant ready meals (days/week)</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="d8" value="2"> ≥3 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d8" value="1"> 1–2 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d8" value="0"> 0 day</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D9. Instant noodles (days/week)</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="d9" value="2"> ≥3 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d9" value="1"> 1–2 days</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="d9" value="0"> 0 day</label>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Oral Health -->
+            <details class="bg-app-bg border border-app-line rounded-xl p-3">
+              <summary class="cursor-pointer font-semibold text-app-ink">5) Oral health (2 items)</summary>
+              <div class="mt-3 space-y-3">
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">O1. Brush teeth before bed every day?</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="o1" value="0"> Yes</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="o1" value="1"> No</label>
+                  </div>
+                </div>
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">O2. Use dental floss?</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="o2" value="0"> Yes</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="o2" value="1"> No</label>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Stress -->
+            <details class="bg-app-bg border border-app-line rounded-xl p-3">
+              <summary class="cursor-pointer font-semibold text-app-ink">6) Stress ST-5 (5 items)</summary>
+              <div class="mt-3 space-y-4">
+                <div class="text-xs text-app-mut">0=Almost never, 1=Sometimes, 2=Often, 3=Very often</div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">ST1. Trouble sleeping because of worries</div>
+                  <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="st1" value="0"> 0</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st1" value="1"> 1</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st1" value="2"> 2</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st1" value="3"> 3</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">ST2. Feeling bored / no desire to do things</div>
+                  <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="st2" value="0"> 0</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st2" value="1"> 1</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st2" value="2"> 2</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st2" value="3"> 3</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">ST3. Feeling angry / irritated</div>
+                  <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="st3" value="0"> 0</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st3" value="1"> 1</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st3" value="2"> 2</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st3" value="3"> 3</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">ST4. Feeling frustrated / stressed</div>
+                  <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="st4" value="0"> 0</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st4" value="1"> 1</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st4" value="2"> 2</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st4" value="3"> 3</label>
+                  </div>
+                </div>
+
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">ST5. Not wanting to meet people</div>
+                  <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="st5" value="0"> 0</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st5" value="1"> 1</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st5" value="2"> 2</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="st5" value="3"> 3</label>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Depression 2Q -->
+            <details class="bg-app-bg border border-app-line rounded-xl p-3">
+              <summary class="cursor-pointer font-semibold text-app-ink">7) Depression screening 2Q (2 items)</summary>
+              <div class="mt-3 space-y-3">
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D2Q1. Past 2 weeks: felt down/depressed/hopeless?</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="dq1" value="no"> No</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="dq1" value="yes"> Yes</label>
+                  </div>
+                </div>
+                <div class="q">
+                  <div class="text-sm font-medium text-app-ink">D2Q2. Past 2 weeks: little interest/pleasure?</div>
+                  <div class="mt-2 space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="dq2" value="no"> No</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="dq2" value="yes"> Yes</label>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+          </div>
+
+          <div class="mt-5 flex gap-3">
+            <button onclick="openView('viewBasic')" class="flex-1 rounded-xl border border-app-line bg-white text-app-ink py-3 font-semibold">
+              ← Back
+            </button>
+            <button onclick="computeAndShowResults()" class="flex-1 rounded-xl bg-app-pri text-white py-3 font-semibold">
+              See results →
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4 bg-app-card border border-app-line rounded-2xl p-4">
+          <h3 class="font-semibold text-app-ink">Note</h3>
+          <p class="text-sm text-app-mut mt-2">
+            This is a demo UI for your project/hackathon. It’s not medical diagnosis. Use it to guide prevention conversations.
+          </p>
+        </div>
+      </section>
+
+      <!-- View: Results -->
+      <section id="viewResults" class="hide fade-in">
+        <div class="bg-app-card border border-app-line rounded-2xl p-4 shadow-soft">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="font-semibold text-app-ink">Results</h2>
+              <p class="text-xs text-app-mut mt-1" id="resultStamp">—</p>
+            </div>
+            <button onclick="saveToHistory()" class="px-3 py-2 rounded-xl bg-app-ink text-white text-sm font-semibold">Save</button>
+          </div>
+
+          <div id="resultsGrid" class="mt-4 space-y-3"></div>
+
+          <div class="mt-5 flex gap-3">
+            <button onclick="openView('viewBehavior')" class="flex-1 rounded-xl border border-app-line bg-white text-app-ink py-3 font-semibold">
+              ← Edit answers
+            </button>
+            <button onclick="openView('viewHistory')" class="flex-1 rounded-xl bg-app-pri text-white py-3 font-semibold">
+              History →
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4 bg-app-card border border-app-line rounded-2xl p-4">
+          <h3 class="font-semibold text-app-ink">Quick next steps</h3>
+          <ul class="mt-2 text-sm text-app-mut list-disc pl-5 space-y-1">
+            <li>Pick 1–2 habits to improve for 14 days (sleep, sweet drinks, sitting time, activity).</li>
+            <li>If any risk is high, talk with a clinician for confirmatory checks (BP, labs).</li>
+            <li>If mood/stress screening is positive, talk to a trusted adult or health professional.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- View: History -->
+      <section id="viewHistory" class="hide fade-in">
+        <div class="bg-app-card border border-app-line rounded-2xl p-4 shadow-soft">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="font-semibold text-app-ink">History</h2>
+              <p class="text-xs text-app-mut mt-1">Saved locally in this browser (localStorage).</p>
+            </div>
+            <button onclick="clearHistory()" class="px-3 py-2 rounded-xl border border-app-line bg-white text-app-ink text-sm font-semibold">Clear</button>
+          </div>
+
+          <div id="historyList" class="mt-4 space-y-3"></div>
+
+          <div class="mt-5 flex gap-3">
+            <button onclick="openView('viewResults')" class="flex-1 rounded-xl border border-app-line bg-white text-app-ink py-3 font-semibold">
+              ← Back
+            </button>
+            <button onclick="openView('viewBasic')" class="flex-1 rounded-xl bg-app-pri text-white py-3 font-semibold">
+              New screening →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- View: Settings -->
+      <section id="viewSettings" class="hide fade-in">
+        <div class="bg-app-card border border-app-line rounded-2xl p-4 shadow-soft">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="font-semibold text-app-ink">Settings</h2>
+              <p class="text-xs text-app-mut mt-1">Optional tweaks without changing core scoring.</p>
+            </div>
+            <button onclick="openView('viewBasic')" class="w-10 h-10 rounded-xl bg-app-bg border border-app-line flex items-center justify-center text-app-mut">✕</button>
+          </div>
+
+          <div class="mt-4 space-y-4">
+            <div class="bg-app-bg border border-app-line rounded-xl p-3">
+              <div class="text-sm font-semibold text-app-ink">Diabetes risk category thresholds</div>
+              <p class="text-xs text-app-mut mt-1">Your PDF shows age-specific cutoffs; OCR was unclear, so defaults are editable.</p>
+
+              <div class="grid grid-cols-3 gap-2 mt-3">
+                <div>
+                  <label class="text-[11px] font-semibold text-app-mut">Low &lt; (%)</label>
+                  <input id="tdsLow" type="number" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" value="10" />
+                </div>
+                <div>
+                  <label class="text-[11px] font-semibold text-app-mut">Moderate &lt; (%)</label>
+                  <input id="tdsMod" type="number" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" value="20" />
+                </div>
+                <div>
+                  <label class="text-[11px] font-semibold text-app-mut">High ≥ (%)</label>
+                  <input id="tdsHigh" type="number" class="mt-1 w-full rounded-xl border border-app-line bg-white px-3 py-2 text-sm" value="20" disabled />
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-app-bg border border-app-line rounded-xl p-3">
+              <div class="text-sm font-semibold text-app-ink">Theme</div>
+              <p class="text-xs text-app-mut mt-1">If you still want the Charmjai palette later, I can add a theme toggle.</p>
+            </div>
+          </div>
+
+          <div class="mt-5">
+            <button onclick="saveSettings()" class="w-full rounded-xl bg-app-pri text-white py-3 font-semibold">Save settings</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom nav -->
+    <nav class="h-24 bg-app-card border-t border-app-line px-4 pt-3 pb-6 flex items-start justify-around">
+      <button onclick="openView('viewBasic')" id="navBasic" class="flex flex-col items-center text-app-pri">
+        <div class="text-xl">🧾</div><div class="text-[11px] font-semibold mt-1">Data</div>
+      </button>
+      <button onclick="openView('viewBehavior')" id="navBehavior" class="flex flex-col items-center text-app-mut">
+        <div class="text-xl">🧠</div><div class="text-[11px] font-semibold mt-1">Survey</div>
+      </button>
+      <button onclick="openView('viewResults')" id="navResults" class="flex flex-col items-center text-app-mut">
+        <div class="text-xl">📊</div><div class="text-[11px] font-semibold mt-1">Results</div>
+      </button>
+      <button onclick="openView('viewHistory')" id="navHistory" class="flex flex-col items-center text-app-mut">
+        <div class="text-xl">🕘</div><div class="text-[11px] font-semibold mt-1">History</div>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    // -------------------------
+    // Views
+    // -------------------------
+    const VIEWS = ['viewBasic','viewBehavior','viewResults','viewHistory','viewSettings'];
+    const NAV = {
+      viewBasic: 'navBasic',
+      viewBehavior: 'navBehavior',
+      viewResults: 'navResults',
+      viewHistory: 'navHistory'
+    };
+
+    function openView(id) {
+      VIEWS.forEach(v => document.getElementById(v).classList.add('hide'));
+      document.getElementById(id).classList.remove('hide');
+      document.getElementById(id).classList.add('fade-in');
+
+      Object.values(NAV).forEach(nid => {
+        const el = document.getElementById(nid);
+        if(!el) return;
+        el.classList.remove('text-app-pri');
+        el.classList.add('text-app-mut');
+      });
+      if (NAV[id]) {
+        const el = document.getElementById(NAV[id]);
+        el.classList.add('text-app-pri');
+        el.classList.remove('text-app-mut');
+      }
+
+      if (id === 'viewHistory') renderHistory();
+    }
+
+    // -------------------------
+    // Helpers
+    // -------------------------
+    function num(id) {
+      const v = document.getElementById(id).value;
+      const x = Number(v);
+      return Number.isFinite(x) ? x : NaN;
+    }
+    function checked(id) { return document.getElementById(id).checked; }
+    function radioVal(name) {
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+    function sumRadio(names) {
+      let s = 0;
+      for (const n of names) {
+        const v = radioVal(n);
+        if (v === null) return null; // incomplete
+        s += Number(v);
+      }
+      return s;
+    }
+
+    function riskBadge(level, extra='') {
+      const map = {
+        ok:   { bg:'bg-green-100', text:'text-green-800', label:'Low' },
+        mid:  { bg:'bg-amber-100', text:'text-amber-900', label:'Moderate' },
+        high: { bg:'bg-red-100', text:'text-red-800', label:'High' },
+        info: { bg:'bg-sky-100', text:'text-sky-900', label:'Info' }
+      };
+      const m = map[level] || map.info;
+      const label = extra ? `${m.label} • ${extra}` : m.label;
+      return `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold ${m.bg} ${m.text}">${label}</span>`;
+    }
+
+    function card(title, badgeHtml, bodyHtml) {
+      return `
+        <div class="bg-app-bg border border-app-line rounded-xl p-3">
+          <div class="flex items-start justify-between gap-3">
+            <div class="font-semibold text-app-ink">${title}</div>
+            <div>${badgeHtml}</div>
+          </div>
+          <div class="mt-2 text-sm text-app-mut leading-relaxed">${bodyHtml}</div>
+        </div>
+      `;
+    }
+
+    // -------------------------
+    // Clinical computations
+    // -------------------------
+    function bmiFromKgCm(kg, cm) {
+      const m = cm/100;
+      if (!Number.isFinite(kg) || !Number.isFinite(cm) || m <= 0) return NaN;
+      return kg/(m*m);
+    }
+
+    function bpCategory(sbp, dbp) {
+      if (!Number.isFinite(sbp) || !Number.isFinite(dbp)) return { level:'info', label:'Incomplete', detail:'Enter SBP and DBP.' };
+
+      if (sbp >= 180 || dbp >= 120) return { level:'high', label:'Hypertensive crisis', detail:'Very high BP. Seek urgent clinical evaluation.' };
+      if (sbp >= 140 || dbp >= 90)  return { level:'high', label:'Hypertension (Stage 2)', detail:'Lifestyle + clinician follow-up recommended.' };
+      if ((sbp >= 130 && sbp <= 139) || (dbp >= 80 && dbp <= 89)) return { level:'mid', label:'Hypertension (Stage 1)', detail:'Lifestyle changes and recheck.' };
+      if (sbp >= 120 && sbp <= 129 && dbp < 80) return { level:'mid', label:'Elevated BP', detail:'Monitor and reduce salt/weight, move more.' };
+      if (sbp < 120 && dbp < 80) return { level:'ok', label:'Normal', detail:'Maintain healthy habits.' };
+
+      return { level:'info', label:'Unclassified', detail:'Check your inputs.' };
+    }
+
+    // Thai ASCVD score (from your PDF male/female equations).
+    function thaiASCVD({sex, age, sbp, tc, waist, diabetes, smoker}) {
+      if (![age, sbp, tc, waist].every(Number.isFinite) || age <= 0 || sbp <= 0 || tc <= 0 || waist <= 0) {
+        return { pct: NaN, level:'info', label:'Incomplete', detail:'Need age, SBP, total cholesterol, waist.' };
+      }
+      const ln = Math.log;
+      const lnAge = ln(age), lnSBP = ln(sbp), lnTC = ln(tc), lnWC = ln(waist);
+      const d = diabetes ? 1 : 0;
+      const s = smoker ? 1 : 0;
+
+      let full;
+      if (sex === 'male') {
+        full = (lnAge*2.593106) + (lnSBP*1.312453) + (lnTC*0.5109276) + (lnWC*0.6180767)
+             + (d*0.7081683) + (s*0.3738756)
+             + ((lnAge*d)*(-0.432262)) + ((lnAge*lnSBP)*(-0.3499452)) + ((lnAge*lnWC)*(-0.1056064));
+      } else {
+        full = (lnAge*4.086241) + (lnSBP*3.577486) + (lnTC*0.6115891) + (lnWC*2.449892)
+             + (d*0.4873498) + (s*0.8632259)
+             + ((lnAge*d)*(-0.5023704)) + ((lnAge*lnSBP)*(-0.9503686)) + ((lnAge*lnWC)*(-0.838326));
+      }
+
+      const pct = (1 - Math.pow(0.978296, Math.exp(full - 7.720484))) * 100;
+
+      let level='ok', label='Low';
+      if (pct >= 20) { level='high'; label='High'; }
+      else if (pct >= 10) { level='mid'; label='Moderate'; }
+
+      return { pct, level, label, detail:`Estimated 10-year ASCVD risk ≈ ${pct.toFixed(1)}%.` };
+    }
+
+    // Thai Diabetes Score (TDS) logistic equation (from your PDF Table 10).
+    function thaiDiabetesScore({sex, age, bmi, waist, htn, fhxDM}) {
+      if (![age, bmi, waist].every(Number.isFinite) || age <= 0 || bmi <= 0 || waist <= 0) {
+        return { pct: NaN, level:'info', label:'Incomplete', detail:'Need age, BMI, waist.' };
+      }
+
+      let cAge = 0;
+      if (age < 45) cAge = -0.0702134;
+      else if (age <= 59) cAge = 0.2718858;
+      else cAge = 0.6043599;
+
+      const cSex = (sex === 'male') ? (2 * 0.4422573) : 0;
+
+      let cBMI = 0;
+      if (bmi >= 27.5) cBMI = 1.235097;
+      else if (bmi >= 23) cBMI = 0.6958621;
+
+      const cutoff = (sex === 'male') ? 90 : 80;
+      const cWC = (waist >= cutoff) ? 0.5567118 : 0;
+
+      const cHTN = htn ? 0.6409517 : 0;
+      const cFHX = fhxDM ? 1.081356 : 0;
+
+      const fast = (cAge + cSex + cBMI + cWC + cHTN + cFHX) + (-3.580397);
+      const expv = Math.exp(fast);
+      const p = expv/(1+expv);
+      const pct = p*100;
+
+      const lowCut = Number(document.getElementById('tdsLow')?.value ?? 10);
+      const modCut = Number(document.getElementById('tdsMod')?.value ?? 20);
+
+      let level='ok', label='Low';
+      if (pct >= modCut) { level='high'; label='High'; }
+      else if (pct >= lowCut) { level='mid'; label='Moderate'; }
+
+      return { pct, level, label, detail:`Estimated 12-year diabetes risk ≈ ${pct.toFixed(1)}%.` };
+    }
+
+    // -------------------------
+    // Behavior scoring (from your PDF)
+    // -------------------------
+    function scoreSmoking() {
+      const smk1 = radioVal('smk1');
+      if (!smk1) return { level:'info', label:'Incomplete', score:null, detail:'Answer S1.' };
+
+      const s1 = (smk1 === 'sometimes') ? 1 : (smk1 === 'daily') ? 2 : 0;
+
+      if (smk1 === 'never' || smk1 === 'quit') {
+        return { level:'ok', label:'Low', score:0, detail:'No current tobacco use score (0).' };
+      }
+
+      const s2 = radioVal('smk2'); const s3 = radioVal('smk3'); const s4 = radioVal('smk4');
+      if ([s2,s3,s4].some(v => v === null)) return { level:'info', label:'Incomplete', score:null, detail:'Answer S2–S4.' };
+
+      const total = s1 + Number(s2) + Number(s3) + Number(s4);
+
+      let level='mid', label='Moderate';
+      if (total === 0) { level='ok'; label='Low'; }
+      else if (total >= 5) { level='high'; label='High'; }
+
+      return { level, label, score: total, detail:`Smoking score = ${total} (0=low, 1–4=moderate, 5–8=high).` };
+    }
+
+    function scoreAlcohol() {
+      const a1 = radioVal('alc1');
+      if (!a1) return { level:'info', label:'Incomplete', score:null, detail:'Answer A1.' };
+
+      if (a1 === 'never') return { level:'ok', label:'Low', score:0, detail:'No drinking in past 3 months.' };
+      if (a1 === 'stopped') return { level:'ok', label:'Low', score:0, detail:'Stopped drinking (>1 year).' };
+
+      const total = sumRadio(['alc2','alc3','alc4','alc5','alc6','alc7']);
+      if (total === null) return { level:'info', label:'Incomplete', score:null, detail:'Answer A2–A7.' };
+
+      let level='ok', label='Low';
+      if (total >= 27) { level='high'; label='High'; }
+      else if (total >= 11) { level='mid'; label='Moderate'; }
+
+      return { level, label, score: total, detail:`Alcohol score = ${total} (0–10 low, 11–26 moderate, ≥27 high).` };
+    }
+
+    function scoreActivity() {
+      const pa = radioVal('pa1');
+      if (!pa) return { level:'info', label:'Incomplete', score:null, detail:'Answer PA1.' };
+      const v = Number(pa);
+      const level = (v === 3) ? 'ok' : (v === 2) ? 'mid' : 'high';
+      const label = (v === 3) ? 'Adequate' : (v === 2) ? 'Some, not enough' : 'Insufficient';
+      return { level, label, score: v, detail:`Physical activity score = ${v} (3 adequate, 2 some, 1 none).` };
+    }
+
+    function scoreSitting() {
+      const s = radioVal('sit1');
+      if (!s) return { level:'info', label:'Incomplete', score:null, detail:'Answer PA2.' };
+      const v = Number(s);
+      const level = (v === 3) ? 'ok' : (v === 2) ? 'mid' : 'high';
+      const label = (v === 3) ? 'Low risk' : (v === 2) ? 'Moderate risk' : 'High risk';
+      return { level, label, score: v, detail:`Sitting score = ${v} (3 <4h, 2 4–8h, 1 >8h).` };
+    }
+
+    function scoreSleep() {
+      const s = radioVal('sleep1');
+      if (!s) return { level:'info', label:'Incomplete', score:null, detail:'Answer PA3.' };
+      const v = Number(s);
+      const level = (v === 3) ? 'ok' : (v === 2) ? 'mid' : 'high';
+      const label = (v === 3) ? 'Adequate' : (v === 2) ? 'Short sleep' : 'Very short sleep';
+      return { level, label, score: v, detail:`Sleep score = ${v} (3=7–9h, 2=5–6h, 1≤4h).` };
+    }
+
+    function scoreDiet() {
+      const names = ['d1','d2','d3','d4','d5','d6','d7','d8','d9'];
+      const total = sumRadio(names);
+      if (total === null) return { level:'info', label:'Incomplete', score:null, detail:'Answer D1–D9.' };
+
+      let level='high', label='Needs improvement';
+      if (total >= 11) { level='ok'; label='Adequate'; }
+      else if (total >= 4) { level='mid'; label='Partially adequate'; }
+
+      return { level, label, score: total, detail:`Diet score = ${total} (0–3 inadequate, 4–10 partial, ≥11 adequate).` };
+    }
+
+    function scoreOral() {
+      const total = sumRadio(['o1','o2']);
+      if (total === null) return { level:'info', label:'Incomplete', score:null, detail:'Answer O1–O2.' };
+
+      let level='ok', label='Low risk';
+      if (total >= 1) { level='mid'; label='Moderate risk'; }
+
+      return { level, label, score: total, detail:`Oral health risk score = ${total} (0 low, 1–2 moderate).` };
+    }
+
+    function scoreStress() {
+      const total = sumRadio(['st1','st2','st3','st4','st5']);
+      if (total === null) return { level:'info', label:'Incomplete', score:null, detail:'Answer ST1–ST5.' };
+
+      let level='ok', label='Low';
+      if (total >= 10) { level='high'; label='Severe'; }
+      else if (total >= 8) { level='high'; label='High'; }
+      else if (total >= 5) { level='mid'; label='Moderate'; }
+
+      const note = (level === 'high')
+        ? 'Consider speaking with a health professional or counselor for support.'
+        : (level === 'mid')
+        ? 'Try stress-reduction habits (sleep, activity, social support).'
+        : 'Keep healthy routines and check-in regularly.';
+
+      return { level, label, score: total, detail:`ST-5 score = ${total}. ${note}` };
+    }
+
+    function scoreDepression2Q() {
+      const q1 = radioVal('dq1'); const q2 = radioVal('dq2');
+      if (!q1 || !q2) return { level:'info', label:'Incomplete', score:null, detail:'Answer 2Q1 and 2Q2.' };
+
+      const positive = (q1 === 'yes' || q2 === 'yes');
+      if (!positive) return { level:'ok', label:'Negative screen', score:0, detail:'Both answers = No.' };
+
+      return { level:'mid', label:'Positive screen', score:1, detail:'At least one answer = Yes. Consider talking with a trusted adult/clinician for follow-up.' };
+    }
+
+    // -------------------------
+    // UI logic: show/hide followups
+    // -------------------------
+    function updateFollowups() {
+      const smk1 = radioVal('smk1');
+      const smkBox = document.getElementById('smokingFollowups');
+      if (!smk1 || smk1 === 'never' || smk1 === 'quit') smkBox.classList.add('hide');
+      else smkBox.classList.remove('hide');
+
+      const a1 = radioVal('alc1');
+      const alcBox = document.getElementById('alcoholFollowups');
+      if (!a1 || a1 === 'never' || a1 === 'stopped') alcBox.classList.add('hide');
+      else alcBox.classList.remove('hide');
+    }
+
+    document.addEventListener('change', (e) => {
+      if (e.target && e.target.matches('input[type="radio"]')) updateFollowups();
+    });
+
+    // -------------------------
+    // Results render + history
+    // -------------------------
+    let lastComputed = null;
+
+    function computeAndShowResults() {
+      const sex = document.getElementById('sex').value;
+      const age = num('age');
+      const weight = num('weight');
+      const height = num('height');
+      const waist = num('waist');
+      const sbp = num('sbp');
+      const dbp = num('dbp');
+      const tc = num('tc');
+
+      const bmi = bmiFromKgCm(weight, height);
+
+      const diabetes = checked('hasDiabetes');
+      const smoker = checked('smokerNow');
+      const htn = checked('hasHTN');
+      const fhxDM = checked('fhxDM');
+
+      const bp = bpCategory(sbp, dbp);
+      const ascvd = thaiASCVD({sex, age, sbp, tc, waist, diabetes, smoker});
+      const tds = thaiDiabetesScore({sex, age, bmi, waist, htn, fhxDM});
+
+      const smk = scoreSmoking();
+      const alc = scoreAlcohol();
+      const act = scoreActivity();
+      const sit = scoreSitting();
+      const slp = scoreSleep();
+      const diet = scoreDiet();
+      const oral = scoreOral();
+      const st = scoreStress();
+      const dep = scoreDepression2Q();
+
+      const stamp = new Date();
+      lastComputed = {
+        stamp: stamp.toISOString(),
+        inputs: {sex, age, weight, height, waist, sbp, dbp, tc, bmi, diabetes, smoker, htn, fhxDM},
+        results: {bp, ascvd, tds, smk, alc, act, sit, slp, diet, oral, st, dep}
+      };
+
+      document.getElementById('resultStamp').innerText = stamp.toLocaleString();
+      renderResults(lastComputed);
+
+      openView('viewResults');
+    }
+
+    function renderResults(payload) {
+      const { inputs, results } = payload;
+      const grid = document.getElementById('resultsGrid');
+      grid.innerHTML = "";
+
+      const bmiText = Number.isFinite(inputs.bmi) ? inputs.bmi.toFixed(1) : '—';
+      grid.innerHTML += card(
+        'BMI',
+        riskBadge('info', bmiText),
+        `BMI = <b>${bmiText}</b> kg/m² (from weight/height).`
+      );
+
+      grid.innerHTML += card(
+        'Blood pressure',
+        riskBadge(results.bp.level, results.bp.label),
+        `${results.bp.detail} <span class="text-xs">(SBP ${inputs.sbp || '—'} / DBP ${inputs.dbp || '—'})</span>`
+      );
+
+      const ascvdExtra = Number.isFinite(results.ascvd.pct) ? `${results.ascvd.pct.toFixed(1)}%` : '—';
+      grid.innerHTML += card(
+        'Thai ASCVD Score',
+        riskBadge(results.ascvd.level, ascvdExtra),
+        results.ascvd.detail
+      );
+
+      const tdsExtra = Number.isFinite(results.tds.pct) ? `${results.tds.pct.toFixed(1)}%` : '—';
+      grid.innerHTML += card(
+        'Thai Diabetes Score (TDS)',
+        riskBadge(results.tds.level, tdsExtra),
+        results.tds.detail
+      );
+
+      const behaviorCards = [
+        ['Smoking', results.smk],
+        ['Alcohol', results.alc],
+        ['Physical activity', results.act],
+        ['Sitting time', results.sit],
+        ['Sleep', results.slp],
+        ['Diet', results.diet],
+        ['Oral health', results.oral],
+        ['Stress (ST-5)', results.st],
+        ['Mood (2Q)', results.dep],
+      ];
+
+      for (const [title, r] of behaviorCards) {
+        const extra = (r.score === null || r.score === undefined) ? '' : `${r.score}`;
+        grid.innerHTML += card(title, riskBadge(r.level, extra), r.detail);
+      }
+    }
+
+    function saveToHistory() {
+      if (!lastComputed) { alert('Compute results first.'); return; }
+      const hist = loadHistory();
+      hist.unshift(lastComputed);
+      localStorage.setItem('ncd_hist_v1', JSON.stringify(hist.slice(0, 50)));
+      alert('Saved.');
+    }
+
+    function loadHistory() {
+      try {
+        const raw = localStorage.getItem('ncd_hist_v1');
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      } catch { return []; }
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('historyList');
+      const hist = loadHistory();
+      if (hist.length === 0) {
+        list.innerHTML = `<div class="text-sm text-app-mut bg-app-bg border border-app-line rounded-xl p-3">No saved entries yet.</div>`;
+        return;
+      }
+      list.innerHTML = hist.map((h, idx) => {
+        const d = new Date(h.stamp);
+        const bp = h.results?.bp?.label ?? '—';
+        const ascvd = (h.results?.ascvd?.pct != null && isFinite(h.results.ascvd.pct)) ? h.results.ascvd.pct.toFixed(1)+'%' : '—';
+        const tds = (h.results?.tds?.pct != null && isFinite(h.results.tds.pct)) ? h.results.tds.pct.toFixed(1)+'%' : '—';
+        return `
+          <button class="w-full text-left bg-app-bg border border-app-line rounded-xl p-3 active:scale-[0.99] transition"
+                  onclick="openHistoryItem(${idx})">
+            <div class="flex items-start justify-between gap-3">
+              <div class="font-semibold text-app-ink">${d.toLocaleString()}</div>
+              <div class="text-[11px] text-app-mut">Tap</div>
+            </div>
+            <div class="mt-2 text-sm text-app-mut">
+              BP: <b>${bp}</b> • ASCVD: <b>${ascvd}</b> • TDS: <b>${tds}</b>
+            </div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function openHistoryItem(i) {
+      const hist = loadHistory();
+      const item = hist[i];
+      if (!item) return;
+
+      lastComputed = item;
+      document.getElementById('resultStamp').innerText = new Date(item.stamp).toLocaleString();
+      renderResults(item);
+      openView('viewResults');
+    }
+
+    function clearHistory() {
+      if (!confirm('Clear all saved history?')) return;
+      localStorage.removeItem('ncd_hist_v1');
+      renderHistory();
+    }
+
+    // -------------------------
+    // Settings
+    // -------------------------
+    function saveSettings() {
+      const settings = { tdsLow: Number(document.getElementById('tdsLow').value), tdsMod: Number(document.getElementById('tdsMod').value) };
+      localStorage.setItem('ncd_settings_v1', JSON.stringify(settings));
+      alert('Settings saved.');
+    }
+
+    function loadSettings() {
+      try {
+        const raw = localStorage.getItem('ncd_settings_v1');
+        if (!raw) return;
+        const s = JSON.parse(raw);
+        if (Number.isFinite(s.tdsLow)) document.getElementById('tdsLow').value = s.tdsLow;
+        if (Number.isFinite(s.tdsMod)) document.getElementById('tdsMod').value = s.tdsMod;
+      } catch {}
+    }
+
+    // Init
+    loadSettings();
+    updateFollowups();
+    renderHistory();
+  </script>
+</body>
+</html>

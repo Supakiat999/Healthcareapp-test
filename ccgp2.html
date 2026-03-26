@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Health Score • Thai Diabetes Score</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            charm: {
+              blue: '#5B6C9D',
+              gold: '#C5A059',
+              cream: '#F9F7F2',
+              dark: '#1A1A1A',
+              gray: '#8C8C8C',
+              green: '#4A7A5E'
+            }
+          },
+          fontFamily: {
+            serif: ['"Bodoni Moda"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 10px 40px -10px rgba(91, 108, 157, 0.2)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .glass-header { background: rgba(249, 247, 242, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(197, 160, 89, 0.12); }
+    .glass-nav { background: rgba(249, 247, 242, 0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(197, 160, 89, 0.20); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease-out; }
+  </style>
+</head>
+
+<body class="bg-stone-200 flex justify-center min-h-screen font-sans">
+  <!-- Phone frame -->
+  <div class="w-full max-w-md bg-charm-cream relative flex flex-col h-screen overflow-hidden shadow-2xl">
+
+    <!-- Header -->
+    <div class="flex-none px-6 py-5 pt-8 glass-header z-30">
+      <div class="flex items-end justify-between">
+        <div>
+          <h1 class="font-serif text-2xl font-bold tracking-tight text-charm-dark">HEALTH SCORE</h1>
+          <p class="text-[10px] tracking-[0.2em] uppercase text-charm-gold">Risk tools</p>
+        </div>
+        <div class="text-xs text-charm-gray font-medium">
+          <i class="fa-solid fa-mobile-screen mr-1"></i> Mobile view
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 overflow-y-auto no-scrollbar pb-24 bg-charm-cream">
+
+      <!-- Tabs -->
+      <div class="px-6 pt-5">
+        <div class="bg-white border border-stone-100 rounded-2xl shadow-sm p-2 flex gap-2">
+          <button id="tab-diabetes" class="flex-1 py-2 rounded-xl text-sm font-semibold bg-charm-blue text-white">
+            Thai Diabetes Score
+          </button>
+          <button id="tab-placeholder" class="flex-1 py-2 rounded-xl text-sm font-semibold text-charm-dark bg-stone-100">
+            More scores
+          </button>
+        </div>
+      </div>
+
+      <!-- Diabetes screen -->
+      <section id="screen-diabetes" class="px-6 py-6 fade-in">
+
+        <!-- Intro -->
+        <div class="mb-5">
+          <h2 class="font-serif text-xl font-bold text-charm-dark">12-year diabetes risk</h2>
+          <p class="text-xs text-gray-500 font-light mt-1 leading-relaxed">
+            Calculates risk using the Thai Diabetes Score coefficients from your PDF. Fill the fields below.
+          </p>
+        </div>
+
+        <!-- Inputs -->
+        <div class="space-y-4">
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Basic info</h3>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Age (years)</label>
+                <input id="age" type="number" inputmode="numeric" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 21" />
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Sex</label>
+                <div class="mt-2 grid grid-cols-2 gap-2">
+                  <button id="sex-f" class="py-3 rounded-xl border border-stone-200 text-sm font-semibold text-charm-dark bg-white">
+                    Female
+                  </button>
+                  <button id="sex-m" class="py-3 rounded-xl border border-stone-200 text-sm font-semibold text-charm-dark bg-white">
+                    Male
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Weight (kg)</label>
+                <input id="weight" type="number" inputmode="decimal" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 62" />
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Height (cm)</label>
+                <input id="height" type="number" inputmode="decimal" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 172" />
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <div class="flex items-center justify-between">
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">BMI</label>
+                <span id="bmiBadge" class="text-[10px] font-bold px-3 py-1 rounded-full bg-stone-100 text-stone-600 border border-stone-200">—</span>
+              </div>
+              <div class="mt-2 h-2 rounded-full bg-stone-100 overflow-hidden">
+                <div id="bmiBar" class="h-2 w-0 bg-charm-blue"></div>
+              </div>
+              <p id="bmiHint" class="text-[11px] text-gray-500 mt-2">Enter height and weight to compute BMI.</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <h3 class="text-xs font-bold text-charm-gold uppercase tracking-wider mb-4">Clinical factors</h3>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Waist (cm)</label>
+                <input id="waist" type="number" inputmode="decimal" class="w-full mt-2 bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="e.g., 78" />
+                <p class="text-[11px] text-gray-500 mt-2">Cutoff: male ≥ 90, female ≥ 80</p>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Blood pressure (mmHg)</label>
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                  <input id="sbp" type="number" inputmode="numeric" class="w-full bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="SBP" />
+                  <input id="dbp" type="number" inputmode="numeric" class="w-full bg-white border border-stone-200 rounded-xl p-3 text-charm-dark focus:border-charm-gold outline-none" placeholder="DBP" />
+                </div>
+                <p class="text-[11px] text-gray-500 mt-2">Risk if SBP ≥ 140 or DBP ≥ 90</p>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Parent / sibling with diabetes?</label>
+              <div class="mt-2 grid grid-cols-2 gap-2">
+                <button id="fam-no" class="py-3 rounded-xl border border-stone-200 text-sm font-semibold text-charm-dark bg-white">
+                  No
+                </button>
+                <button id="fam-yes" class="py-3 rounded-xl border border-stone-200 text-sm font-semibold text-charm-dark bg-white">
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results -->
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h3 class="font-serif text-lg font-bold text-charm-dark">Result</h3>
+                <p class="text-xs text-gray-500 font-light mt-1">Updates automatically as you change inputs.</p>
+              </div>
+              <button id="btnReset" class="text-xs border border-stone-300 px-4 py-2 rounded-full text-gray-600 hover:bg-stone-50 transition">
+                Reset
+              </button>
+            </div>
+
+            <div class="mt-5">
+              <div class="flex items-baseline justify-between">
+                <div>
+                  <p class="text-[10px] text-charm-gold font-bold uppercase tracking-widest">12-year risk</p>
+                  <div class="flex items-end gap-2 mt-1">
+                    <span id="riskPct" class="font-serif text-4xl font-bold text-charm-dark">—</span>
+                    <span class="text-sm text-gray-500 mb-1">%</span>
+                  </div>
+                </div>
+                <span id="riskTag" class="text-[10px] font-bold px-3 py-1 rounded-full bg-stone-100 text-stone-600 border border-stone-200">Waiting for inputs</span>
+              </div>
+
+              <div class="mt-4 h-3 rounded-full bg-stone-100 overflow-hidden">
+                <div id="riskBar" class="h-3 w-0" style="background: linear-gradient(90deg, #4A7A5E 0%, #C5A059 45%, #F59E0B 70%, #DC2626 100%);"></div>
+              </div>
+
+              <div class="mt-4 grid grid-cols-2 gap-3">
+                <div class="rounded-2xl border border-stone-100 bg-charm-cream p-4">
+                  <p class="text-[10px] text-gray-500 uppercase tracking-wide font-bold">Logit sum</p>
+                  <p id="logitSum" class="text-sm font-semibold text-charm-dark mt-1">—</p>
+                </div>
+                <div class="rounded-2xl border border-stone-100 bg-charm-cream p-4">
+                  <p class="text-[10px] text-gray-500 uppercase tracking-wide font-bold">exp(logit)</p>
+                  <p id="expLogit" class="text-sm font-semibold text-charm-dark mt-1">—</p>
+                </div>
+              </div>
+
+              <button id="toggleHow" class="mt-5 w-full bg-charm-dark text-charm-gold py-3 rounded-xl font-bold shadow-lg active:scale-95 transition">
+                Show calculation details
+              </button>
+
+              <div id="howBox" class="mt-4 hidden">
+                <div class="rounded-2xl border border-stone-100 bg-white p-4">
+                  <p class="text-xs text-gray-600 leading-relaxed">
+                    This follows your PDF steps: compute each contribution Cᵢ = A × B, sum all Cᵢ, then add the constant −3.580397,
+                    apply exp(), then convert to probability: exp(D)/(1+exp(D)).
+                  </p>
+
+                  <div class="mt-4 overflow-x-auto">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr class="text-[10px] text-gray-500 uppercase tracking-wide">
+                          <th class="text-left py-2">Factor</th>
+                          <th class="text-right py-2">A</th>
+                          <th class="text-right py-2">B</th>
+                          <th class="text-right py-2">C = A×B</th>
+                        </tr>
+                      </thead>
+                      <tbody id="detailRows" class="divide-y divide-stone-100"></tbody>
+                    </table>
+                  </div>
+
+                  <div class="mt-4 text-[11px] text-gray-500">
+                    Constant: <span class="font-mono">-3.580397</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-[11px] text-gray-500 mt-4 leading-relaxed">
+                Note: This is a screening-style calculator and not a medical diagnosis.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Placeholder screen -->
+      <section id="screen-placeholder" class="px-6 py-6 hidden fade-in">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-stone-100">
+          <h2 class="font-serif text-xl font-bold text-charm-dark">More calculators</h2>
+          <p class="text-sm text-gray-500 font-light mt-2 leading-relaxed">
+            This file is structured so you can add other scores later (ASCVD, HTN risk, etc.) while keeping the same style.
+          </p>
+          <div class="mt-5 flex items-center gap-3 text-charm-blue">
+            <i class="fa-solid fa-layer-group"></i>
+            <span class="text-sm font-semibold">Ready for the next module</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom nav -->
+    <div class="flex-none h-24 glass-nav flex justify-around items-start pt-4 px-2 z-30">
+      <button id="nav-calc" class="text-charm-blue flex flex-col items-center w-16 group transition">
+        <i class="fas fa-calculator text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Calculator</span>
+      </button>
+      <button id="nav-info" class="text-stone-400 flex flex-col items-center w-16 group transition">
+        <i class="fas fa-circle-info text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Info</span>
+      </button>
+      <button id="nav-theme" class="text-stone-400 flex flex-col items-center w-16 group transition">
+        <i class="fas fa-palette text-xl mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Theme</span>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------
+    // Tabs
+    // ----------------------------
+    const tabDiabetes = document.getElementById('tab-diabetes');
+    const tabPlaceholder = document.getElementById('tab-placeholder');
+    const screenDiabetes = document.getElementById('screen-diabetes');
+    const screenPlaceholder = document.getElementById('screen-placeholder');
+
+    function setTab(active) {
+      const activeBtn = active === 'diabetes' ? tabDiabetes : tabPlaceholder;
+      const inactiveBtn = active === 'diabetes' ? tabPlaceholder : tabDiabetes;
+      activeBtn.className = "flex-1 py-2 rounded-xl text-sm font-semibold bg-charm-blue text-white";
+      inactiveBtn.className = "flex-1 py-2 rounded-xl text-sm font-semibold text-charm-dark bg-stone-100";
+
+      if (active === 'diabetes') {
+        screenDiabetes.classList.remove('hidden');
+        screenPlaceholder.classList.add('hidden');
+      } else {
+        screenDiabetes.classList.add('hidden');
+        screenPlaceholder.classList.remove('hidden');
+      }
+    }
+
+    tabDiabetes.addEventListener('click', () => setTab('diabetes'));
+    tabPlaceholder.addEventListener('click', () => setTab('placeholder'));
+
+    // ----------------------------
+    // Thai Diabetes Score calculator
+    // Coefficients (B) and the constant are copied from your PDF table.
+    // ----------------------------
+
+    // Age categories here are set to avoid overlap:
+    //   <45, 45–49, >=50
+    // If you want different cutoffs, tell me and I’ll adjust quickly.
+    const COEF = {
+      age: {
+        lt45: { A: 1, B: -0.0702134, label: "Age < 45" },
+        a45_49: { A: 1, B: 0.0699869, label: "Age 45–49" },
+        ge50: { A: 1, B: 0.6043599, label: "Age ≥ 50" },
+      },
+      sex: {
+        female: { A: 0, B: 0.0, label: "Female" },
+        male: { A: 2, B: 0.4422573, label: "Male" },
+      },
+      bmi: {
+        lt23: { A: 0, B: 0.0, label: "BMI < 23" },
+        a23_2749: { A: 1, B: 0.6958621, label: "BMI 23–27.49" },
+        ge275: { A: 1, B: 1.235097, label: "BMI ≥ 27.5" },
+      },
+      waist: {
+        normal: { A: 0, B: 0.0, label: "Waist below cutoff" },
+        high: { A: 1, B: 0.5567118, label: "Waist at/above cutoff" },
+      },
+      bp: {
+        normal: { A: 0, B: 0.0, label: "BP < 140/90" },
+        high: { A: 1, B: 0.6409517, label: "BP ≥ 140/90" },
+      },
+      fam: {
+        no: { A: 0, B: 0.0, label: "No family history" },
+        yes: { A: 1, B: 1.081356, label: "Family history: yes" },
+      }
+    };
+
+    const CONSTANT = -3.580397;
+
+    // UI state
+    let sex = null;   // 'female' | 'male'
+    let fam = null;   // 'no' | 'yes'
+
+    // Elements
+    const el = {
+      age: document.getElementById('age'),
+      weight: document.getElementById('weight'),
+      height: document.getElementById('height'),
+      waist: document.getElementById('waist'),
+      sbp: document.getElementById('sbp'),
+      dbp: document.getElementById('dbp'),
+
+      sexF: document.getElementById('sex-f'),
+      sexM: document.getElementById('sex-m'),
+      famNo: document.getElementById('fam-no'),
+      famYes: document.getElementById('fam-yes'),
+
+      bmiBadge: document.getElementById('bmiBadge'),
+      bmiBar: document.getElementById('bmiBar'),
+      bmiHint: document.getElementById('bmiHint'),
+
+      riskPct: document.getElementById('riskPct'),
+      riskTag: document.getElementById('riskTag'),
+      riskBar: document.getElementById('riskBar'),
+      logitSum: document.getElementById('logitSum'),
+      expLogit: document.getElementById('expLogit'),
+
+      toggleHow: document.getElementById('toggleHow'),
+      howBox: document.getElementById('howBox'),
+      detailRows: document.getElementById('detailRows'),
+
+      btnReset: document.getElementById('btnReset'),
+    };
+
+    function setPill(btn, on) {
+      btn.className = on
+        ? "py-3 rounded-xl border border-charm-blue bg-charm-blue text-white text-sm font-semibold"
+        : "py-3 rounded-xl border border-stone-200 text-sm font-semibold text-charm-dark bg-white";
+    }
+
+    function safeNum(v) {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function calcBMIkgcm(weightKg, heightCm) {
+      if (!weightKg || !heightCm) return null;
+      const h = heightCm / 100;
+      if (h <= 0) return null;
+      return weightKg / (h * h);
+    }
+
+    function bmiCategory(bmi) {
+      if (bmi == null) return null;
+      if (bmi < 23) return 'lt23';
+      if (bmi < 27.5) return 'a23_2749';
+      return 'ge275';
+    }
+
+    function ageCategory(age) {
+      if (age == null) return null;
+      if (age < 45) return 'lt45';
+      if (age < 50) return 'a45_49';
+      return 'ge50';
+    }
+
+    function waistIsHigh(sex, waist) {
+      if (!sex || waist == null) return null;
+      const cutoff = sex === 'male' ? 90 : 80;
+      return waist >= cutoff;
+    }
+
+    function bpIsHigh(sbp, dbp) {
+      if (sbp == null || dbp == null) return null;
+      return sbp >= 140 || dbp >= 90;
+    }
+
+    function formatMaybe(n, digits = 4) {
+      if (n == null) return '—';
+      return (Math.round(n * Math.pow(10, digits)) / Math.pow(10, digits)).toFixed(digits);
+    }
+
+    function setBMIUI(bmi) {
+      if (bmi == null) {
+        el.bmiBadge.textContent = '—';
+        el.bmiBadge.className = "text-[10px] font-bold px-3 py-1 rounded-full bg-stone-100 text-stone-600 border border-stone-200";
+        el.bmiBar.style.width = '0%';
+        el.bmiHint.textContent = 'Enter height and weight to compute BMI.';
+        return;
+      }
+
+      const pct = Math.max(0, Math.min(100, (bmi / 40) * 100));
+      el.bmiBar.style.width = pct + '%';
+
+      const cat = bmiCategory(bmi);
+      const label = cat === 'lt23' ? 'BMI < 23' : (cat === 'a23_2749' ? 'BMI 23–27.49' : 'BMI ≥ 27.5');
+      el.bmiBadge.textContent = `${bmi.toFixed(1)} • ${label}`;
+
+      if (cat === 'lt23') {
+        el.bmiBadge.className = "text-[10px] font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
+        el.bmiHint.textContent = 'BMI is in the lower-risk category.';
+      } else if (cat === 'a23_2749') {
+        el.bmiBadge.className = "text-[10px] font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200";
+        el.bmiHint.textContent = 'BMI is in the mid category.';
+      } else {
+        el.bmiBadge.className = "text-[10px] font-bold px-3 py-1 rounded-full bg-orange-50 text-orange-800 border border-orange-200";
+        el.bmiHint.textContent = 'BMI is in the higher-risk category.';
+      }
+    }
+
+    function setRiskTagUI(riskPct) {
+      if (riskPct == null) {
+        el.riskTag.textContent = 'Waiting for inputs';
+        el.riskTag.className = "text-[10px] font-bold px-3 py-1 rounded-full bg-stone-100 text-stone-600 border border-stone-200";
+        return;
+      }
+
+      // UI mapping (editable cut points)
+      let label = 'Low';
+      let cls = "text-[10px] font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
+
+      if (riskPct >= 20) {
+        label = 'Very high';
+        cls = "text-[10px] font-bold px-3 py-1 rounded-full bg-red-50 text-red-700 border border-red-200";
+      } else if (riskPct >= 10) {
+        label = 'High';
+        cls = "text-[10px] font-bold px-3 py-1 rounded-full bg-orange-50 text-orange-800 border border-orange-200";
+      } else if (riskPct >= 5) {
+        label = 'Moderate';
+        cls = "text-[10px] font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200";
+      }
+
+      el.riskTag.textContent = label;
+      el.riskTag.className = cls;
+    }
+
+    function compute() {
+      const age = safeNum(el.age.value);
+      const weight = safeNum(el.weight.value);
+      const height = safeNum(el.height.value);
+      const waist = safeNum(el.waist.value);
+      const sbp = safeNum(el.sbp.value);
+      const dbp = safeNum(el.dbp.value);
+
+      const bmi = calcBMIkgcm(weight, height);
+      setBMIUI(bmi);
+
+      const ageCat = ageCategory(age);
+      const bmiCat = bmiCategory(bmi);
+      const waistHigh = waistIsHigh(sex, waist);
+      const bpHigh = bpIsHigh(sbp, dbp);
+
+      if (!ageCat || !bmiCat || !sex || waistHigh == null || bpHigh == null || !fam) {
+        el.riskPct.textContent = '—';
+        el.riskBar.style.width = '0%';
+        el.logitSum.textContent = '—';
+        el.expLogit.textContent = '—';
+        setRiskTagUI(null);
+        el.detailRows.innerHTML = '';
+        return;
+      }
+
+      const parts = [];
+      parts.push({ name: COEF.age[ageCat].label, ...COEF.age[ageCat] });
+      parts.push({ name: COEF.sex[sex].label, ...COEF.sex[sex] });
+      parts.push({ name: COEF.bmi[bmiCat].label, ...COEF.bmi[bmiCat] });
+      parts.push({ name: waistHigh ? COEF.waist.high.label : COEF.waist.normal.label, ...(waistHigh ? COEF.waist.high : COEF.waist.normal) });
+      parts.push({ name: bpHigh ? COEF.bp.high.label : COEF.bp.normal.label, ...(bpHigh ? COEF.bp.high : COEF.bp.normal) });
+      parts.push({ name: COEF.fam[fam].label, ...COEF.fam[fam] });
+
+      let sumC = 0;
+      const rows = parts.map(p => {
+        const C = p.A * p.B;
+        sumC += C;
+        return { factor: p.name, A: p.A, B: p.B, C };
+      });
+
+      const logit = sumC + CONSTANT;
+      const expLogit = Math.exp(logit);
+      const risk = expLogit / (1 + expLogit);
+      const pct = risk * 100;
+
+      el.riskPct.textContent = pct.toFixed(1);
+      el.riskBar.style.width = Math.max(0, Math.min(100, pct)) + '%';
+      el.logitSum.textContent = formatMaybe(logit, 6);
+      el.expLogit.textContent = formatMaybe(expLogit, 6);
+      setRiskTagUI(pct);
+
+      el.detailRows.innerHTML = rows.map(r => {
+        return `
+          <tr>
+            <td class="py-2 text-charm-dark">${r.factor}</td>
+            <td class="py-2 text-right font-mono text-[12px] text-gray-700">${r.A}</td>
+            <td class="py-2 text-right font-mono text-[12px] text-gray-700">${r.B.toFixed(7)}</td>
+            <td class="py-2 text-right font-mono text-[12px] text-charm-blue">${(r.C).toFixed(7)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    el.sexF.addEventListener('click', () => {
+      sex = 'female';
+      setPill(el.sexF, true);
+      setPill(el.sexM, false);
+      compute();
+    });
+    el.sexM.addEventListener('click', () => {
+      sex = 'male';
+      setPill(el.sexF, false);
+      setPill(el.sexM, true);
+      compute();
+    });
+
+    el.famNo.addEventListener('click', () => {
+      fam = 'no';
+      setPill(el.famNo, true);
+      setPill(el.famYes, false);
+      compute();
+    });
+    el.famYes.addEventListener('click', () => {
+      fam = 'yes';
+      setPill(el.famNo, false);
+      setPill(el.famYes, true);
+      compute();
+    });
+
+    ['age','weight','height','waist','sbp','dbp'].forEach(id => {
+      document.getElementById(id).addEventListener('input', compute);
+    });
+
+    el.toggleHow.addEventListener('click', () => {
+      const isHidden = el.howBox.classList.contains('hidden');
+      el.howBox.classList.toggle('hidden');
+      el.toggleHow.textContent = isHidden ? 'Hide calculation details' : 'Show calculation details';
+    });
+
+    el.btnReset.addEventListener('click', () => {
+      sex = null;
+      fam = null;
+      el.age.value = '';
+      el.weight.value = '';
+      el.height.value = '';
+      el.waist.value = '';
+      el.sbp.value = '';
+      el.dbp.value = '';
+      setPill(el.sexF, false);
+      setPill(el.sexM, false);
+      setPill(el.famNo, false);
+      setPill(el.famYes, false);
+      el.howBox.classList.add('hidden');
+      el.toggleHow.textContent = 'Show calculation details';
+      compute();
+    });
+
+    setPill(el.sexF, false);
+    setPill(el.sexM, false);
+    setPill(el.famNo, false);
+    setPill(el.famYes, false);
+
+    compute();
+  </script>
+</body>
+</html>

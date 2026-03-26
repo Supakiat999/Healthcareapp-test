@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>PrevenLink by Charmjai</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            charm: {
+              blue: '#5B6C9D',
+              gold: '#C5A059',
+              cream: '#F9F7F2',
+              dark: '#1A1A1A',
+              gray: '#8C8C8C',
+              green: '#4A7A5E'
+            }
+          },
+          fontFamily: {
+            serif: ['"Bodoni Moda"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 10px 40px -10px rgba(91, 108, 157, 0.20)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { -webkit-tap-highlight-color: transparent; background-color: #e5e5e4; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .glass-nav {
+      background: rgba(249, 247, 242, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(197, 160, 89, 0.20);
+    }
+    .glass-header {
+      background: rgba(249, 247, 242, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(197, 160, 89, 0.12);
+    }
+
+    .nav-item-active { color: #5B6C9D; transform: scale(1.05); }
+    .nav-item-inactive { color: #A8A29E; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+    .hide { display: none !important; }
+    
+    input[type="radio"] { accent-color: #5B6C9D; width: 1.1rem; height: 1.1rem; }
+    input[type="checkbox"] { accent-color: #5B6C9D; width: 1.1rem; height: 1.1rem; border-radius: 4px; }
+  </style>
+</head>
+
+<body class="flex justify-center min-h-screen font-sans text-charm-dark">
+  
+  <div class="w-full max-w-md bg-charm-cream relative h-[100dvh] sm:h-[860px] sm:my-8 shadow-2xl sm:rounded-[2.25rem] overflow-hidden flex flex-col">
+
+    <header class="flex-none px-6 py-5 flex justify-between items-end glass-header z-30">
+      <div>
+        <div class="text-[10px] uppercase tracking-[0.22em] text-charm-gold font-bold">Health Network</div>
+        <h1 class="font-serif text-2xl font-bold tracking-tight text-charm-dark">PREVENLINK</h1>
+      </div>
+      <button onclick="openView('viewSettings')" class="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-charm-blue shadow-sm active:scale-95 transition">
+        <i class="fas fa-sliders-h"></i>
+      </button>
+    </header>
+
+    <main class="flex-1 overflow-y-auto no-scrollbar px-5 py-6 pb-32">
+      
+      <section id="viewBasic" class="fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-lg font-bold font-serif text-charm-dark">Clinical Profile</h2>
+              <p class="text-xs text-charm-gray mt-1">Used for Thai ASCVD & Diabetes Score.</p>
+            </div>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-charm-gold/10 text-yellow-800 border border-charm-gold/20 font-bold uppercase tracking-wider">Step 1</span>
+          </div>
+
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-bold text-charm-gray uppercase tracking-wider">Age</label>
+                <input id="age" type="number" class="mt-2 w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-charm-dark focus:outline-none focus:border-charm-gold transition" placeholder="Years">
+              </div>
+              <div>
+                <label class="text-xs font-bold text-charm-gray uppercase tracking-wider">Sex</label>
+                <select id="sex" class="mt-2 w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-charm-dark focus:outline-none focus:border-charm-gold transition">
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-bold text-charm-gray uppercase tracking-wider">Weight (kg)</label>
+                <input id="weight" type="number" step="0.1" class="mt-2 w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-charm-dark focus:outline-none focus:border-charm-gold transition" placeholder="e.g. 65">
+              </div>
+              <div>
+                <label class="text-xs font-bold text-charm-gray uppercase tracking-wider">Height (cm)</label>
+                <input id="height" type="number" step="0.1" class="mt-2 w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-charm-dark focus:outline-none focus:border-charm-gold transition" placeholder="e.g. 170">
+              </div>
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-charm-gray uppercase tracking-wider">Waist Circumference (cm)</label>
+              <input id="waist" type="number" step="0.1" class="mt-2 w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-charm-dark focus:outline-none focus:border-charm-gold transition" placeholder="e.g. 85">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-bold text-charm-gray uppercase tracking-wider">Systolic BP</label>
+                <input id="sbp" type="number" class="mt-2 w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-charm-dark focus:outline-none focus:border-charm-gold transition" placeholder="mmHg">
+              </div>
+              <div>
+                <label class="text-xs font-bold text-charm-gray uppercase tracking-wider">Diastolic BP</label>
+                <input id="dbp" type="number" class="mt-2 w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-charm-dark focus:outline-none focus:border-charm-gold transition" placeholder="mmHg">
+              </div>
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-charm-gray uppercase tracking-wider">Total Cholesterol (mg/dL)</label>
+              <input id="tc" type="number" class="mt-2 w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-charm-dark focus:outline-none focus:border-charm-gold transition" placeholder="e.g. 190">
+            </div>
+
+            <div class="grid grid-cols-2 gap-y-3 gap-x-2 pt-2 border-t border-stone-100">
+              <label class="flex items-center gap-2 text-sm font-medium"><input id="hasDiabetes" type="checkbox"> Known Diabetes</label>
+              <label class="flex items-center gap-2 text-sm font-medium"><input id="smokerNow" type="checkbox"> Current Smoker</label>
+              <label class="flex items-center gap-2 text-sm font-medium"><input id="hasHTN" type="checkbox"> Hypertension</label>
+              <label class="flex items-center gap-2 text-sm font-medium"><input id="fh_dm" type="checkbox"> Family Diabetes</label>
+            </div>
+
+            <button onclick="goToBehavior()" class="w-full bg-charm-blue text-white font-bold py-4 rounded-xl shadow-soft mt-4 active:scale-[0.98] transition">
+              Continue to Survey <i class="fas fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="viewBehavior" class="hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-lg font-bold font-serif text-charm-dark">Lifestyle Survey</h2>
+              <p class="text-xs text-charm-gray mt-1">32 comprehensive parameters.</p>
+            </div>
+            <span class="text-[10px] px-3 py-1 rounded-full bg-charm-gold/10 text-yellow-800 border border-charm-gold/20 font-bold uppercase tracking-wider">Step 2</span>
+          </div>
+
+          <div class="space-y-3">
+            
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group" open>
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center">
+                <span><i class="fas fa-smoking mr-2 text-charm-gray"></i> 1. Smoking</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-2 border-t border-stone-200">
+                <div class="q">
+                  <div class="text-xs font-bold text-charm-blue mb-2">S1. Current tobacco use</div>
+                  <div class="space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="never"> Never</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="quit"> Quit</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="sometimes"> Sometimes</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk1" value="daily"> Daily</label>
+                  </div>
+                </div>
+                <div class="q">
+                  <div class="text-xs font-bold text-charm-blue mb-2">S2. Cigarettes per day</div>
+                  <div class="space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="smk2" value="0"> 0</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk2" value="1"> 1–9</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk2" value="2"> 10–19</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk2" value="3"> 20+</label>
+                  </div>
+                </div>
+                <div class="q">
+                  <div class="text-xs font-bold text-charm-blue mb-2">S3. Time to first cigarette</div>
+                  <div class="space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="smk3" value="0"> >60 min / NA</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk3" value="1"> 31–60 min</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk3" value="2"> 6–30 min</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk3" value="3"> ≤5 min</label>
+                  </div>
+                </div>
+                <div class="q">
+                  <div class="text-xs font-bold text-charm-blue mb-2">S4. Hard to refrain in no-smoking areas?</div>
+                  <div class="space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="smk4" value="0"> No / NA</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="smk4" value="1"> Yes</label>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center">
+                <span><i class="fas fa-wine-glass mr-2 text-charm-gray"></i> 2. Alcohol</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-2 border-t border-stone-200">
+                <div class="q">
+                  <div class="text-xs font-bold text-charm-blue mb-2">A1. Alcohol in past 3 months?</div>
+                  <div class="space-y-2 text-sm">
+                    <label class="flex items-center gap-2"><input type="radio" name="alc1" value="never"> Never</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="alc1" value="stopped"> Stopped >1 yr</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="alc1" value="yes"> Yes</label>
+                  </div>
+                </div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">A2. How often do you drink?</div>
+                  <div class="space-y-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="alc2" value="0"> Never</label><label class="flex items-center gap-2"><input type="radio" name="alc2" value="2"> 1-2 times total</label><label class="flex items-center gap-2"><input type="radio" name="alc2" value="3"> 1-2/month</label><label class="flex items-center gap-2"><input type="radio" name="alc2" value="4"> 1-2/week</label><label class="flex items-center gap-2"><input type="radio" name="alc2" value="6"> Daily</label></div>
+                </div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">A3. Drinks per typical day?</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="alc3" value="0"> 0-2</label><label class="flex items-center gap-2"><input type="radio" name="alc3" value="1"> 3-4</label><label class="flex items-center gap-2"><input type="radio" name="alc3" value="2"> 5-6</label><label class="flex items-center gap-2"><input type="radio" name="alc3" value="3"> 7-9</label><label class="flex items-center gap-2"><input type="radio" name="alc3" value="4"> 10+</label></div>
+                </div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">A4. 6+ drinks on one occasion (past yr)?</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="alc4" value="0"> Never</label><label class="flex items-center gap-2"><input type="radio" name="alc4" value="1"> < Monthly</label><label class="flex items-center gap-2"><input type="radio" name="alc4" value="2"> Monthly</label><label class="flex items-center gap-2"><input type="radio" name="alc4" value="3"> Weekly</label><label class="flex items-center gap-2"><input type="radio" name="alc4" value="4"> Daily</label></div>
+                </div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">A5. Couldn't stop drinking?</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="alc5" value="0"> Never</label><label class="flex items-center gap-2"><input type="radio" name="alc5" value="2"> Monthly</label><label class="flex items-center gap-2"><input type="radio" name="alc5" value="4"> Daily</label></div>
+                </div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">A6. Failed responsibilities?</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="alc6" value="0"> Never</label><label class="flex items-center gap-2"><input type="radio" name="alc6" value="2"> Monthly</label><label class="flex items-center gap-2"><input type="radio" name="alc6" value="4"> Daily</label></div>
+                </div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">A7. Blackouts?</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="alc7" value="0"> Never</label><label class="flex items-center gap-2"><input type="radio" name="alc7" value="2"> Monthly</label><label class="flex items-center gap-2"><input type="radio" name="alc7" value="4"> Daily</label></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center">
+                <span><i class="fas fa-running mr-2 text-charm-gray"></i> 3. Activity & Sleep</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-2 border-t border-stone-200">
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">PA1. Weekly moderate+ activity</div>
+                  <div class="space-y-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="pa1" value="3"> ≥150 min moderate</label><label class="flex items-center gap-2"><input type="radio" name="pa1" value="2"> Some activity</label><label class="flex items-center gap-2"><input type="radio" name="pa1" value="1"> None</label></div>
+                </div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">PA2. Sitting time per day</div>
+                  <div class="space-y-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="sit1" value="3"> <4 hours/day</label><label class="flex items-center gap-2"><input type="radio" name="sit1" value="2"> 4–8 hours/day</label><label class="flex items-center gap-2"><input type="radio" name="sit1" value="1"> >8 hours/day</label></div>
+                </div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">PA3. Sleep per day</div>
+                  <div class="space-y-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="sleep1" value="3"> 7–9 hours/day</label><label class="flex items-center gap-2"><input type="radio" name="sleep1" value="2"> 5–6 hours/day</label><label class="flex items-center gap-2"><input type="radio" name="sleep1" value="1"> ≤4 hours/day</label></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center">
+                <span><i class="fas fa-utensils mr-2 text-charm-gray"></i> 4. Diet</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-2 border-t border-stone-200">
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">D1. Vegetables (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="d1" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d1" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d1" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d1" value="3"> ≥5</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">D2. Fruits (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="d2" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d2" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d2" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d2" value="3"> ≥5</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">D3. Sweet drinks (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="d3" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d3" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d3" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d3" value="3"> ≥5</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">D4. Sweet snacks (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="d4" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d4" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d4" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d4" value="3"> ≥5</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">D5. Fried/high-fat (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="d5" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d5" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d5" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d5" value="3"> ≥5</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">D6. Salty seasoning (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="d6" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d6" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d6" value="2"> 3–4</label><label class="flex items-center gap-2"><input type="radio" name="d6" value="3"> ≥5</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">D7. Soup/broth intake per day</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="d7" value="0"> ≤1 tbsp</label><label class="flex items-center gap-2"><input type="radio" name="d7" value="1"> 2–3 tbsp</label><label class="flex items-center gap-2"><input type="radio" name="d7" value="2"> >3 tbsp</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">D8. Fast food (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="d8" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d8" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d8" value="2"> ≥3</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">D9. Instant noodles (days/week)</div>
+                  <div class="grid grid-cols-2 gap-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="d9" value="0"> 0</label><label class="flex items-center gap-2"><input type="radio" name="d9" value="1"> 1–2</label><label class="flex items-center gap-2"><input type="radio" name="d9" value="2"> ≥3</label></div></div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center">
+                <span><i class="fas fa-tooth mr-2 text-charm-gray"></i> 5. Oral Health</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-2 border-t border-stone-200">
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">O1. Brush before bed daily?</div>
+                  <div class="space-y-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="o1" value="0"> Yes</label><label class="flex items-center gap-2"><input type="radio" name="o1" value="1"> No</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">O2. Use dental floss?</div>
+                  <div class="space-y-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="o2" value="0"> Yes</label><label class="flex items-center gap-2"><input type="radio" name="o2" value="1"> No</label></div></div>
+              </div>
+            </details>
+
+            <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group">
+              <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center">
+                <span><i class="fas fa-brain mr-2 text-charm-gray"></i> 6. Stress (ST-5) & Mood</span>
+                <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
+              </summary>
+              <div class="mt-4 space-y-4 pt-2 border-t border-stone-200">
+                <p class="text-[10px] text-charm-gray">Rate 0 (Never) to 3 (Very often)</p>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">ST1. Trouble sleeping from worries</div>
+                  <div class="flex gap-4 text-sm"><label><input type="radio" name="st1" value="0"> 0</label><label><input type="radio" name="st1" value="1"> 1</label><label><input type="radio" name="st1" value="2"> 2</label><label><input type="radio" name="st1" value="3"> 3</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">ST2. Bored / no desire to do things</div>
+                  <div class="flex gap-4 text-sm"><label><input type="radio" name="st2" value="0"> 0</label><label><input type="radio" name="st2" value="1"> 1</label><label><input type="radio" name="st2" value="2"> 2</label><label><input type="radio" name="st2" value="3"> 3</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">ST3. Angry / irritated</div>
+                  <div class="flex gap-4 text-sm"><label><input type="radio" name="st3" value="0"> 0</label><label><input type="radio" name="st3" value="1"> 1</label><label><input type="radio" name="st3" value="2"> 2</label><label><input type="radio" name="st3" value="3"> 3</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">ST4. Frustrated / stressed</div>
+                  <div class="flex gap-4 text-sm"><label><input type="radio" name="st4" value="0"> 0</label><label><input type="radio" name="st4" value="1"> 1</label><label><input type="radio" name="st4" value="2"> 2</label><label><input type="radio" name="st4" value="3"> 3</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">ST5. Not wanting to meet people</div>
+                  <div class="flex gap-4 text-sm"><label><input type="radio" name="st5" value="0"> 0</label><label><input type="radio" name="st5" value="1"> 1</label><label><input type="radio" name="st5" value="2"> 2</label><label><input type="radio" name="st5" value="3"> 3</label></div></div>
+                
+                <hr class="border-stone-200">
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">2Q1. Past 2 weeks: felt down/depressed?</div>
+                  <div class="space-y-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="dq1" value="no"> No</label><label class="flex items-center gap-2"><input type="radio" name="dq1" value="yes"> Yes</label></div></div>
+                <div class="q"><div class="text-xs font-bold text-charm-blue mb-2">2Q2. Past 2 weeks: little interest?</div>
+                  <div class="space-y-2 text-sm"><label class="flex items-center gap-2"><input type="radio" name="dq2" value="no"> No</label><label class="flex items-center gap-2"><input type="radio" name="dq2" value="yes"> Yes</label></div></div>
+              </div>
+            </details>
+
+          </div>
+
+          <div class="mt-6 flex gap-3">
+            <button onclick="openView('viewBasic')" class="w-14 bg-white border border-stone-200 text-charm-gray font-bold py-3 rounded-xl active:scale-[0.98] transition">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <button onclick="computeAndShowResults()" class="flex-1 bg-charm-blue text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
+              Generate Report <i class="fas fa-chart-pie ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="viewResults" class="hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-lg font-bold font-serif text-charm-dark">Health Report</h2>
+              <p class="text-[10px] text-charm-gray mt-1" id="resultStamp">Just now</p>
+            </div>
+            <button onclick="saveToHistory()" class="text-[10px] px-4 py-2 rounded-full bg-charm-gold text-white font-bold shadow-soft active:scale-95 transition">
+              Save
+            </button>
+          </div>
+
+          <div id="resultsGrid" class="space-y-3">
+            </div>
+
+          <div class="mt-6">
+            <button onclick="openView('viewCommunity')" class="w-full bg-charm-cream border border-charm-gold/30 text-charm-gold font-bold py-4 rounded-xl active:scale-[0.98] transition">
+              Share in Community <i class="fas fa-users ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="viewCommunity" class="hide fade-in h-full flex flex-col">
+        <div class="flex-none bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
+          <h2 class="text-lg font-bold font-serif text-charm-dark mb-3">Community Hub</h2>
+          
+          <textarea id="postInput" rows="2" class="w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-sm focus:outline-none focus:border-charm-gold text-charm-dark" placeholder="Share your progress or ask for tips..."></textarea>
+          
+          <div class="flex justify-between items-center mt-3">
+            <div class="flex gap-2">
+              <span class="text-[10px] px-2 py-1 bg-white border border-stone-200 rounded-full text-charm-gray cursor-pointer hover:border-charm-blue">#Milestone</span>
+              <span class="text-[10px] px-2 py-1 bg-white border border-stone-200 rounded-full text-charm-gray cursor-pointer hover:border-charm-blue">#Advice</span>
+            </div>
+            <button onclick="createPost()" class="bg-charm-blue text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm active:scale-95 transition">
+              Post
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 space-y-3" id="communityFeed">
+          </div>
+      </section>
+
+      <section id="viewHistory" class="hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-lg font-bold font-serif text-charm-dark">My Journey</h2>
+              <p class="text-xs text-charm-gray mt-1">Saved locally.</p>
+            </div>
+            <button onclick="clearHistory()" class="text-[10px] px-3 py-2 rounded-full bg-red-50 text-red-600 font-bold active:scale-95 transition">
+              Clear All
+            </button>
+          </div>
+
+          <div id="historyList" class="space-y-3">
+            </div>
+        </div>
+      </section>
+
+      <section id="viewSettings" class="hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <h2 class="text-lg font-bold font-serif text-charm-dark">Settings</h2>
+            <button onclick="openView('viewBasic')" class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-charm-gray active:scale-95 transition">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <p class="text-xs font-bold text-charm-gray uppercase mb-2">Export Data</p>
+              <button class="w-full bg-charm-cream border border-stone-200 text-charm-dark text-sm font-bold py-3 rounded-xl">
+                Download JSON Backup
+              </button>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-charm-gray uppercase mb-2">Privacy</p>
+              <div class="flex justify-between items-center p-3 bg-charm-cream rounded-xl border border-stone-200">
+                <span class="text-sm font-medium">Local storage only</span>
+                <i class="fas fa-shield-alt text-charm-green"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <nav class="flex-none h-24 glass-nav flex justify-around items-start pt-4 px-2 z-30 absolute bottom-0 w-full">
+      <button id="navBasic" onclick="openView('viewBasic')" class="nav-item-active flex flex-col items-center w-14 group transition">
+        <i class="fas fa-user text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide">Profile</span>
+      </button>
+      <button id="navBehavior" onclick="openView('viewBehavior')" class="nav-item-inactive flex flex-col items-center w-14 group transition">
+        <i class="fas fa-clipboard-list text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide">Survey</span>
+      </button>
+      <button id="navResults" onclick="openView('viewResults')" class="nav-item-inactive flex flex-col items-center w-14 group transition">
+        <i class="fas fa-heart-pulse text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide">Results</span>
+      </button>
+      <button id="navCommunity" onclick="openView('viewCommunity')" class="nav-item-inactive flex flex-col items-center w-14 group transition relative">
+        <i class="fas fa-users text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide">Forum</span>
+      </button>
+      <button id="navHistory" onclick="openView('viewHistory')" class="nav-item-inactive flex flex-col items-center w-14 group transition">
+        <i class="fas fa-clock text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide">History</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    // ==========================================
+    //   Navigation & UI State
+    // ==========================================
+    const VIEWS = ['viewBasic','viewBehavior','viewResults','viewCommunity','viewHistory','viewSettings'];
+    const NAV = {
+      viewBasic: 'navBasic', viewBehavior: 'navBehavior', viewResults: 'navResults',
+      viewCommunity: 'navCommunity', viewHistory: 'navHistory'
+    };
+
+    function openView(id) {
+      VIEWS.forEach(v => document.getElementById(v).classList.add('hide'));
+      document.getElementById(id).classList.remove('hide');
+
+      // Update bottom nav highlighting
+      Object.values(NAV).forEach(nid => {
+        const el = document.getElementById(nid);
+        if(el) { el.classList.remove('nav-item-active'); el.classList.add('nav-item-inactive'); }
+      });
+      if (NAV[id]) {
+        const el = document.getElementById(NAV[id]);
+        el.classList.add('nav-item-active'); el.classList.remove('nav-item-inactive');
+      }
+
+      if(id === 'viewHistory') renderHistory();
+      if(id === 'viewCommunity') renderFeed();
+    }
+
+    function goToBehavior() {
+      // Basic validation check before moving
+      const age = document.getElementById('age').value;
+      if(!age) { toast("Please enter your age first."); return; }
+      openView('viewBehavior');
+    }
+
+    function toast(msg) {
+      const el = document.createElement("div");
+      el.className = "fixed bottom-28 left-1/2 -translate-x-1/2 bg-charm-dark text-charm-cream text-xs px-5 py-2.5 rounded-full shadow-lg z-50 transition-opacity";
+      el.textContent = msg;
+      document.body.appendChild(el);
+      setTimeout(() => el.style.opacity = '0', 2000);
+      setTimeout(() => el.remove(), 2300);
+    }
+
+    // ==========================================
+    //   Core Logic & Scoring (32 items)
+    // ==========================================
+    function num(id) { const v = document.getElementById(id).value; return Number.isFinite(Number(v)) ? Number(v) : NaN; }
+    function checked(id) { return document.getElementById(id).checked; }
+    function radioVal(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : null; }
+    function sumRadio(names) {
+      let s = 0;
+      for(const n of names) { const v = radioVal(n); if(v === null) return null; s += Number(v); }
+      return s;
+    }
+
+    function bmiKgCm(kg, cm) { const m = cm/100; return (m > 0) ? kg/(m*m) : NaN; }
+
+    function charmBadge(level, label) {
+      const map = {
+        low:   "bg-charm-green/10 text-charm-green border-charm-green/20",
+        mod:   "bg-yellow-100 text-yellow-700 border-yellow-200",
+        high:  "bg-red-50 text-red-600 border-red-200",
+        info:  "bg-charm-blue/10 text-charm-blue border-charm-blue/20"
+      };
+      return `<span class="inline-flex items-center text-[9px] px-2 py-1 rounded border font-bold uppercase tracking-wider ${map[level]||map.info}">${label}</span>`;
+    }
+
+    function resultCard(title, badgeHtml, detail) {
+      return `
+        <div class="bg-charm-cream border border-stone-200 rounded-xl p-4">
+          <div class="flex items-start justify-between gap-2">
+            <h3 class="font-bold text-sm text-charm-dark">${title}</h3>
+            ${badgeHtml}
+          </div>
+          <p class="text-xs text-charm-gray mt-2 leading-relaxed">${detail}</p>
+        </div>
+      `;
+    }
+
+    // --- Scoring Algorithms ---
+    function calcTDS(age, sex, bmi, waist, sbp, dbp, fh) {
+      if(!age || !bmi) return { pct: NaN, level: 'info', detail: 'Missing required inputs.' };
+      let x_age=0; if(age>=55) x_age=4; else if(age>=45) x_age=3; else if(age>=35) x_age=2;
+      let x_sex = sex==='male'?2:0;
+      let x_bmi=0; if(bmi>=27.5) x_bmi=4; else if(bmi>=23) x_bmi=2;
+      let x_waist=0;
+      if(sex==='male' && waist>=90) x_waist=2; else if(sex==='male' && waist>=80) x_waist=1;
+      if(sex==='female' && waist>=80) x_waist=2; else if(sex==='female' && waist>=70) x_waist=1;
+      let x_bp=0; if(sbp>=140||dbp>=90) x_bp=4; else if(sbp>=130||dbp>=85) x_bp=2;
+      let x_fh=0; if(fh) x_fh=2;
+
+      const logit = (x_age*0.2737) + (x_sex*0.2188) + (x_bmi*0.1832) + (x_waist*0.2284) + (x_bp*0.2072) + (x_fh*0.2548) - 3.580397;
+      const p = 1/(1+Math.exp(-logit));
+      const pct = p*100;
+      let level='low'; if(pct>=20) level='high'; else if(pct>=10) level='mod';
+      return { pct, level, detail: `12-year DM risk: ${pct.toFixed(1)}%` };
+    }
+
+    function calcASCVD(sex, age, sbp, tc, waist, dm, smk) {
+      if(!age || !sbp || !tc || !waist) return { pct: NaN, level: 'info', detail: 'Need Age, SBP, TC, Waist.' };
+      const ln = Math.log, lA=ln(age), lS=ln(sbp), lT=ln(tc), lW=ln(waist);
+      const d = dm?1:0, s = smk?1:0;
+      let full = 0;
+      if(sex === 'male') {
+        full = (lA*2.593) + (lS*1.312) + (lT*0.510) + (lW*0.618) + (d*0.708) + (s*0.373) + ((lA*d)*-0.432) + ((lA*lS)*-0.349) + ((lA*lW)*-0.105);
+      } else {
+        full = (lA*4.086) + (lS*3.577) + (lT*0.611) + (lW*2.449) + (d*0.487) + (s*0.863) + ((lA*d)*-0.502) + ((lA*lS)*-0.950) + ((lA*lW)*-0.838);
+      }
+      const pct = (1 - Math.pow(0.978296, Math.exp(full - 7.720484))) * 100;
+      let level='low'; if(pct>=20) level='high'; else if(pct>=10) level='mod';
+      return { pct, level, detail: `10-year CV risk: ${pct.toFixed(1)}%` };
+    }
+
+    // Sub-scores
+    function scoreSub(names, maxGood, maxMod, msgMap) {
+      const sum = sumRadio(names);
+      if(sum===null) return { level: 'info', detail: 'Incomplete' };
+      let level='low'; if(sum >= maxGood) level='high'; else if(sum >= maxMod) level='mod';
+      return { level, detail: `${msgMap} (Score: ${sum})` };
+    }
+
+    let lastResult = null;
+
+    function computeAndShowResults() {
+      const age = num('age'), weight = num('weight'), height = num('height'), waist = num('waist');
+      const sbp = num('sbp'), dbp = num('dbp'), tc = num('tc');
+      const sex = document.getElementById('sex').value;
+      const fh_dm = checked('fh_dm'); const dm = checked('hasDiabetes'); const smkNow = checked('smokerNow');
+      const bmi = bmiKgCm(weight, height);
+
+      const tds = calcTDS(age, sex, bmi, waist, sbp, dbp, fh_dm);
+      const ascvd = calcASCVD(sex, age, sbp, tc, waist, dm, smkNow);
+
+      const smk = scoreSub(['smk2','smk3','smk4'], 5, 2, "Smoking behavior");
+      const alc = scoreSub(['alc2','alc3','alc4','alc5','alc6','alc7'], 27, 11, "Alcohol risk profile");
+      
+      const pa = radioVal('pa1');
+      const actLevel = pa==='1'?'high':(pa==='2'?'mod':'low');
+
+      const diet = sumRadio(['d1','d2','d3','d4','d5','d6','d7','d8','d9']);
+      let dietLevel = 'info', dietTxt = 'Incomplete';
+      if(diet !== null) {
+         dietLevel = diet>=11?'low':(diet>=4?'mod':'high');
+         dietTxt = `Diet quality score: ${diet}`;
+      }
+
+      const st = scoreSub(['st1','st2','st3','st4','st5'], 8, 5, "Stress (ST-5) level");
+
+      const html = [];
+      html.push(resultCard("Thai Diabetes Score", charmBadge(tds.level, tds.level), tds.detail));
+      html.push(resultCard("Thai ASCVD Score", charmBadge(ascvd.level, ascvd.level), ascvd.detail));
+      html.push(resultCard("Diet & Nutrition", charmBadge(dietLevel, dietLevel), dietTxt));
+      html.push(resultCard("Physical Activity", charmBadge(actLevel, actLevel), `Activity adequacy level.`));
+      html.push(resultCard("Mental & Stress", charmBadge(st.level, st.level), st.detail));
+
+      document.getElementById('resultsGrid').innerHTML = html.join("");
+      document.getElementById('resultStamp').innerText = new Date().toLocaleString();
+
+      lastResult = { ts: Date.now(), tds: tds.pct, ascvd: ascvd.pct };
+      openView('viewResults');
+    }
+
+    // ==========================================
+    //   History Storage
+    // ==========================================
+    const HIST_KEY = "charmjai_ncd_history";
+    function saveToHistory() {
+      if(!lastResult) return;
+      let arr = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+      arr.unshift(lastResult);
+      localStorage.setItem(HIST_KEY, JSON.stringify(arr));
+      toast("Saved to My Journey!");
+    }
+
+    function renderHistory() {
+      const arr = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+      const c = document.getElementById('historyList');
+      if(!arr.length) { c.innerHTML = `<p class="text-sm text-charm-gray">No records saved yet.</p>`; return; }
+      
+      c.innerHTML = arr.map(r => `
+        <div class="bg-charm-cream border border-stone-200 rounded-xl p-4 flex justify-between items-center">
+          <div>
+            <div class="text-sm font-bold text-charm-dark">${new Date(r.ts).toLocaleDateString()}</div>
+            <div class="text-[10px] text-charm-gray mt-1">DM Risk: ${r.tds?r.tds.toFixed(1):'--'}% | CV Risk: ${r.ascvd?r.ascvd.toFixed(1):'--'}%</div>
+          </div>
+          <i class="fas fa-chevron-right text-stone-300"></i>
+        </div>
+      `).join("");
+    }
+
+    function clearHistory() { localStorage.removeItem(HIST_KEY); renderHistory(); }
+
+    // ==========================================
+    //   Community Feature
+    // ==========================================
+    const POSTS_KEY = "charmjai_ncd_posts";
+
+    function getPosts() {
+      let p = JSON.parse(localStorage.getItem(POSTS_KEY) || "null");
+      if(!p) {
+        p = [
+          { id: 2, author: "Sarah W.", time: "2h ago", text: "Finally hit my 10k steps today! Adding an evening walk really helps.", likes: 12, triage: "safe" },
+          { id: 1, author: "Dr. K (Pharm)", time: "5h ago", text: "Reminder: NCD scores are just guides. Don't stop your meds without consulting your doctor!", likes: 45, triage: "expert" }
+        ];
+        localStorage.setItem(POSTS_KEY, JSON.stringify(p));
+      }
+      return p;
+    }
+
+    function triageAI(txt) {
+      const lower = txt.toLowerCase();
+      if(lower.includes("stop med") || lower.includes("cure")) return { status: "flagged", label: "Flagged: Review" };
+      return { status: "safe", label: "Safe" };
+    }
+
+    function renderFeed() {
+      const posts = getPosts();
+      const c = document.getElementById('communityFeed');
+      c.innerHTML = posts.map(p => {
+        const badgeColor = p.triage === 'flagged' ? 'bg-red-50 text-red-600 border-red-200' : (p.triage === 'expert' ? 'bg-charm-gold/10 text-yellow-700 border-charm-gold/30' : 'bg-stone-100 text-stone-500 border-stone-200');
+        
+        return `
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+          <div class="flex justify-between items-start mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-charm-blue text-white flex items-center justify-center font-bold text-sm">
+                ${p.author.charAt(0)}
+              </div>
+              <div>
+                <div class="text-xs font-bold text-charm-dark">${p.author}</div>
+                <div class="text-[9px] text-charm-gray">${p.time}</div>
+              </div>
+            </div>
+            <span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase ${badgeColor}">${p.triage === 'expert' ? '<i class="fas fa-check-circle mr-1"></i> Expert' : p.triage}</span>
+          </div>
+          <p class="text-sm text-charm-dark leading-relaxed font-light">${p.text}</p>
+          <div class="mt-4 flex gap-4 text-xs text-charm-gray border-t border-stone-100 pt-3">
+             <button class="hover:text-charm-blue transition"><i class="far fa-heart mr-1"></i> ${p.likes}</button>
+             <button class="hover:text-charm-blue transition"><i class="far fa-comment mr-1"></i> Reply</button>
+          </div>
+        </div>
+        `;
+      }).join("");
+    }
+
+    function createPost() {
+      const txt = document.getElementById('postInput').value.trim();
+      if(!txt) return;
+      const triage = triageAI(txt);
+      const newPost = { id: Date.now(), author: "Me", time: "Just now", text: txt, likes: 0, triage: triage.status };
+      
+      const posts = getPosts();
+      posts.unshift(newPost);
+      localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+      
+      document.getElementById('postInput').value = "";
+      renderFeed();
+      if(triage.status === 'flagged') toast("Posted, but flagged for medical claims.");
+      else toast("Posted successfully!");
+    }
+
+    // Init
+    openView('viewBasic');
+
+  </script>
+</body>
+</html>

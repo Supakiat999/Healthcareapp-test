@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+<!--
+CAREMU HEALTH PRO - ENTERPRISE EDITION
+Version: 3.0.0
+Description: Advanced NCD Screening, Community Platform, and Health Tracking
+Features: PDF Export, Medication Tracker, Enhanced Water Visualizer, Real-Time Validation, System Dark Mode
+Formulas: Thai Diabetes Score (TDS) & Thai ASCVD Score (Exact Implementation)
+-->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<meta name="theme-color" content="#F9F7F2" />
+<meta name="description" content="Caremu Health - Advanced NCD Screening & Community Platform" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Caremu Health Pro</title>
+
+<!-- External Libraries -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+<!-- Tailwind Configuration -->
+<script>
+tailwind.config = {
+darkMode: 'class',
+theme: {
+extend: {
+colors: {
+charm: {
+blue: '#5B6C9D',
+blueDark: '#4A5A85',
+gold: '#C5A059',
+goldDark: '#A88645',
+cream: '#F9F7F2',
+creamDark: '#E6E2D8',
+dark: '#1A1A1A',
+darkLight: '#2D2D2D',
+gray: '#8C8C8C',
+green: '#4A7A5E',
+greenDark: '#3A604A',
+red: '#DC2626',
+redDark: '#B91C1C',
+badgebg: '#F4EFE6',
+badgetxt: '#8B6B4A'
+}
+},
+fontFamily: {
+serif: ['"Bodoni Moda"', 'serif'],
+sans: ['"Inter"', 'sans-serif'],
+},
+boxShadow: {
+soft: '0 10px 40px -10px rgba(91, 108, 157, 0.15)',
+glow: '0 0 20px rgba(197, 160, 89, 0.25)',
+inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)',
+float: '0 20px 50px -12px rgba(0, 0, 0, 0.25)'
+},
+animation: {
+'bounce-in': 'bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+'scan': 'scan 2s linear infinite',
+'slide-up': 'slideUp 0.4s ease-out forwards',
+'fade-in': 'fadeIn 0.3s ease-in forwards',
+'water-fill': 'waterFill 1s ease-out forwards'
+},
+keyframes: {
+bounceIn: {
+'0%': { opacity: '0', transform: 'scale(0.95)' },
+'100%': { opacity: '1', transform: 'scale(1)' },
+},
+scan: {
+'0%': { transform: 'translateY(-100%)' },
+'100%': { transform: 'translateY(100%)' }
+},
+slideUp: {
+'0%': { transform: 'translateY(20px)', opacity: '0' },
+'100%': { transform: 'translateY(0)', opacity: '1' }
+},
+fadeIn: {
+'0%': { opacity: '0' },
+'100%': { opacity: '1' }
+},
+waterFill: {
+'0%': { height: '0%' },
+'100%': { height: '100%' }
+}
+}
+}
+}
+}
+</script>
+
+<!-- Custom Styles -->
+<style>
+/*
+========================================
+BASE RESET & VARIABLES
+========================================
+*/
+:root {
+--nav-height: 5rem;
+--header-height: 5rem;
+--water-color: #3B82F6;
+--water-bg: #EFF6FF;
+}
+
+html {
+scroll-behavior: smooth;
+-webkit-text-size-adjust: 100%;
+}
+
+body {
+-webkit-tap-highlight-color: transparent;
+font-feature-settings: "cv11", "ss01";
+font-variation-settings: "opsz" 16;
+}
+
+/* Light Mode Base */
+.light body {
+background-color: #e0ded8;
+color: #1A1A1A;
+}
+
+/* Dark Mode Base */
+.dark body {
+background-color: #0f172a;
+color: #F9F7F2;
+}
+
+/*
+========================================
+SCROLLBAR HIDING
+========================================
+*/
+.no-scrollbar::-webkit-scrollbar {
+display: none;
+}
+
+.no-scrollbar {
+-ms-overflow-style: none;
+scrollbar-width: none;
+}
+
+/*
+========================================
+GLASSMORPHISM EFFECTS
+========================================
+*/
+.glass-nav {
+background: rgba(249, 247, 242, 0.85);
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
+border-top: 1px solid rgba(197, 160, 89, 0.15);
+}
+
+.dark .glass-nav {
+background: rgba(26, 26, 26, 0.85);
+border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-header {
+background: rgba(249, 247, 242, 0.85);
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
+border-bottom: 1px solid rgba(197, 160, 89, 0.10);
+}
+
+.dark .glass-header {
+background: rgba(26, 26, 26, 0.85);
+border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/*
+========================================
+VIEW TRANSITIONS
+========================================
+*/
+.view-section {
+display: none;
+opacity: 0;
+transform: translateY(10px);
+transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.view-section.active {
+display: block;
+opacity: 1;
+transform: translateY(0);
+}
+
+/*
+========================================
+FORM ELEMENTS
+========================================
+*/
+input[type="radio"],
+input[type="checkbox"] {
+accent-color: #5B6C9D;
+width: 1.2rem;
+height: 1.2rem;
+cursor: pointer;
+}
+
+.dark input[type="radio"],
+.dark input[type="checkbox"] {
+accent-color: #C5A059;
+}
+
+.charm-input {
+background-color: #FFFFFF;
+border: 1px solid #E5E7EB;
+color: #1A1A1A;
+border-radius: 0.75rem;
+padding: 0.85rem 1rem;
+width: 100%;
+font-size: 0.9rem;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.dark .charm-input {
+background-color: #2D2D2D;
+border-color: #404040;
+color: #F9F7F2;
+}
+
+.charm-input:focus {
+outline: none;
+border-color: #C5A059;
+box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+transform: translateY(-1px);
+}
+
+.charm-label {
+font-size: 0.65rem;
+font-weight: 700;
+color: #8C8C8C;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+margin-bottom: 0.5rem;
+display: block;
+}
+
+.dark .charm-label {
+color: #A8A29E;
+}
+
+/*
+========================================
+NAVIGATION STATES
+========================================
+*/
+.nav-item-active {
+color: #5B6C9D;
+transform: scale(1.05);
+}
+
+.dark .nav-item-active {
+color: #C5A059;
+}
+
+.nav-item-active i {
+filter: drop-shadow(0 4px 6px rgba(91, 108, 157, 0.3));
+}
+
+.nav-item-inactive {
+color: #A8A29E;
+}
+
+.nav-item-inactive:hover {
+color: #5B6C9D;
+}
+
+.dark .nav-item-inactive {
+color: #6B7280;
+}
+
+.dark .nav-item-inactive:hover {
+color: #C5A059;
+}
+
+/*
+========================================
+CUSTOM UTILITIES
+========================================
+*/
+.loading-spinner {
+border: 3px solid rgba(255,255,255,0.3);
+border-radius: 50%;
+border-top: 3px solid #C5A059;
+width: 20px;
+height: 20px;
+animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+/* Water Visualizer Animation */
+.water-wave {
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+background: linear-gradient(to top, #3B82F6, #60A5FA);
+transition: height 0.5s ease-out;
+border-top-left-radius: 50%;
+border-top-right-radius: 50%;
+opacity: 0.8;
+}
+
+/*
+========================================
+PRINT STYLES
+========================================
+*/
+@media print {
+.nav-bar, .no-print {
+display: none !important;
+}
+body {
+background: white;
+color: black;
+}
+.view-section {
+display: block !important;
+opacity: 1 !important;
+transform: none !important;
+}
+#viewResults {
+display: block !important;
+}
+#viewProfile, #viewSurvey, #viewCommunity, #viewHistory, #viewSettings, #viewMeds {
+display: none !important;
+}
+}
+</style>
+</head>
+
+<body class="flex justify-center min-h-screen font-sans transition-colors duration-300">
+<!--
+========================================
+APP CONTAINER
+========================================
+-->
+<div class="w-full max-w-md bg-charm-cream relative min-h-[100dvh] sm:h-[900px] sm:my-8 shadow-2xl sm:rounded-[2.5rem] overflow-hidden flex flex-col border border-white/50 dark:bg-charm-dark dark:border-white/10 transition-colors duration-300" id="appContainer">
+<!-- 
+    ========================================
+    HEADER SECTION
+    ========================================
+-->
+<header class="flex-none px-6 py-5 pt-8 flex justify-between items-end glass-header z-30 transition-colors duration-300">
+    <div>
+        <div class="flex items-center gap-2 mb-1">
+            <i class="fas fa-shield-heart text-charm-gold text-xs"></i>
+            <span class="text-[10px] uppercase tracking-[0.22em] text-charm-gold font-bold">Health Guardian Pro</span>
+        </div>
+        <h1 class="font-serif text-3xl font-bold tracking-tight text-charm-dark leading-none dark:text-white">CAREMU</h1>
+    </div>
+    <div class="flex items-center gap-3">
+        <button onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-charm-blue shadow-sm active:scale-95 transition-transform duration-200 dark:bg-charm-darkLight dark:border-white/10 dark:text-charm-gold" aria-label="Toggle Theme">
+            <i class="fas fa-moon text-sm"></i>
+        </button>
+        <button onclick="openView('viewSettings')" class="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-charm-blue shadow-sm active:scale-95 transition-transform duration-200 dark:bg-charm-darkLight dark:border-white/10 dark:text-charm-gold" aria-label="Open Settings">
+            <i class="fas fa-sliders-h text-sm"></i>
+        </button>
+    </div>
+</header>
+
+<!-- 
+    ========================================
+    MAIN CONTENT AREA
+    ========================================
+-->
+<main class="flex-1 overflow-y-auto no-scrollbar px-5 py-6 pb-32 scroll-smooth relative" id="mainContainer">
+
+    <!-- 
+        ========================================
+        VIEW: PROFILE / DASHBOARD
+        ========================================
+    -->
+    <section id="viewProfile" class="view-section active">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-xl font-bold font-serif text-charm-dark dark:text-white">My Dashboard</h2>
+                <p class="text-xs text-charm-gray mt-0.5 dark:text-gray-400"><i class="far fa-calendar mr-1"></i> <span id="currentDate">Today</span></p>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1.5 bg-white border border-stone-100 px-3 py-1.5 rounded-full shadow-sm cursor-help dark:bg-charm-darkLight dark:border-white/10" title="Current usage streak">
+                    <i class="fas fa-fire text-orange-500 text-sm animate-pulse-slow"></i>
+                    <span class="text-xs font-bold text-charm-dark dark:text-white"><span id="streakCount">3</span> Days</span>
+                </div>
+                <div class="relative">
+                    <img src="https://ui-avatars.com/api/?name=User&background=C5A059&color=fff&size=128" class="w-11 h-11 rounded-full border-2 border-white shadow-md dark:border-white/20" alt="User Avatar">
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full dark:border-charm-dark"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Region Alert -->
+        <div id="regionAlertBox" class="bg-white rounded-2xl p-5 border-l-4 border-l-charm-gray shadow-soft mb-6 transition-all duration-500 group dark:bg-charm-darkLight dark:border-white/10">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-[10px] font-bold text-charm-gray uppercase tracking-widest mb-1 group-hover:text-charm-blue transition-colors dark:text-gray-400">Local Insight</p>
+                    <h3 id="regionTitle" class="font-serif text-lg font-bold text-charm-dark dark:text-white">Select Region</h3>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-charm-cream flex items-center justify-center text-charm-dark shadow-sm dark:bg-white/5 dark:text-white">
+                    <i class="fas fa-map-marker-alt text-lg"></i>
+                </div>
+            </div>
+            <p id="regionDesc" class="text-xs text-charm-gray mt-3 leading-relaxed font-medium dark:text-gray-400">
+                Please update your region in the Profile Survey to get localized disease risk alerts.
+            </p>
+        </div>
+
+        <!-- Start Assessment Card -->
+        <div class="bg-charm-blue text-white rounded-2xl p-5 shadow-glow mb-6 relative overflow-hidden group cursor-pointer hover:bg-opacity-90 transition-all" onclick="openView('viewSurvey')">
+            <div class="absolute right-0 top-0 opacity-10 text-9xl -mr-6 -mt-6 group-hover:scale-110 transition-transform duration-700"><i class="fas fa-play-circle"></i></div>
+            <div class="relative z-10">
+                <p class="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-1">Today's Focus</p>
+                <h3 class="text-lg font-serif font-bold mb-2">Complete Assessment</h3>
+                <p class="text-xs opacity-90 mb-4 max-w-[80%] font-light leading-relaxed">It takes 3-5 mins to unlock your personalized NCD risk report.</p>
+                <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm group-hover:bg-white group-hover:text-charm-blue transition-colors">
+                    Start Step 1 <i class="fas fa-arrow-right ml-1"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calories -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-6 dark:bg-charm-darkLight dark:border-white/10">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-bold text-sm text-charm-dark flex items-center gap-2 dark:text-white">
+                    <i class="fas fa-bullseye text-charm-gold"></i> Daily Calories
+                </h3>
+                <span class="text-xs font-bold text-charm-blue bg-charm-blue/5 px-2 py-1 rounded-lg dark:text-charm-gold dark:bg-white/5"><span id="calEaten">0</span> / 2000 kcal</span>
+            </div>
+            <div class="h-3 w-full bg-charm-cream rounded-full overflow-hidden shadow-inner dark:bg-white/5">
+                <div id="calBar" class="h-full bg-gradient-to-r from-charm-gold to-yellow-400 transition-all duration-1000 ease-out" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Activity & Sleep Grid -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <!-- Steps -->
+            <div class="bg-gradient-to-br from-white to-charm-cream rounded-2xl p-4 border border-white shadow-soft dark:from-charm-darkLight dark:to-white/5 dark:border-white/10">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-8 h-8 rounded-full bg-charm-blue/10 flex items-center justify-center text-charm-blue shadow-inner dark:bg-charm-blue/20">
+                        <i class="fas fa-shoe-prints text-sm"></i>
+                    </div>
+                    <button onclick="toast('Syncing Apple Health...')" class="text-charm-gray hover:text-charm-blue transition p-1 dark:text-gray-400 dark:hover:text-white" aria-label="Sync Steps">
+                        <i class="fas fa-sync-alt text-xs"></i>
+                    </button>
+                </div>
+                <p class="text-[10px] uppercase font-bold text-charm-blue tracking-wider mb-0.5">Steps</p>
+                <p class="text-2xl font-serif font-bold text-charm-dark dark:text-white">6,432</p>
+                <p class="text-[10px] text-charm-gray mt-1 font-medium dark:text-gray-400">Goal: 10,000</p>
+            </div>
+            <!-- Sleep -->
+            <div class="bg-gradient-to-br from-white to-charm-cream rounded-2xl p-4 border border-white shadow-soft relative dark:from-charm-darkLight dark:to-white/5 dark:border-white/10">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="w-8 h-8 rounded-full bg-charm-green/10 flex items-center justify-center text-charm-green shadow-inner dark:bg-charm-green/20">
+                        <i class="fas fa-moon text-sm"></i>
+                    </div>
+                    <span id="sleepTotal" class="text-lg font-serif font-bold text-charm-dark dark:text-white">--h</span>
+                </div>
+                <p class="text-[10px] uppercase font-bold text-charm-green tracking-wider mb-2">Sleep Duration</p>
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <label class="text-[8px] font-bold text-charm-gray block mb-1 dark:text-gray-400">BED</label>
+                        <input type="time" id="bedtime" class="bg-white border border-stone-200 rounded-lg px-1.5 py-1.5 text-[10px] w-full text-charm-dark font-bold focus:border-charm-green focus:outline-none shadow-sm transition dark:bg-charm-dark dark:border-white/10 dark:text-white" onchange="calcSleep()">
+                    </div>
+                    <div class="flex-1">
+                        <label class="text-[8px] font-bold text-charm-gray block mb-1 dark:text-gray-400">WAKE</label>
+                        <input type="time" id="waketime" class="bg-white border border-stone-200 rounded-lg px-1.5 py-1.5 text-[10px] w-full text-charm-dark font-bold focus:border-charm-green focus:outline-none shadow-sm transition dark:bg-charm-dark dark:border-white/10 dark:text-white" onchange="calcSleep()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Water Tracker (ENHANCED) -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-6 dark:bg-charm-darkLight dark:border-white/10">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-bold text-sm text-charm-dark flex items-center gap-2 dark:text-white">
+                    <i class="fas fa-tint text-blue-400"></i> Hydration
+                </h3>
+                <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded-lg dark:bg-blue-900/20"><span id="waterIntake">0</span> / 2000 ml</span>
+            </div>
+            <!-- Visualizer -->
+            <div class="h-24 w-full bg-blue-50 rounded-xl overflow-hidden relative mb-3 dark:bg-blue-900/10">
+                <div id="waterVisualizer" class="water-wave" style="height: 0%;"></div>
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <i class="fas fa-glass-water text-blue-300 text-4xl opacity-50"></i>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="addWater(250)" class="flex-1 bg-blue-50 text-blue-600 font-bold py-2 rounded-xl hover:bg-blue-100 transition dark:bg-blue-900/20 dark:text-blue-400">+250ml</button>
+                <button onclick="addWater(500)" class="flex-1 bg-blue-50 text-blue-600 font-bold py-2 rounded-xl hover:bg-blue-100 transition dark:bg-blue-900/20 dark:text-blue-400">+500ml</button>
+            </div>
+        </div>
+
+        <!-- Medication Tracker (NEW FEATURE) -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-6 dark:bg-charm-darkLight dark:border-white/10">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-sm text-charm-dark flex items-center gap-2 dark:text-white">
+                    <i class="fas fa-pills text-charm-red"></i> Medications
+                </h3>
+                <button onclick="toggleMedModal()" class="text-xs font-bold text-charm-blue hover:underline dark:text-charm-gold">+ Add Med</button>
+            </div>
+            <div id="medList" class="space-y-2">
+                <div class="text-xs text-charm-gray text-center py-2 dark:text-gray-400">No medications added yet.</div>
+            </div>
+        </div>
+
+        <!-- Quest Card -->
+        <div class="bg-charm-dark rounded-2xl p-6 shadow-glow mb-6 relative overflow-hidden group cursor-pointer dark:bg-black" onclick="toggleQuestModal()">
+            <div class="absolute -right-6 -top-6 opacity-10 text-white text-8xl transition-transform group-hover:scale-110 duration-700"><i class="fas fa-medal"></i></div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="fas fa-star text-charm-gold text-xs"></i>
+                    <span class="text-[10px] font-bold text-charm-gold uppercase tracking-widest">Active Mission</span>
+                </div>
+                <p id="questTitle" class="text-xl font-serif font-bold text-white mb-2">The Baseline Defender</p>
+                <p id="questDesc" class="text-xs text-stone-400 font-light leading-relaxed max-w-[90%]">
+                    Complete your first Health Assessment to unlock your personalized track!
+                </p>
+                <div class="mt-4 flex items-center gap-2 text-white/80 text-xs font-bold group-hover:text-white transition-colors">
+                    <span>View Details</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Food Logger -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft dark:bg-charm-darkLight dark:border-white/10">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-sm text-charm-dark dark:text-white"><i class="fas fa-robot text-charm-blue mr-2"></i>AI Nutrition Lens</h3>
+            </div>
+            <div class="relative w-full h-36 bg-stone-50 border-2 border-dashed border-stone-200 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-stone-100 hover:border-charm-gold transition duration-300 group dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10" onclick="document.getElementById('foodInput').click()">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-2 group-hover:scale-110 transition-transform duration-300 dark:bg-charm-dark">
+                    <i class="fas fa-camera text-charm-gray text-lg group-hover:text-charm-blue transition-colors"></i>
+                </div>
+                <span class="text-xs font-bold text-charm-gray dark:text-gray-400">Tap to Snap Meal</span>
+                <input type="file" id="foodInput" accept="image/*" class="hidden" onchange="handleFoodUpload(this)">
+            </div>
+            <div id="foodPreviewBox" class="hidden mt-4">
+                <div class="relative w-full h-48 rounded-xl overflow-hidden shadow-lg mb-4">
+                    <img id="foodPreviewImg" src="" class="w-full h-full object-cover">
+                    <div id="foodAiAnalyzing" class="absolute inset-0 bg-charm-dark/60 backdrop-blur-sm flex flex-col items-center justify-center text-white">
+                        <div class="w-full h-1 bg-charm-gold/80 absolute top-0 animate-scan shadow-[0_0_15px_#C5A059]"></div>
+                        <i class="fas fa-brain fa-spin text-3xl text-charm-gold mb-3"></i>
+                        <span class="text-xs font-bold tracking-widest uppercase">Analyzing Composition...</span>
+                    </div>
+                </div>
+                <div id="foodEditBox" class="hidden space-y-4 bg-charm-cream p-4 rounded-xl border border-stone-200 animate-bounce-in dark:bg-charm-darkLight dark:border-white/10">
+                    <div class="flex justify-between items-center border-b border-stone-200 pb-2 dark:border-white/10">
+                        <p class="text-[10px] uppercase font-bold text-charm-blue dark:text-charm-gold"><i class="fas fa-check-circle mr-1"></i> AI Identified</p>
+                        <button onclick="toast('Feedback sent to AI')" class="text-[10px] text-charm-gray hover:text-charm-dark underline transition dark:text-gray-400 dark:hover:text-white">Wrong?</button>
+                    </div>
+                    <input id="foodName" type="text" class="w-full bg-white border border-stone-200 rounded-lg p-2.5 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none transition dark:bg-charm-dark dark:border-white/10 dark:text-white">
+                    <div class="grid grid-cols-4 gap-2">
+                        <div class="text-center">
+                            <label class="text-[9px] font-bold text-charm-gray uppercase block mb-1 dark:text-gray-400">Cals</label>
+                            <input id="foodCals" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm text-center font-bold text-charm-dark outline-none focus:border-charm-gold transition dark:bg-charm-dark dark:border-white/10 dark:text-white">
+                        </div>
+                        <div class="text-center">
+                            <label class="text-[9px] font-bold text-charm-gray uppercase block mb-1 dark:text-gray-400">Carbs</label>
+                            <input id="foodCarbs" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm text-center text-charm-dark outline-none focus:border-charm-gold transition dark:bg-charm-dark dark:border-white/10 dark:text-white">
+                        </div>
+                        <div class="text-center">
+                            <label class="text-[9px] font-bold text-charm-gray uppercase block mb-1 dark:text-gray-400">Pro</label>
+                            <input id="foodPro" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm text-center text-charm-dark outline-none focus:border-charm-gold transition dark:bg-charm-dark dark:border-white/10 dark:text-white">
+                        </div>
+                        <div class="text-center">
+                            <label class="text-[9px] font-bold text-charm-gray uppercase block mb-1 dark:text-gray-400">Fat</label>
+                            <input id="foodFat" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm text-center text-charm-dark outline-none focus:border-charm-gold transition dark:bg-charm-dark dark:border-white/10 dark:text-white">
+                        </div>
+                    </div>
+                    <button onclick="saveFoodEntry()" class="w-full mt-2 bg-charm-blue text-white text-xs font-bold py-3.5 rounded-xl shadow-soft active:scale-[0.98] transition hover:bg-opacity-90 flex justify-center items-center gap-2">
+                        <i class="fas fa-plus"></i> Add to Diary
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+        ========================================
+        VIEW: SURVEY
+        ========================================
+    -->
+    <section id="viewSurvey" class="view-section h-full flex flex-col">
+        <div class="sticky top-0 bg-charm-cream z-20 pb-4 pt-1 shadow-sm px-1 dark:bg-charm-dark">
+            <div class="flex items-center justify-between mb-2">
+                <div>
+                    <h2 class="text-xl font-bold font-serif text-charm-dark dark:text-white">Assessment</h2>
+                    <p class="text-xs text-charm-gray dark:text-gray-400">Est. time: ~3 min</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs font-bold text-charm-blue bg-charm-blue/10 px-2 py-1 rounded-md dark:text-charm-gold dark:bg-white/10" id="stepIndicator">Step 1 of 3</span>
+                </div>
+            </div>
+            <div class="h-1.5 w-full bg-stone-200 rounded-full overflow-hidden shadow-inner dark:bg-white/10">
+                <div id="surveyProgressBar" class="h-full bg-charm-blue transition-all duration-500 ease-out" style="width: 33%;"></div>
+            </div>
+        </div>
+
+        <!-- Step 1: Clinical -->
+        <div id="surveyStep1" class="survey-step space-y-6 pt-4">
+            <div class="bg-white rounded-2xl p-6 border border-stone-100 shadow-soft dark:bg-charm-darkLight dark:border-white/10">
+                <div class="flex items-center gap-3 mb-6 border-b border-stone-100 pb-4 dark:border-white/10">
+                    <div class="w-8 h-8 rounded-full bg-charm-gold text-white flex items-center justify-center font-bold font-serif shadow-sm">1</div>
+                    <div>
+                        <h3 class="font-bold text-lg font-serif text-charm-dark dark:text-white">Vitals & Profile</h3>
+                        <p class="text-[11px] text-charm-gray dark:text-gray-400">Core NCD risk factors & demographics.</p>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <label class="charm-label" for="region">YOUR RESIDENCE (REGION)</label>
+                        <div class="relative">
+                            <select id="region" class="charm-input appearance-none cursor-pointer pr-10" onchange="updateRegionAlert()">
+                                <option value="" disabled selected>Select Region...</option>
+                                <option value="bangkok">Bangkok & Metro</option>
+                                <option value="central">Central Thailand</option>
+                                <option value="north">North (Chiang Mai, etc.)</option>
+                                <option value="northeast">Northeast (Isan)</option>
+                                <option value="south">South</option>
+                            </select>
+                            <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-charm-gray pointer-events-none"></i>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="charm-label" for="dob">DATE OF BIRTH</label>
+                            <input id="dob" type="date" class="charm-input" onchange="updateQuests()">
+                        </div>
+                        <div>
+                            <label class="charm-label" for="sex">SEX</label>
+                            <div class="relative">
+                                <select id="sex" class="charm-input appearance-none pr-10">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                                <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-charm-gray pointer-events-none"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="charm-label" for="weight">WEIGHT (KG)</label>
+                            <input id="weight" type="number" step="0.1" class="charm-input" placeholder="e.g. 65" oninput="validateInput('weight', 0, 300)">
+                        </div>
+                        <div>
+                            <label class="charm-label" for="height">HEIGHT (CM)</label>
+                            <input id="height" type="number" step="0.1" class="charm-input" placeholder="e.g. 170" oninput="validateInput('height', 50, 250)">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="charm-label" for="waist">WAIST CIRCUMFERENCE (CM)</label>
+                        <input id="waist" type="number" step="0.1" class="charm-input" placeholder="e.g. 85" oninput="validateInput('waist', 40, 200)">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="charm-label" for="sbp">SYSTOLIC BP</label>
+                            <input id="sbp" type="number" class="charm-input" placeholder="mmHg" oninput="validateInput('sbp', 60, 250)">
+                        </div>
+                        <div>
+                            <label class="charm-label" for="dbp">DIASTOLIC BP</label>
+                            <input id="dbp" type="number" class="charm-input" placeholder="mmHg" oninput="validateInput('dbp', 40, 150)">
+                        </div>
+                    </div>
+                    <hr class="border-stone-100 my-2 dark:border-white/10">
+                    <div class="grid grid-cols-2 gap-y-5 gap-x-2 pt-1">
+                        <label class="flex items-center gap-3 text-sm text-charm-dark font-medium cursor-pointer hover:bg-stone-50 p-2 rounded-lg transition-colors border border-transparent hover:border-stone-200 dark:text-white dark:hover:bg-white/5 dark:border-white/10">
+                            <input id="hasDiabetes" type="checkbox" class="w-5 h-5 rounded border-gray-300">
+                            <span>Known Diabetes</span>
+                        </label>
+                        <label class="flex items-center gap-3 text-sm text-charm-dark font-medium cursor-pointer hover:bg-stone-50 p-2 rounded-lg transition-colors border border-transparent hover:border-stone-200 dark:text-white dark:hover:bg-white/5 dark:border-white/10">
+                            <input id="smokerNow" type="checkbox" class="w-5 h-5 rounded border-gray-300">
+                            <span>Current Smoker</span>
+                        </label>
+                        <label class="flex items-center gap-3 text-sm text-charm-dark font-medium cursor-pointer hover:bg-stone-50 p-2 rounded-lg transition-colors border border-transparent hover:border-stone-200 dark:text-white dark:hover:bg-white/5 dark:border-white/10">
+                            <input id="hasHTN" type="checkbox" class="w-5 h-5 rounded border-gray-300">
+                            <span>Hypertension</span>
+                        </label>
+                        <label class="flex items-center gap-3 text-sm text-charm-dark font-medium cursor-pointer hover:bg-stone-50 p-2 rounded-lg transition-colors border border-transparent hover:border-stone-200 dark:text-white dark:hover:bg-white/5 dark:border-white/10">
+                            <input id="fh_dm" type="checkbox" class="w-5 h-5 rounded border-gray-300">
+                            <span>Family Diabetes</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-stone-100 dark:border-white/10">
+                    <button onclick="changeSurveyStep(2)" class="w-full bg-charm-blue text-white font-bold py-4 rounded-xl shadow-soft active:scale-[0.98] transition-transform hover:bg-opacity-90 flex justify-center items-center gap-2 text-base">
+                        Continue to Labs <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Labs -->
+        <div id="surveyStep2" class="survey-step hidden space-y-6 pt-4">
+            <div class="bg-white rounded-2xl p-6 border border-stone-100 shadow-soft mb-4 dark:bg-charm-darkLight dark:border-white/10">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-charm-gold text-white flex items-center justify-center font-bold font-serif shadow-sm">2</div>
+                        <div><h3 class="font-bold text-lg font-serif text-charm-dark dark:text-white">Lab Results</h3><p class="text-[11px] text-charm-gray dark:text-gray-400">From your annual checkup.</p></div>
+                    </div>
+                    <span class="text-[9px] px-2 py-1 bg-stone-100 rounded text-charm-gray font-bold tracking-wider dark:bg-white/10 dark:text-gray-400">OPTIONAL</span>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2"><label class="charm-label">TOTAL CHOLESTEROL</label><input id="tc" type="number" class="charm-input" placeholder="mg/dL"></div>
+                    <div><label class="charm-label">FASTING SUGAR</label><input id="fbs" type="number" class="charm-input" placeholder="mg/dL"></div>
+                    <div><label class="charm-label">TRIGLYCERIDES</label><input id="tg" type="number" class="charm-input" placeholder="mg/dL"></div>
+                    <div><label class="charm-label">LDL-C</label><input id="ldl" type="number" class="charm-input" placeholder="mg/dL"></div>
+                    <div><label class="charm-label">HDL-C</label><input id="hdl" type="number" class="charm-input" placeholder="mg/dL"></div>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="changeSurveyStep(1)" class="flex-1 bg-white border border-charm-blue text-charm-blue font-bold py-4 rounded-xl active:scale-95 transition dark:bg-charm-dark dark:border-white/10 dark:text-white">Back</button>
+                <button onclick="changeSurveyStep(3)" class="flex-[2] bg-charm-blue text-white font-bold py-4 rounded-xl shadow-soft active:scale-[0.98] transition">Next: Lifestyle <i class="fas fa-arrow-right ml-2"></i></button>
+            </div>
+        </div>
+
+        <!-- Step 3: Lifestyle -->
+        <div id="surveyStep3" class="survey-step hidden space-y-6 pb-20 pt-4">
+            <div class="bg-white rounded-2xl p-6 border border-stone-100 shadow-soft mb-4 dark:bg-charm-darkLight dark:border-white/10">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-8 h-8 rounded-full bg-charm-gold text-white flex items-center justify-center font-bold font-serif shadow-sm">3</div>
+                    <div><h3 class="font-bold text-lg font-serif text-charm-dark dark:text-white">Lifestyle Habits</h3><p class="text-[11px] text-charm-gray dark:text-gray-400">32 detailed behavior checkpoints.</p></div>
+                </div>
+                <div class="space-y-4">
+                    <!-- Smoking -->
+                    <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group transition-all duration-300 open:shadow-md dark:bg-white/5 dark:border-white/10">
+                        <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark dark:text-white list-none">
+                            <span class="flex items-center gap-2"><i class="fas fa-smoking text-charm-gray"></i> 1. Smoking Habits</span>
+                            <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="mt-4 space-y-5 pt-4 border-t border-stone-200/50 dark:border-white/10">
+                            <div>
+                                <div class="text-[11px] font-bold text-charm-blue mb-2 uppercase tracking-wide dark:text-charm-gold">S1. Current tobacco use</div>
+                                <div class="space-y-2 text-sm text-charm-dark font-medium dark:text-white">
+                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="smk1" value="never" onchange="updateFollowups()"> Never</label>
+                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="smk1" value="quit" onchange="updateFollowups()"> Used to smoke but quit</label>
+                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="smk1" value="sometimes" onchange="updateFollowups()"> Sometimes</label>
+                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="smk1" value="daily" onchange="updateFollowups()"> Every day</label>
+                                </div>
+                            </div>
+                            <div id="smokingFollowups" class="space-y-5 animate-bounce-in">
+                                <div>
+                                    <div class="text-[11px] font-bold text-charm-blue mb-2 uppercase tracking-wide dark:text-charm-gold">S2. Cigarettes per day</div>
+                                    <div class="space-y-2 text-sm text-charm-dark font-medium dark:text-white">
+                                        <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="smk2" value="0"> Not smoking</label>
+                                        <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="smk2" value="1"> 1–9</label>
+                                        <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="smk2" value="2"> 10–19</label>
+                                        <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="smk2" value="3"> ≥20</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                    <!-- Alcohol -->
+                    <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group transition-all duration-300 open:shadow-md dark:bg-white/5 dark:border-white/10">
+                        <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark dark:text-white list-none">
+                            <span class="flex items-center gap-2"><i class="fas fa-wine-glass mr-2 text-charm-gray"></i> 2. Alcohol</span>
+                            <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="mt-4 space-y-5 pt-4 border-t border-stone-200/50 dark:border-white/10">
+                            <div>
+                                <div class="text-[11px] font-bold text-charm-blue mb-2 uppercase tracking-wide dark:text-charm-gold">A1. Alcohol in past 3 months?</div>
+                                <div class="space-y-2 text-sm text-charm-dark font-medium dark:text-white">
+                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="alc1" value="never" onchange="updateFollowups()"> Never</label>
+                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="alc1" value="yes" onchange="updateFollowups()"> Yes</label>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                    <!-- Diet -->
+                    <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group transition-all duration-300 open:shadow-md dark:bg-white/5 dark:border-white/10">
+                        <summary class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark dark:text-white list-none">
+                            <span class="flex items-center gap-2"><i class="fas fa-utensils mr-2 text-charm-gray"></i> 4. Diet</span>
+                            <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="mt-4 space-y-5 pt-4 border-t border-stone-200/50 dark:border-white/10">
+                            <div><div class="text-[11px] font-bold text-charm-blue mb-2 uppercase tracking-wide dark:text-charm-gold">D1. Vegetables (days/week)</div>
+                            <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium dark:text-white"><label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="d1" value="0"> 0</label><label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="d1" value="1"> 1–2</label><label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="d1" value="2"> 3–4</label><label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="d1" value="3"> ≥5</label></div></div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="changeSurveyStep(2)" class="flex-1 bg-white border border-charm-blue text-charm-blue font-bold py-4 rounded-xl active:scale-95 transition dark:bg-charm-dark dark:border-white/10 dark:text-white">Back</button>
+                <button onclick="computeAndShowResults()" class="flex-[2] bg-charm-blue text-white font-bold py-4 rounded-xl shadow-soft active:scale-[0.98] transition">Get Results <i class="fas fa-chart-pie ml-1"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+        ========================================
+        VIEW: RESULTS
+        ========================================
+    -->
+    <section id="viewResults" class="view-section hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft dark:bg-charm-darkLight dark:border-white/10">
+            <div class="flex items-start justify-between gap-3 mb-4 border-b border-stone-100 pb-3 dark:border-white/10">
+                <div>
+                    <p class="text-[10px] font-bold text-charm-gray uppercase tracking-widest dark:text-gray-400">Health Report</p>
+                    <h2 id="reportHeader" class="text-2xl font-serif font-bold text-charm-dark dark:text-white">Moderate Risk</h2>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="saveToHistory()" class="text-[10px] px-4 py-2 rounded-full bg-charm-gold text-white font-bold shadow-soft active:scale-95 transition">Save</button>
+                    <button onclick="generatePDFReport()" class="text-[10px] px-4 py-2 rounded-full bg-charm-blue text-white font-bold shadow-soft active:scale-95 transition"><i class="fas fa-file-pdf"></i> PDF</button>
+                    <button onclick="window.print()" class="text-[10px] px-4 py-2 rounded-full bg-stone-200 text-charm-dark font-bold shadow-soft active:scale-95 transition dark:bg-white/10 dark:text-white"><i class="fas fa-print"></i></button>
+                </div>
+            </div>
+            <div class="flex gap-2 mb-6">
+                <div class="flex-1 bg-charm-cream rounded-xl p-3 text-center border border-stone-200 dark:bg-white/5 dark:border-white/10">
+                    <p class="text-[9px] font-bold text-charm-blue uppercase dark:text-charm-gold">Diabetes Risk</p>
+                    <p id="resDM" class="text-xl font-bold text-charm-dark mt-1 dark:text-white">12%</p>
+                </div>
+                <div class="flex-1 bg-charm-cream rounded-xl p-3 text-center border border-stone-200 dark:bg-white/5 dark:border-white/10">
+                    <p class="text-[9px] font-bold text-charm-blue uppercase dark:text-charm-gold">Heart Risk</p>
+                    <p id="resCV" class="text-xl font-bold text-charm-dark mt-1 dark:text-white">5%</p>
+                </div>
+            </div>
+            <div class="mb-6">
+                <h3 class="text-sm font-bold text-charm-dark mb-3 dark:text-white"><i class="fas fa-star text-charm-gold mr-1"></i> Top 3 Priorities</h3>
+                <div id="topRecs" class="space-y-2"></div>
+            </div>
+            <div class="bg-gradient-to-br from-charm-blue to-indigo-900 rounded-xl p-4 text-white shadow-lg mb-6 relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 text-8xl -mr-4 -mt-4"><i class="fas fa-shield-alt"></i></div>
+                <p class="text-[10px] uppercase font-bold opacity-80 mb-4">CAREMU HEALTH SCORE</p>
+                <div class="flex justify-between items-end">
+                    <div>
+                        <p class="text-2xl font-serif font-bold">I'm taking control.</p>
+                        <p class="text-xs opacity-90 mt-1">My health journey starts today.</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-bold bg-white/20 px-2 py-1 rounded">My Score: <span id="shareScore">--</span></p>
+                    </div>
+                </div>
+                <button class="mt-4 w-full bg-white text-charm-blue text-xs font-bold py-2 rounded shadow-sm hover:bg-stone-50 transition">Share to Story <i class="fas fa-share ml-1"></i></button>
+            </div>
+            <h3 class="text-sm font-bold text-charm-dark mb-3 dark:text-white">Detailed Breakdown</h3>
+            <div id="resultsGrid" class="space-y-3"></div>
+        </div>
+    </section>
+
+    <!-- 
+        ========================================
+        VIEW: COMMUNITY
+        ========================================
+    -->
+    <section id="viewCommunity" class="view-section hide fade-in h-full flex flex-col">
+        <div class="flex-none bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4 dark:bg-charm-darkLight dark:border-white/10">
+            <h2 class="text-lg font-bold font-serif text-charm-dark mb-3 dark:text-white">Community Hub</h2>
+            <div class="flex gap-2 overflow-x-auto no-scrollbar mb-3">
+                <button onclick="filterFeed('all')" class="text-[10px] font-bold px-3 py-1.5 rounded-full bg-charm-dark text-white whitespace-nowrap dark:bg-charm-gold">All</button>
+                <button onclick="filterFeed('Diet')" class="text-[10px] font-bold px-3 py-1.5 rounded-full bg-stone-100 text-charm-gray whitespace-nowrap dark:bg-white/10 dark:text-gray-400">#Diet</button>
+                <button onclick="filterFeed('Exercise')" class="text-[10px] font-bold px-3 py-1.5 rounded-full bg-stone-100 text-charm-gray whitespace-nowrap dark:bg-white/10 dark:text-gray-400">#Exercise</button>
+            </div>
+            <textarea id="postInput" rows="2" class="w-full bg-charm-cream border border-stone-200 rounded-xl p-3 text-sm focus:outline-none focus:border-charm-gold text-charm-dark dark:bg-charm-dark dark:border-white/10 dark:text-white" placeholder="Share your progress..."></textarea>
+            <div class="flex gap-2 mt-2 mb-3">
+                <button onclick="useTemplate('My goal today is...')" class="text-[9px] px-2 py-1 bg-charm-cream border border-stone-200 rounded text-charm-blue dark:bg-white/5 dark:border-white/10 dark:text-white">Goal 🎯</button>
+                <button onclick="useTemplate('I need tips for...')" class="text-[9px] px-2 py-1 bg-charm-cream border border-stone-200 rounded text-charm-blue dark:bg-white/5 dark:border-white/10 dark:text-white">Help ❓</button>
+            </div>
+            <div class="flex justify-end">
+                <button onclick="createPost()" class="bg-charm-blue text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm active:scale-95 transition">Post</button>
+            </div>
+        </div>
+        <div class="flex-1 space-y-3 pb-6 overflow-y-auto no-scrollbar" id="communityFeed"></div>
+    </section>
+
+    <!-- 
+        ========================================
+        VIEW: HISTORY
+        ========================================
+    -->
+    <section id="viewHistory" class="view-section hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4 dark:bg-charm-darkLight dark:border-white/10">
+            <h2 class="text-lg font-bold font-serif text-charm-dark mb-1 dark:text-white">My Progress</h2>
+            <p class="text-xs text-charm-gray mb-4 dark:text-gray-400">Risk % Over Time</p>
+            <div class="relative w-full h-48 bg-charm-cream rounded-xl p-2 border border-stone-100 dark:bg-white/5 dark:border-white/10"><canvas id="riskChart"></canvas></div>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft dark:bg-charm-darkLight dark:border-white/10">
+            <div class="flex items-start justify-between gap-3 mb-4">
+                <div><h2 class="text-lg font-bold font-serif text-charm-dark dark:text-white">My Journey</h2></div>
+                <button onclick="clearHistory()" class="text-[10px] px-3 py-2 rounded-full bg-red-50 text-red-600 font-bold active:scale-95 transition dark:bg-red-900/20 dark:text-red-400">Clear</button>
+            </div>
+            <div id="historyList" class="space-y-3"></div>
+        </div>
+    </section>
+
+    <!-- 
+        ========================================
+        VIEW: SETTINGS
+        ========================================
+    -->
+    <section id="viewSettings" class="view-section hide fade-in">
+        <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft dark:bg-charm-darkLight dark:border-white/10">
+            <div class="flex items-start justify-between gap-3 mb-4">
+                <h2 class="text-lg font-bold font-serif text-charm-dark dark:text-white">Settings</h2>
+                <button onclick="openView('viewProfile')" class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-charm-gray active:scale-95 transition dark:bg-white/10 dark:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <p class="text-xs font-bold text-charm-gray uppercase mb-2 dark:text-gray-400">Data Management</p>
+                    <button onclick="exportData()" class="w-full bg-charm-cream border border-stone-200 text-charm-dark text-sm font-bold py-3 rounded-xl mb-2 dark:bg-white/5 dark:border-white/10 dark:text-white">Download JSON Backup</button>
+                    <button onclick="importData()" class="w-full bg-charm-cream border border-stone-200 text-charm-dark text-sm font-bold py-3 rounded-xl dark:bg-white/5 dark:border-white/10 dark:text-white">Import JSON Backup</button>
+                    <input type="file" id="importFile" class="hidden" accept=".json" onchange="processImport(this)">
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-charm-gray uppercase mb-2 dark:text-gray-400">Preferences</p>
+                    <div class="flex items-center justify-between p-3 bg-charm-cream rounded-xl dark:bg-white/5">
+                        <span class="text-sm font-bold text-charm-dark dark:text-white">Notifications</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" checked class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-charm-blue"></div>
+                        </label>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-stone-100 dark:border-white/10">
+                    <p class="text-[10px] text-center text-charm-gray dark:text-gray-500">Caremu Health Pro v3.0<br>Medical Disclaimer: Consult a doctor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- 
+    ========================================
+    BOTTOM NAVIGATION
+    ========================================
+-->
+<nav class="flex-none h-24 glass-nav flex justify-around items-start pt-4 px-2 z-30 absolute bottom-0 w-full nav-bar">
+    <button id="navProfile" onclick="openView('viewProfile')" class="nav-item-active flex flex-col items-center w-14 group transition"><i class="fas fa-user text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">Dash</span></button>
+    <button id="navSurvey" onclick="openView('viewSurvey')" class="nav-item-inactive flex flex-col items-center w-14 group transition"><i class="fas fa-clipboard-list text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">Survey</span></button>
+    <button id="navResults" onclick="openView('viewResults')" class="nav-item-inactive flex flex-col items-center w-14 group transition"><i class="fas fa-heart-pulse text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">Scores</span></button>
+    <button id="navCommunity" onclick="openView('viewCommunity')" class="nav-item-inactive flex flex-col items-center w-14 group transition relative"><i class="fas fa-users text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">Forum</span></button>
+    <button id="navHistory" onclick="openView('viewHistory')" class="nav-item-inactive flex flex-col items-center w-14 group transition"><i class="fas fa-chart-area text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wide mt-1">History</span></button>
+</nav>
+
+<!-- 
+    ========================================
+    MODALS
+    ========================================
+-->
+<!-- Quest Modal -->
+<div id="questModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="toggleQuestModal()"></div>
+    <div class="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl border-2 border-charm-gold animate-bounce-in dark:bg-charm-darkLight dark:border-white/10">
+        <div class="flex justify-between items-start mb-4">
+            <div><p class="text-[10px] font-bold text-charm-gold uppercase tracking-widest">Current Mission</p><h3 id="modalQuestTitle" class="text-xl font-serif font-bold text-charm-dark dark:text-white">The Baseline Defender</h3></div>
+            <button onclick="toggleQuestModal()" class="w-8 h-8 rounded-full bg-stone-100 text-charm-gray flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition dark:bg-white/10 dark:text-white"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="space-y-3" id="modalQuestItems"></div>
+        <div class="mt-6 flex justify-between items-center pt-4 border-t border-stone-100 dark:border-white/10"><span class="text-xs font-bold text-charm-gray dark:text-gray-400">Reward:</span><span class="text-xs font-bold text-charm-gold bg-charm-gold/10 px-2 py-1 rounded-lg">+50 XP & Badge</span></div>
+    </div>
+</div>
+
+<!-- Medication Modal (NEW) -->
+<div id="medModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="toggleMedModal()"></div>
+    <div class="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl border-2 border-charm-blue animate-bounce-in dark:bg-charm-darkLight dark:border-white/10">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-serif font-bold text-charm-dark dark:text-white">Add Medication</h3>
+            <button onclick="toggleMedModal()" class="w-8 h-8 rounded-full bg-stone-100 text-charm-gray flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition dark:bg-white/10 dark:text-white"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="space-y-4">
+            <input id="medName" type="text" class="charm-input" placeholder="Medication Name">
+            <input id="medDosage" type="text" class="charm-input" placeholder="Dosage (e.g. 500mg)">
+            <button onclick="addMedication()" class="w-full bg-charm-blue text-white text-xs font-bold py-3.5 rounded-xl shadow-soft active:scale-[0.98] transition hover:bg-opacity-90">
+                <i class="fas fa-plus"></i> Add to List
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="fixed bottom-32 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2"></div>
+
+<!-- 
+    ========================================
+    JAVASCRIPT LOGIC
+    ========================================
+-->
+<script>
+/**
+ * CAREMU HEALTH PRO - MAIN APPLICATION LOGIC
+ * Includes: Navigation, Scoring, Charts, Community, New Features
+ */
+
+// ==========================================
+// 1. STATE & NAVIGATION
+// ==========================================
+const VIEWS = ['viewProfile','viewSurvey','viewResults','viewCommunity','viewHistory','viewSettings'];
+const NAV = { viewProfile: 'navProfile', viewSurvey: 'navSurvey', viewResults: 'navResults', viewCommunity: 'navCommunity', viewHistory: 'navHistory' };
+
+/**
+ * Switches the active view with animation
+ * @param {string} id - The ID of the view to open
+ */
+function openView(id) {
+    VIEWS.forEach(v => {
+        const el = document.getElementById(v);
+        if (el) {
+            el.classList.remove('active');
+            setTimeout(() => { if(!el.classList.contains('active')) el.style.display = 'none'; }, 300);
+            el.style.display = 'none';
+        }
+    });
+    const target = document.getElementById(id);
+    if (target) {
+        target.style.display = 'block';
+        setTimeout(() => target.classList.add('active'), 10);
+    }
+    Object.values(NAV).forEach(nid => {
+        const el = document.getElementById(nid);
+        if(el) {
+            el.classList.remove('nav-item-active');
+            el.classList.add('nav-item-inactive');
+        }
+    });
+    if (NAV[id]) {
+        const el = document.getElementById(NAV[id]);
+        el.classList.remove('nav-item-inactive');
+        el.classList.add('nav-item-active');
+    }
+    if(id === 'viewHistory') renderHistory();
+    if(id === 'viewCommunity') renderFeed();
+    if(id === 'viewProfile') {
+        updateQuests();
+        updateSparkline();
+        updateRegionAlert();
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+    }
+    window.scrollTo(0,0);
+}
+
+function toggleQuestModal() {
+    const el = document.getElementById('questModal');
+    el.classList.toggle('hidden');
+    if (!el.classList.contains('hidden')) updateQuests();
+}
+
+function toggleMedModal() {
+    const el = document.getElementById('medModal');
+    el.classList.toggle('hidden');
+}
+
+function toast(msg) {
+    const container = document.getElementById('toastContainer');
+    const el = document.createElement("div");
+    el.className = "bg-charm-dark text-charm-cream text-xs px-5 py-3 rounded-xl shadow-lg z-50 transition-all duration-300 transform translate-y-10 opacity-0 border border-charm-gold/30 flex items-center gap-2 dark:bg-white dark:text-charm-dark";
+    el.innerHTML = `<i class="fas fa-info-circle text-charm-gold"></i> <span>${msg}</span>`;
+    container.appendChild(el);
+    requestAnimationFrame(() => {
+        el.classList.remove('translate-y-10', 'opacity-0');
+    });
+    setTimeout(() => {
+        el.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => el.remove(), 300);
+    }, 3000);
+}
+
+/**
+ * System-Aware Dark Mode Toggle
+ */
+function toggleTheme() {
+    const html = document.querySelector('html');
+    const isDark = html.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    const icon = document.querySelector('button[onclick="toggleTheme()"] i');
+    icon.className = isDark ? 'fas fa-sun text-sm' : 'fas fa-moon text-sm';
+}
+
+// ==========================================
+// 2. SURVEY LOGIC
+// ==========================================
+function changeSurveyStep(step) {
+    ['surveyStep1', 'surveyStep2', 'surveyStep3'].forEach(s => {
+        const el = document.getElementById(s);
+        if(el) el.classList.add('hidden');
+    });
+    const target = document.getElementById('surveyStep'+step);
+    if(target) target.classList.remove('hidden');
+    const bar = document.getElementById('surveyProgressBar');
+    const txt = document.getElementById('stepIndicator');
+    if(step === 1) { bar.style.width = "33%"; txt.innerText = "Step 1 of 3"; }
+    if(step === 2) { bar.style.width = "66%"; txt.innerText = "Step 2 of 3"; }
+    if(step === 3) { bar.style.width = "100%"; txt.innerText = "Final Step"; }
+    document.querySelector('main').scrollTop = 0;
+}
+
+function updateFollowups() {
+    const smk1 = radioVal('smk1');
+    const smkBox = document.getElementById('smokingFollowups');
+    if(smkBox) {
+        if (!smk1 || smk1 === 'never' || smk1 === 'quit') smkBox.classList.add('hidden');
+        else smkBox.classList.remove('hidden');
+    }
+    const a1 = radioVal('alc1');
+    const alcBox = document.getElementById('alcoholFollowups');
+    if(alcBox) {
+        if (!a1 || a1 === 'never') alcBox.classList.add('hidden');
+        else alcBox.classList.remove('hidden');
+    }
+}
+
+// Real-Time Validation (NEW FEATURE)
+function validateInput(id, min, max) {
+    const val = parseFloat(document.getElementById(id).value);
+    if (!isNaN(val)) {
+        if (val < min || val > max) {
+            document.getElementById(id).classList.add('border-red-500');
+            toast(`Warning: ${id} value seems unusual.`);
+        } else {
+            document.getElementById(id).classList.remove('border-red-500');
+        }
+    }
+}
+
+// ==========================================
+// 3. DASHBOARD FUNCTIONS
+// ==========================================
+function calcAge() {
+    const dobVal = document.getElementById('dob').value;
+    if (!dobVal) return 25;
+    const dob = new Date(dobVal);
+    const diff = Date.now() - dob.getTime();
+    const ageDate = new Date(diff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
+function updateRegionAlert() {
+    const region = document.getElementById('region').value;
+    const title = document.getElementById('regionTitle');
+    const desc = document.getElementById('regionDesc');
+    const box = document.getElementById('regionAlertBox');
+    if (!region) return;
+    if(region === 'northeast') {
+        box.className = "bg-red-50 rounded-2xl p-5 border-l-4 border-l-red-500 shadow-soft mb-6 transition-all duration-500 group dark:bg-red-900/20 dark:border-l-red-500";
+        title.innerHTML = "<span class='text-red-700 dark:text-red-400'><i class='fas fa-exclamation-triangle mr-1'></i> Northeast Alert</span>";
+        desc.innerHTML = "High risk of <b>Liver Fluke</b>. <br><span class='font-bold mt-2 block text-red-800 text-[10px] uppercase tracking-wider dark:text-red-300'>Action:</span><span class='text-red-700 dark:text-red-300'>Cook all freshwater fish >70°C.</span>";
+    } else if (region === 'north') {
+        box.className = "bg-orange-50 rounded-2xl p-5 border-l-4 border-l-orange-500 shadow-soft mb-6 transition-all duration-500 group dark:bg-orange-900/20 dark:border-l-orange-500";
+        title.innerHTML = "<span class='text-orange-700 dark:text-orange-400'><i class='fas fa-smog mr-1'></i> North Alert: Haze</span>";
+        desc.innerHTML = "PM2.5 levels are critical. <br><span class='font-bold mt-2 block text-orange-800 text-[10px] uppercase tracking-wider dark:text-orange-300'>Action:</span><span class='text-orange-700 dark:text-orange-300'>Wear N95 masks outdoors.</span>";
+    } else {
+        box.className = "bg-white rounded-2xl p-5 border-l-4 border-l-charm-gray shadow-soft mb-6 transition-all duration-500 group dark:bg-charm-darkLight dark:border-l-charm-gold";
+        title.innerHTML = "General Wellness";
+        desc.innerHTML = "Stay hydrated and aim for 7-8 hours of sleep.";
+    }
+}
+
+function updateQuests() {
+    const age = calcAge();
+    let qTitle, qDesc, tasks = [];
+    if (age < 30) {
+        qTitle = "Active Youth Challenge";
+        qDesc = "Hit 10,000 steps 3 days in a row.";
+        tasks = [
+            { icon: 'shoe-prints', label: 'Step Master', sub: 'Hit 10k Steps', progress: '6.4k/10k', bar: 64, color: 'blue' },
+            { icon: 'tint', label: 'Hydrate', sub: 'Drink 2L Water', progress: '0/2L', bar: 0, color: 'gold' }
+        ];
+    } else if (age < 50) {
+        qTitle = "Prime Vitality Quest";
+        qDesc = "Maintain 7+ hours of sleep.";
+        tasks = [
+            { icon: 'moon', label: 'Sleep King', sub: '7h Sleep', progress: '6h/7h', bar: 85, color: 'blue' },
+            { icon: 'brain', label: 'De-Stress', sub: '5 min Breath', progress: 'Done', bar: 100, color: 'gold' }
+        ];
+    } else {
+        qTitle = "Longevity Guardian";
+        qDesc = "Complete 150 mins of activity.";
+        tasks = [
+            { icon: 'walking', label: 'Steady Flow', sub: '20 min Walk', progress: '10/20', bar: 50, color: 'blue' },
+            { icon: 'apple-alt', label: 'Sodium Watch', sub: 'Low Salt Meal', progress: '0/1', bar: 0, color: 'green' }
+        ];
+    }
+    document.getElementById('questTitle').innerText = qTitle;
+    document.getElementById('questDesc').innerText = qDesc;
+    document.getElementById('modalQuestTitle').innerText = qTitle;
+    const list = document.getElementById('modalQuestItems');
+    if(list) {
+        list.innerHTML = tasks.map(t => `
+        <div class="flex items-center gap-3 p-3 rounded-xl bg-charm-cream border border-stone-100 dark:bg-white/5 dark:border-white/10 ${t.bar===0?'opacity-70':''}">
+            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-charm-${t.color} shadow-sm dark:bg-charm-dark"><i class="fas fa-${t.icon}"></i></div>
+            <div class="flex-1">
+                <div class="flex justify-between text-xs font-bold text-charm-dark mb-1 dark:text-white"><span>${t.label}</span><span>${t.progress}</span></div>
+                <div class="h-1.5 w-full bg-stone-200 rounded-full overflow-hidden dark:bg-white/10"><div class="h-full bg-charm-${t.color}" style="width:${t.bar}%"></div></div>
+            </div>
+        </div>
+        `).join('');
+    }
+}
+
+function calcSleep() {
+    const bed = document.getElementById('bedtime').value;
+    const wake = document.getElementById('waketime').value;
+    if(bed && wake) {
+        let b = new Date("2000-01-01 " + bed);
+        let w = new Date("2000-01-02 " + wake);
+        if(w < b) w.setDate(w.getDate() + 1);
+        let diffMs = w - b;
+        if (diffMs < 0) { w = new Date("2000-01-02 " + wake); diffMs = w - b; }
+        const diffHrs = diffMs / (1000 * 60 * 60);
+        const h = Math.floor(diffHrs);
+        const m = Math.round((diffHrs - h) * 60);
+        document.getElementById('sleepTotal').innerText = `${h}h ${m}m`;
+    }
+}
+
+let miniChartInstance = null;
+function updateSparkline() {
+    const ctx = document.getElementById('miniSparkline').getContext('2d');
+    if(miniChartInstance) miniChartInstance.destroy();
+    miniChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['M','T','W','T','F','S','S'],
+            datasets: [{
+                data: [4000, 5200, 4800, 6400, 7000, 8100, 6432],
+                borderColor: '#5B6C9D',
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.4,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { enabled: false } },
+            scales: { x: { display: false }, y: { display: false } },
+            layout: { padding: 0 }
+        }
+    });
+}
+
+// Water Tracker (ENHANCED)
+let water = 0;
+function addWater(amount) {
+    water += amount;
+    if(water > 3000) water = 3000;
+    document.getElementById('waterIntake').innerText = water;
+    // Update Visualizer
+    const pct = (water / 2000) * 100;
+    document.getElementById('waterVisualizer').style.height = `${Math.min(pct, 100)}%`;
+    toast(`Added ${amount}ml water!`);
+}
+
+// Medication Tracker (NEW FEATURE)
+let medications = [];
+function addMedication() {
+    const name = document.getElementById('medName').value;
+    const dose = document.getElementById('medDosage').value;
+    if(name && dose) {
+        medications.push({ name, dose });
+        renderMeds();
+        toggleMedModal();
+        document.getElementById('medName').value = '';
+        document.getElementById('medDosage').value = '';
+        toast("Medication added!");
+    }
+}
+function renderMeds() {
+    const list = document.getElementById('medList');
+    if(medications.length === 0) {
+        list.innerHTML = '<div class="text-xs text-charm-gray text-center py-2 dark:text-gray-400">No medications added yet.</div>';
+        return;
+    }
+    list.innerHTML = medications.map((m, i) => `
+        <div class="flex justify-between items-center bg-charm-cream p-2 rounded-lg dark:bg-white/5">
+            <div class="text-sm font-bold text-charm-dark dark:text-white">${m.name} <span class="text-charm-gray font-normal">(${m.dose})</span></div>
+            <button onclick="removeMed(${i})" class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+        </div>
+    `).join('');
+}
+function removeMed(index) {
+    medications.splice(index, 1);
+    renderMeds();
+}
+
+// Food AI
+function handleFoodUpload(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('foodPreviewBox').classList.remove('hidden');
+            document.getElementById('foodPreviewImg').src = e.target.result;
+            document.getElementById('foodAiAnalyzing').classList.remove('hidden');
+            document.getElementById('foodEditBox').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('foodAiAnalyzing').classList.add('hidden');
+                document.getElementById('foodEditBox').classList.remove('hidden');
+                document.getElementById('foodName').value = "Grilled Salmon & Quinoa";
+                document.getElementById('foodCals').value = "450";
+                document.getElementById('foodCarbs').value = "35";
+                document.getElementById('foodPro').value = "40";
+                document.getElementById('foodFat').value = "18";
+            }, 2000);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function saveFoodEntry() {
+    const cals = Number(document.getElementById('foodCals').value) || 0;
+    const current = Number(document.getElementById('calEaten').innerText);
+    const newTotal = current + cals;
+    document.getElementById('calEaten').innerText = newTotal;
+    const pct = Math.min(100, (newTotal/2000)*100);
+    document.getElementById('calBar').style.width = pct + "%";
+    document.getElementById('foodPreviewBox').classList.add('hidden');
+    document.getElementById('foodInput').value = "";
+    toast(`Added ${cals} kcal to daily log!`);
+}
+
+// ==========================================
+// 4. SCORING & RESULTS
+// ==========================================
+function num(id) { const v = document.getElementById(id).value; return Number.isFinite(Number(v)) && v !== "" ? Number(v) : NaN; }
+function checked(id) { return document.getElementById(id).checked; }
+function radioVal(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : null; }
+function sumRadio(names) { let s=0; for(const n of names){const v=radioVal(n); if(v===null)return null; s+=Number(v);} return s; }
+function bmiKgCm(kg, cm) { const m = cm/100; return (m > 0) ? kg/(m*m) : NaN; }
+function charmBadge(level, label) {
+    const map = {
+        low: "bg-charm-green/10 text-charm-green border-charm-green/20",
+        mod: "bg-yellow-100 text-yellow-700 border-yellow-200",
+        high: "bg-red-50 text-red-600 border-red-200",
+        info: "bg-charm-blue/10 text-charm-blue border-charm-blue/20"
+    };
+    return `<span class="inline-flex items-center text-[9px] px-2 py-1 rounded border font-bold uppercase tracking-wider ${map[level]||map.info}">${label}</span>`;
+}
+function resultCard(title, badgeHtml, detail) {
+    return `
+    <div class="bg-charm-cream border border-stone-200 rounded-xl p-4 dark:bg-white/5 dark:border-white/10">
+        <div class="flex items-start justify-between gap-2">
+            <h3 class="font-bold text-sm text-charm-dark dark:text-white">${title}</h3>
+            ${badgeHtml}
+        </div>
+        <p class="text-xs text-charm-gray mt-2 leading-relaxed dark:text-gray-400">${detail}</p>
+    </div>`;
+}
+
+// --- EXACT SCORING ALGORITHMS (DO NOT MODIFY) ---
+function calcTDS(age, sex, bmi, waist, sbp, dbp, fh) {
+    if(!age || !bmi) return { pct: NaN, level: 'info', detail: 'Missing required inputs.' };
+    let x_age=0; if(age>=55) x_age=4; else if(age>=45) x_age=3; else if(age>=35) x_age=2;
+    let x_sex = sex==='male'?2:0;
+    let x_bmi=0; if(bmi>=27.5) x_bmi=4; else if(bmi>=23) x_bmi=2;
+    let x_waist=0;
+    if(sex==='male' && waist>=90) x_waist=2; else if(sex==='male' && waist>=80) x_waist=1;
+    if(sex==='female' && waist>=80) x_waist=2; else if(sex==='female' && waist>=70) x_waist=1;
+    let x_bp=0; if(sbp>=140||dbp>=90) x_bp=4; else if(sbp>=130||dbp>=85) x_bp=2;
+    let x_fh=0; if(fh) x_fh=2;
+    const logit = (x_age*0.2737) + (x_sex*0.2188) + (x_bmi*0.1832) + (x_waist*0.2284) + (x_bp*0.2072) + (x_fh*0.2548) - 3.580397;
+    const p = 1/(1+Math.exp(-logit));
+    const pct = p*100;
+    let level='low'; if(pct>=20) level='high'; else if(pct>=10) level='mod';
+    return { pct, level, detail: `12-year DM risk: ${pct.toFixed(1)}%` };
+}
+
+function calcASCVD(sex, age, sbp, tc, waist, dm, smk) {
+    if(!age || !sbp || !tc || !waist) return { pct: NaN, level: 'info', detail: 'Need Age, SBP, TC, Waist.' };
+    const ln = Math.log, lA=ln(age), lS=ln(sbp), lT=ln(tc), lW=ln(waist);
+    const d = dm?1:0, s = smk?1:0;
+    let full = 0;
+    if(sex === 'male') {
+        full = (lA*2.593) + (lS*1.312) + (lT*0.510) + (lW*0.618) + (d*0.708) + (s*0.373) + ((lA*d)*-0.432) + ((lA*lS)*-0.349) + ((lA*lW)*-0.105);
+    } else {
+        full = (lA*4.086) + (lS*3.577) + (lT*0.611) + (lW*2.449) + (d*0.487) + (s*0.863) + ((lA*d)*-0.502) + ((lA*lS)*-0.950) + ((lA*lW)*-0.838);
+    }
+    const pct = (1 - Math.pow(0.978296, Math.exp(full - 7.720484))) * 100;
+    let level='low'; if(pct>=20) level='high'; else if(pct>=10) level='mod';
+    return { pct, level, detail: `10-year CV risk: ${pct.toFixed(1)}%` };
+}
+
+function scoreDiet() {
+    const total = sumRadio(['d1','d2','d3','d4','d5','d6','d7','d8','d9']);
+    if(total === null) return { level: 'info', detail: 'Incomplete' };
+    let level='high'; if(total >= 11) level='low'; else if(total >= 4) level='mod';
+    return { level, detail: `Diet quality score: ${total} (Higher is better)` };
+}
+
+function scoreSmoking() {
+    const smk1 = radioVal('smk1');
+    if(!smk1) return { level: 'info', detail: 'Incomplete' };
+    if (smk1 === 'never' || smk1 === 'quit') return { level:'low', detail: 'Low risk (No current tobacco use).' };
+    return { level:'high', detail: 'Smoking increases cardiovascular risk significantly.' };
+}
+
+let lastResult = null;
+function computeAndShowResults() {
+    const age = calcAge();
+    const weight = num('weight'), height = num('height'), waist = num('waist');
+    const sbp = num('sbp'), dbp = num('dbp'), tc = num('tc');
+    const sex = document.getElementById('sex').value;
+    const fh_dm = checked('fh_dm'), dm = checked('hasDiabetes'), smkNow = checked('smokerNow');
+    const bmi = bmiKgCm(weight, height);
+    const tds = calcTDS(age, sex, bmi, waist, sbp, dbp, fh_dm);
+    const ascvd = calcASCVD(sex, age, sbp, tc, waist, dm, smkNow);
+    const diet = scoreDiet();
+    const smk = scoreSmoking();
+
+    document.getElementById('reportHeader').innerText = (tds.pct > 10 || ascvd.pct > 10) ? "Moderate/High Risk" : "Low Risk Profile";
+    document.getElementById('resDM').innerText = isNaN(tds.pct) ? "--%" : tds.pct.toFixed(1) + "%";
+    document.getElementById('resCV').innerText = isNaN(ascvd.pct) ? "--%" : ascvd.pct.toFixed(1) + "%";
+    document.getElementById('shareScore').innerText = isNaN(tds.pct) ? "--" : Math.round(100 - tds.pct);
+
+    let recs = [];
+    if (diet.level === 'mod' || diet.level === 'high') recs.push("Increase vegetable intake to 5 servings/day.");
+    if (smk.level === 'high') recs.push("Consider a smoking cessation program.");
+    if (recs.length === 0) recs.push("Maintain your excellent habits!");
+    document.getElementById('topRecs').innerHTML = recs.slice(0,3).map(r =>
+        `<div class="bg-charm-cream p-2 rounded-lg border border-stone-200 text-xs text-charm-dark flex gap-2 items-center dark:bg-white/5 dark:border-white/10 dark:text-white">
+            <i class="fas fa-check-circle text-charm-green"></i> ${r}
+        </div>`
+    ).join("");
+
+    const html = [];
+    html.push(resultCard("Thai Diabetes Score", charmBadge(tds.level, tds.level), tds.detail));
+    html.push(resultCard("Thai ASCVD Score", charmBadge(ascvd.level, ascvd.level), ascvd.detail));
+    html.push(resultCard("Diet & Nutrition", charmBadge(diet.level, diet.level), diet.detail));
+    html.push(resultCard("Smoking Status", charmBadge(smk.level, "Review"), smk.detail));
+    document.getElementById('resultsGrid').innerHTML = html.join("");
+    lastResult = { ts: Date.now(), tds: tds.pct, ascvd: ascvd.pct };
+    openView('viewResults');
+}
+
+// PDF Export (NEW FEATURE)
+function generatePDFReport() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFont("helvetica", "bold");
+    doc.text("Caremu Health Report", 14, 20);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 30);
+    doc.text(`Diabetes Risk: ${document.getElementById('resDM').innerText}`, 14, 40);
+    doc.text(`Heart Risk: ${document.getElementById('resCV').innerText}`, 14, 50);
+    doc.save("caremu_report.pdf");
+    toast("PDF Downloaded!");
+}
+
+// ==========================================
+// 5. HISTORY & DATA
+// ==========================================
+const HIST_KEY = "charmjai_ncd_history";
+let chartInstance = null;
+
+function saveToHistory() {
+    if(!lastResult) { toast("Calculate results first!"); return; }
+    let arr = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+    arr.unshift(lastResult);
+    localStorage.setItem(HIST_KEY, JSON.stringify(arr));
+    toast("Saved to My Journey!");
+    renderHistory();
+}
+
+function renderHistory() {
+    const arr = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+    const c = document.getElementById('historyList');
+    if(!arr.length) {
+        c.innerHTML = `<p class="text-sm text-charm-gray text-center py-4 dark:text-gray-400">No records saved yet.</p>`;
+        updateChart([]); return;
+    }
+    c.innerHTML = arr.map(r => `
+        <div class="bg-charm-cream border border-stone-200 rounded-xl p-4 flex justify-between items-center dark:bg-white/5 dark:border-white/10">
+            <div>
+                <div class="text-sm font-bold text-charm-dark dark:text-white">${new Date(r.ts).toLocaleDateString()}</div>
+                <div class="text-[10px] text-charm-gray mt-1 dark:text-gray-400">DM: ${Number.isFinite(r.tds)?r.tds.toFixed(1):'--'}% | CV: ${Number.isFinite(r.ascvd)?r.ascvd.toFixed(1):'--'}%</div>
+            </div>
+            <i class="fas fa-chevron-right text-stone-300"></i>
+        </div>
+    `).join("");
+    updateChart(arr);
+}
+
+function updateChart(historyData) {
+    const ctx = document.getElementById('riskChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+    if (!historyData || historyData.length < 1) return;
+    const sorted = [...historyData].sort((a,b) => a.ts - b.ts);
+    const labels = sorted.map(d => `${new Date(d.ts).getDate()}/${new Date(d.ts).getMonth()+1}`);
+    const tdsData = sorted.map(d => Number.isFinite(d.tds) ? d.tds : null);
+    const ascvdData = sorted.map(d => Number.isFinite(d.ascvd) ? d.ascvd : null);
+    chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                { label: 'DM Risk %', data: tdsData, borderColor: '#C5A059', backgroundColor: 'rgba(197, 160, 89, 0.1)', borderWidth: 2, fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#C5A059' },
+                { label: 'CV Risk %', data: ascvdData, borderColor: '#5B6C9D', borderWidth: 2, fill: false, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#5B6C9D' }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { usePointStyle: true, boxWidth: 6, font: { family: "'Inter', sans-serif", size: 10 } } } },
+            scales: {
+                x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#8C8C9C' } },
+                y: { grid: { color: '#EAE6DC', borderDash: [5, 5] }, ticks: { font: { size: 10 }, color: '#8C8C9C' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+function clearHistory() { localStorage.removeItem(HIST_KEY); renderHistory(); toast("History cleared"); }
+
+function exportData() {
+    const data = {
+        history: JSON.parse(localStorage.getItem(HIST_KEY) || "[]"),
+        posts: JSON.parse(localStorage.getItem("charmjai_ncd_posts") || "[]"),
+        meds: medications
+    };
+    const dataStr = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "caremu_backup.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+    toast("Data exported successfully");
+}
+
+function importData() { document.getElementById('importFile').click(); }
+function processImport(input) {
+    const file = input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if(data.history) localStorage.setItem(HIST_KEY, JSON.stringify(data.history));
+            if(data.posts) localStorage.setItem("charmjai_ncd_posts", JSON.stringify(data.posts));
+            if(data.meds) { medications = data.meds; renderMeds(); }
+            toast("Data imported successfully");
+            renderHistory();
+        } catch(err) { toast("Invalid file format"); }
+    };
+    reader.readAsText(file);
+}
+
+// ==========================================
+// 6. COMMUNITY
+// ==========================================
+const POSTS_KEY = "charmjai_ncd_posts";
+function getPosts() {
+    let p = JSON.parse(localStorage.getItem(POSTS_KEY) || "null");
+    if(!p) {
+        p = [
+            { id: 3, author: "Somsak B.", time: "10m ago", text: "You can eat herbs and no need doctor visit. It cures everything!", likes: 5, triage: "flagged", reason: "Potential False Info: Claims about replacing medical care with herbs require clinical verification." },
+            { id: 2, author: "Sarah W.", time: "2h ago", text: "Finally hit my 10k steps today! Adding an evening walk really helps.", likes: 12, triage: "safe" },
+            { id: 1, author: "Dr. K (Pharm)", time: "5h ago", text: "Reminder: NCD scores are just guides. Don't stop your meds without consulting your doctor!", likes: 45, triage: "expert" }
+        ];
+        localStorage.setItem(POSTS_KEY, JSON.stringify(p));
+    }
+    return p;
+}
+
+let activeTag = null;
+function filterFeed(tag) {
+    if(tag === 'all') activeTag = null;
+    else activeTag = tag;
+    renderFeed();
+    toast(activeTag ? `Filtering: ${activeTag}` : "Showing all posts");
+}
+
+function useTemplate(text) { document.getElementById('postInput').value = text + " "; }
+
+function renderFeed() {
+    let posts = getPosts();
+    if(activeTag) posts = posts.filter(p => p.text.includes(activeTag) || p.text.includes('#'));
+    document.getElementById('communityFeed').innerHTML = posts.map(p => {
+        let badgeHTML = "";
+        let borderClass = "border-stone-100 dark:border-white/10";
+        if(p.triage === 'flagged') {
+            badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:text-red-400"><i class="fas fa-exclamation-triangle mr-1"></i> Flagged</span>`;
+            borderClass = "border-red-100 bg-red-50/10 dark:border-red-900/30 dark:bg-red-900/10";
+        }
+        else if(p.triage === 'expert') {
+            badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-charm-gold/10 text-yellow-700 border-charm-gold/30 dark:bg-charm-gold/20 dark:text-yellow-400"><i class="fas fa-check-circle mr-1"></i> Expert</span>`;
+        }
+        else {
+            badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-stone-100 text-stone-500 border-stone-200 dark:bg-white/5 dark:text-gray-400">Safe</span>`;
+        }
+        let warningBox = "";
+        if(p.triage === 'flagged') {
+            warningBox = `<div class="mt-2 bg-red-50 border-l-2 border-red-400 p-2 text-[10px] text-red-800 leading-relaxed font-medium rounded-r-lg dark:bg-red-900/20 dark:text-red-300"><i class="fas fa-robot mr-1"></i> AI Safety Alert: ${p.reason}</div>`;
+        }
+        return `
+        <div class="bg-white rounded-2xl p-4 shadow-sm border ${borderClass} transition-all hover:shadow-md dark:bg-charm-darkLight">
+            <div class="flex justify-between items-start mb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-charm-blue text-white flex items-center justify-center font-bold text-sm shadow-sm">${p.author.charAt(0)}</div>
+                    <div><div class="text-xs font-bold text-charm-dark dark:text-white">${p.author}</div><div class="text-[9px] text-charm-gray dark:text-gray-400">${p.time}</div></div>
+                </div>
+                ${badgeHTML}
+            </div>
+            <p class="text-sm text-charm-dark leading-relaxed font-light dark:text-white">${p.text}</p>
+            ${warningBox}
+            <div class="mt-3 flex gap-4 text-charm-gray text-xs border-t border-stone-50 pt-2 dark:border-white/10">
+                <button class="hover:text-charm-blue flex items-center gap-1 dark:text-gray-400 dark:hover:text-white"><i class="far fa-heart"></i> ${p.likes}</button>
+                <button class="hover:text-charm-blue flex items-center gap-1 dark:text-gray-400 dark:hover:text-white"><i class="far fa-comment"></i> Reply</button>
+            </div>
+        </div>`;
+    }).join("");
+}
+
+function createPost() {
+    const txt = document.getElementById('postInput').value.trim();
+    if(!txt) return;
+    const newPost = { id: Date.now(), author: "Me", time: "Just now", text: txt, likes: 0, triage: "safe" };
+    const posts = getPosts();
+    posts.unshift(newPost);
+    localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+    document.getElementById('postInput').value = "";
+    renderFeed();
+    toast("Posted successfully!");
+}
+
+// ==========================================
+// 7. INITIALIZATION
+// ==========================================
+window.addEventListener('DOMContentLoaded', () => {
+    // System-Aware Dark Mode Check
+    const savedTheme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if(savedTheme === 'dark' || (!savedTheme && systemDark)) {
+        document.querySelector('html').classList.add('dark');
+        const icon = document.querySelector('button[onclick="toggleTheme()"] i');
+        if(icon) icon.className = 'fas fa-sun text-sm';
+    }
+    openView('viewProfile');
+});
+</script>
+
+</body>
+</html>
