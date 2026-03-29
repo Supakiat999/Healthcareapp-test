@@ -101,6 +101,10 @@
       font-size: 0.875rem;
       transition: all 0.2s;
     }
+    .charm-input:hover {
+      background-color: #FFFFFF;
+      border-color: #D1D5DB;
+    }
     .charm-input::placeholder {
       color: #9CA3AF;
     }
@@ -109,6 +113,11 @@
       border-color: #C5A059;
       background-color: #FFFFFF;
       box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.2);
+    }
+    .charm-input:disabled {
+      background-color: #F3F4F6;
+      color: #9CA3AF;
+      cursor: not-allowed;
     }
     .charm-label {
       font-size: 0.65rem;
@@ -380,22 +389,22 @@
                 <option value="north">North (Chiang Mai, etc.)</option>
                 <option value="northeast">Northeast (Isan)</option>
                 <option value="south">South</option>
+                <option value="east">East Thailand</option>
+                <option value="west">West Thailand</option>
               </select>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="charm-label">DATE OF BIRTH</label>
-                <input id="dob" type="date" class="charm-input" onchange="updateQuests()">
-              </div>
-              <div>
-                <label class="charm-label">SEX</label>
-                <select id="sex" class="charm-input appearance-none">
-                  <option value="" disabled selected>Select</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-              </div>
+            <div>
+              <label class="charm-label">DATE OF BIRTH</label>
+              <input id="dob" type="date" class="charm-input" onchange="updateQuests()">
+            </div>
+            <div class="mt-4">
+              <label class="charm-label">SEX</label>
+              <select id="sex" class="charm-input appearance-none">
+                <option value="" disabled selected>Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -682,7 +691,7 @@
                 <div><div class="text-[11px] font-bold text-charm-blue mb-2">ST1. Trouble sleeping from worries</div>
                   <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-1"><input type="radio" name="st1" value="0"> 0</label><label class="flex items-center gap-1"><input type="radio" name="st1" value="1"> 1</label><label class="flex items-center gap-1"><input type="radio" name="st1" value="2"> 2</label><label class="flex items-center gap-1"><input type="radio" name="st1" value="3"> 3</label></div></div>
                 <div><div class="text-[11px] font-bold text-charm-blue mb-2">ST2. Bored / no desire to do things</div>
-                  <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-1"><input type="radio" name="st2" value="0"> 0</label><label class="flex items-center gap-1"><input type="radio" name="st2" value="1"> 1</label><label class="flex items-center gap-1"><input type="st2" value="2"> 2</label><label class="flex items-center gap-1"><input type="radio" name="st2" value="3"> 3</label></div></div>
+                  <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-1"><input type="radio" name="st2" value="0"> 0</label><label class="flex items-center gap-1"><input type="radio" name="st2" value="1"> 1</label><label class="flex items-center gap-1"><input type="radio" name="st2" value="2"> 2</label><label class="flex items-center gap-1"><input type="radio" name="st2" value="3"> 3</label></div></div>
                 <div><div class="text-[11px] font-bold text-charm-blue mb-2">ST3. Angry / irritated</div>
                   <div class="grid grid-cols-4 gap-2 text-sm text-charm-dark font-medium"><label class="flex items-center gap-1"><input type="radio" name="st3" value="0"> 0</label><label class="flex items-center gap-1"><input type="radio" name="st3" value="1"> 1</label><label class="flex items-center gap-1"><input type="radio" name="st3" value="2"> 2</label><label class="flex items-center gap-1"><input type="radio" name="st3" value="3"> 3</label></div></div>
                 <div><div class="text-[11px] font-bold text-charm-blue mb-2">ST4. Frustrated / stressed</div>
@@ -775,9 +784,14 @@
           </div>
         </div>
 
-        <button onclick="computeAndShowResults()" class="w-full bg-charm-blue text-white font-bold py-4 rounded-xl shadow-soft active:scale-[0.98] transition">
-          Generate Full Report <i class="fas fa-chart-pie ml-1"></i>
-        </button>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <button onclick="savePersonalInfo()" class="w-full bg-charm-green text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
+            <i class="fas fa-save mr-1"></i>Save Changes
+          </button>
+          <button onclick="computeAndShowResults()" class="w-full bg-charm-blue text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
+            <i class="fas fa-chart-pie mr-1"></i>Generate Report
+          </button>
+        </div>
       </section>
 
       <section id="viewCommunity" class="hide fade-in h-full flex flex-col">
@@ -815,7 +829,7 @@
         <div class="flex-none bg-white rounded-2xl p-4 border border-stone-100 shadow-soft mb-3">
           <h3 class="text-sm font-bold text-charm-dark mb-3">Community Discussion</h3>
           <div class="space-y-3">
-            <textarea id="groupPostInput" rows="2" class="w-full bg-charm-cream border border-stone-200 rounded-lg p-3 text-sm focus:outline-none focus:border-charm-gold text-charm-dark" placeholder="Ask for advice, share experience, progress updates, or Q&A..."></textarea>
+            <textarea id="groupPostInput" rows="2" class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm focus:outline-none focus:border-charm-gold focus:bg-white focus:ring-1 focus:ring-charm-gold text-charm-dark" placeholder="Ask for advice, share experience, progress updates, or Q&A..."></textarea>
             <div class="grid grid-cols-2 gap-2">
               <select id="postCategory" class="charm-input appearance-none">
                 <option value="advice">Asking for Advice</option>
@@ -857,7 +871,7 @@
             <div class="flex items-center gap-3 mb-3">
               <img src="https://ui-avatars.com/api/?name=User&background=C5A059&color=fff" class="w-8 h-8 rounded-full">
               <div class="flex-1">
-                <textarea id="activityPost" rows="2" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm focus:outline-none focus:border-charm-gold text-charm-dark" placeholder="Share your workout or progress..."></textarea>
+                <textarea id="activityPost" rows="2" class="w-full bg-white border border-stone-200 rounded-lg p-2 text-sm focus:outline-none focus:border-charm-gold focus:ring-1 focus:ring-charm-gold text-charm-dark" placeholder="Share your workout or progress..."></textarea>
               </div>
             </div>
             <div class="flex justify-between items-center">
@@ -993,25 +1007,7 @@
               </div>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="bg-charm-blue/10 rounded-xl p-4 border border-charm-blue/20">
-              <div class="flex justify-between items-start mb-2">
-                <i class="fas fa-weight text-charm-blue text-lg"></i>
-                <button onclick="updateWeight()" class="text-charm-blue text-[10px]"><i class="fas fa-edit"></i></button>
-              </div>
-              <p class="text-[10px] uppercase font-bold text-charm-blue tracking-wider">Weight</p>
-              <p class="text-lg font-serif font-bold text-charm-dark mt-1" id="currentWeight">65.0 kg</p>
-            </div>
-            
-            <div class="bg-charm-green/10 rounded-xl p-4 border border-charm-green/20">
-              <div class="flex justify-between items-start mb-2">
-                <i class="fas fa-ruler-vertical text-charm-green text-lg"></i>
-                <button onclick="updateBloodPressure()" class="text-charm-green text-[10px]"><i class="fas fa-edit"></i></button>
-              </div>
-              <p class="text-[10px] uppercase font-bold text-charm-green tracking-wider">Blood Pressure</p>
-              <p class="text-lg font-serif font-bold text-charm-dark mt-1" id="currentBP">120/80</p>
-            </div>
-          </div>
+          <!-- Weight and Blood Pressure tracking removed from Track tab -->
           
           <!-- Health Conditions Tracking -->
           <div class="mb-4">
@@ -1125,7 +1121,14 @@
             <button onclick="openView('viewProfile')" class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-charm-gray active:scale-95 transition"><i class="fas fa-times"></i></button>
           </div>
           <div class="space-y-4">
-            <div><p class="text-xs font-bold text-charm-gray uppercase mb-2">Export Data</p><button class="w-full bg-charm-cream border border-stone-200 text-charm-dark text-sm font-bold py-3 rounded-xl">Download JSON Backup</button></div>
+            <div>
+              <p class="text-xs font-bold text-charm-gray uppercase mb-2">Profile Management</p>
+              <button onclick="openView('viewSurvey')" class="w-full bg-charm-blue text-white text-sm font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition"><i class="fas fa-edit mr-1"></i>Edit Personal Information</button>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-charm-gray uppercase mb-2">Export Data</p>
+              <button onclick="downloadJSONBackup()" class="w-full bg-charm-cream border border-stone-200 text-charm-dark text-sm font-bold py-3 rounded-xl active:scale-[0.98] transition hover:bg-stone-100">Download JSON Backup</button>
+            </div>
           </div>
         </div>
       </section>
@@ -1267,6 +1270,55 @@
         <button onclick="submitFeedback()" class="w-full bg-charm-blue text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
           Submit Feedback
         </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Star Rating Modal -->
+  <div id="starRatingModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="closeStarRatingModal()"></div>
+    <div class="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl animate-bounce-in">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <p class="text-[10px] font-bold text-charm-gold uppercase tracking-widest">Rate Group</p>
+          <h3 id="ratingModalGroupName" class="text-lg font-serif font-bold text-charm-dark mt-1">Group Name</h3>
+        </div>
+        <button onclick="closeStarRatingModal()" class="w-8 h-8 rounded-full bg-stone-100 text-charm-gray flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <p class="text-sm text-charm-dark mb-4">How would you rate this group?</p>
+      
+      <div class="flex justify-center gap-4 mb-6">
+        <button onclick="submitStarRating(1)" class="text-3xl hover:scale-110 transition" title="1 Star">⭐</button>
+        <button onclick="submitStarRating(2)" class="text-3xl hover:scale-110 transition" title="2 Stars">⭐</button>
+        <button onclick="submitStarRating(3)" class="text-3xl hover:scale-110 transition" title="3 Stars">⭐</button>
+        <button onclick="submitStarRating(4)" class="text-3xl hover:scale-110 transition" title="4 Stars">⭐</button>
+        <button onclick="submitStarRating(5)" class="text-3xl hover:scale-110 transition" title="5 Stars">⭐</button>
+      </div>
+      
+      <div class="text-center">
+        <button onclick="closeStarRatingModal()" class="text-xs px-4 py-2 rounded-lg bg-stone-100 text-charm-gray">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comment Reply Modal -->
+  <div id="commentReplyModal" class="hidden fixed inset-0 z-50 flex items-end">
+    <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="closeCommentReplyModal()"></div>
+    <div class="relative w-full bg-white rounded-t-2xl p-5 shadow-2xl animate-slide-up">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold text-charm-dark">Reply to Post</h3>
+        <button onclick="closeCommentReplyModal()" class="w-8 h-8 rounded-full bg-stone-100 text-charm-gray flex items-center justify-center"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="space-y-3">
+        <textarea id="commentReplyInput" rows="3" class="w-full bg-charm-cream border border-stone-200 rounded-lg p-3 text-sm focus:outline-none focus:border-charm-gold focus:bg-white text-charm-dark" placeholder="Share your thoughts..."></textarea>
+        
+        <div class="flex gap-2">
+          <button onclick="closeCommentReplyModal()" class="flex-1 bg-stone-100 text-charm-gray text-sm font-bold py-2 rounded-lg">Cancel</button>
+          <button onclick="submitCommentReply()" class="flex-1 bg-charm-blue text-white text-sm font-bold py-2 rounded-lg shadow-soft active:scale-[0.98] transition">Post Reply</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1415,6 +1467,7 @@
       if(id === 'viewSocial') renderSocialFeed();
       if(id === 'viewTracking') renderTracking();
       if(id === 'viewProfile') updateQuests();
+      if(id === 'viewSurvey') onSurveyOpen();
     }
 
     function saveAssessmentBasics() {
@@ -2112,11 +2165,21 @@
         high: "bg-red-50 text-red-600 border-red-200", 
         info: "bg-charm-blue/10 text-charm-blue border-charm-blue/20" 
       };
-      return `<span class="inline-flex items-center text-[9px] px-2 py-1 rounded border font-bold uppercase tracking-wider ${map[level]||map.info}">${label}</span>`;
+      const emoji = {
+        low: "✅",
+        mod: "⚠️",
+        high: "🔴",
+        info: "ℹ️"
+      };
+      return `<span class="inline-flex items-center text-[9px] px-2 py-1 rounded border font-bold uppercase tracking-wider ${map[level]||map.info}">${emoji[level]||emoji.info} ${label}</span>`;
     }
 
-    function resultCard(title, badgeHtml, detail) {
-      return `<div class="bg-charm-cream border border-stone-200 rounded-xl p-4"><div class="flex items-start justify-between gap-2"><h3 class="font-bold text-sm text-charm-dark">${title}</h3>${badgeHtml}</div><p class="text-xs text-charm-gray mt-2 leading-relaxed">${detail}</p></div>`;
+    function resultCard(title, badgeHtml, detail, doctorAdvice = null) {
+      let adviceHtml = '';
+      if (doctorAdvice) {
+        adviceHtml = `<div class="mt-3 p-2 bg-charm-gold/10 border-l-2 border-charm-gold rounded text-xs text-charm-dark font-medium italic"><i class="fas fa-stethoscope text-charm-gold mr-1"></i>&nbsp;<strong>Doctor's Note:</strong> ${doctorAdvice}</div>`;
+      }
+      return `<div class="bg-charm-cream border border-stone-200 rounded-xl p-4"><div class="flex items-start justify-between gap-2"><h3 class="font-bold text-sm text-charm-dark">${title}</h3>${badgeHtml}</div><p class="text-xs text-charm-gray mt-2 leading-relaxed">${detail}</p>${adviceHtml}</div>`;
     }
 
     // --- Scoring Algorithms ---
@@ -2410,22 +2473,36 @@
       const respiratory = calcRespiratoryRisk(age, sex, smkNow, copd_asthma, resp_symptoms);
 
       const html = [];
-      html.push(resultCard("Thai Diabetes Score", charmBadge(tds.level, tds.level), tds.detail));
-      html.push(resultCard("Thai ASCVD Score", charmBadge(ascvd.level, ascvd.level), ascvd.detail));
-      html.push(resultCard("Stroke Risk", charmBadge(stroke.level, stroke.level), stroke.detail));
-      html.push(resultCard("Kidney Disease Risk", charmBadge(kidney.level, kidney.level), kidney.detail));
-      html.push(resultCard("Cancer Risk", charmBadge(cancer.level, cancer.level), cancer.detail));
-      html.push(resultCard("Mental Health", charmBadge(mental.level, mental.level), mental.detail));
-      html.push(resultCard("Respiratory Health", charmBadge(respiratory.level, respiratory.level), respiratory.detail));
+      const getAdvice = (level, topic) => {
+        const adviceMap = {
+          'diabetes_low': 'Maintain current lifestyle with regular exercise and balanced diet.',
+          'diabetes_mod': 'Reduce sugar intake and increase physical activity to 150 mins/week.',
+          'diabetes_high': 'Consult your doctor immediately. Consider diabetic screening and medication.',
+          'ascvd_low': 'Keep up your healthy habits. Monitor blood pressure regularly.',
+          'ascvd_mod': 'Focus on reducing sodium, increasing exercise, and managing stress.',
+          'ascvd_high': 'See a cardiologist urgently. May need medication and intensive lifestyle changes.',
+          'stroke_low': 'Continue preventive measures like regular exercise and healthy diet.',
+          'stroke_mod': 'Monitor blood pressure closely and limit salt intake.',
+          'stroke_high': 'Urgent consultation recommended. May need antiplatelet therapy.'
+        };
+        return adviceMap[`${topic}_${level}`] || 'Maintain healthy lifestyle practices.';
+      };
+      html.push(resultCard("Thai Diabetes Score", charmBadge(tds.level, tds.level), tds.detail, getAdvice(tds.level, 'diabetes')));
+      html.push(resultCard("Thai ASCVD Score", charmBadge(ascvd.level, ascvd.level), ascvd.detail, getAdvice(ascvd.level, 'ascvd')));
+      html.push(resultCard("Stroke Risk", charmBadge(stroke.level, stroke.level), stroke.detail, getAdvice(stroke.level, 'stroke')));
+      html.push(resultCard("Kidney Disease Risk", charmBadge(kidney.level, kidney.level), kidney.detail, "Protect kidney function with hydration and blood pressure control."));
+      html.push(resultCard("Cancer Risk", charmBadge(cancer.level, cancer.level), cancer.detail, "Maintain healthy weight and avoid tobacco and excess alcohol."));
+      html.push(resultCard("Mental Health", charmBadge(mental.level, mental.level), mental.detail, "Prioritize sleep, exercise, and social connections for mental wellness."));
+      html.push(resultCard("Respiratory Health", charmBadge(respiratory.level, respiratory.level), respiratory.detail, "Avoid pollution and tobacco. May need pulmonary function tests."));
 
       if(Number.isFinite(fbs) || Number.isFinite(tc) || Number.isFinite(tg) || Number.isFinite(ldl) || Number.isFinite(hdl)) {
-         html.push(resultCard("Lab Insights", charmBadge(labs.level, labs.level === 'low' ? 'Optimal' : 'Flagged'), labs.detail));
+         html.push(resultCard("Lab Insights", charmBadge(labs.level, labs.level === 'low' ? 'Optimal' : 'Flagged'), labs.detail, "Review results with your doctor for interpretation and next steps."));
       }
 
-      html.push(resultCard("Diet & Nutrition", charmBadge(diet.level, diet.level), diet.detail));
-      html.push(resultCard("Physical Activity", charmBadge(act.level, act.level), act.detail));
-      html.push(resultCard("Smoking & Alcohol", charmBadge(smk.level, "Review"), smk.detail + "<br>" + alc.detail));
-      html.push(resultCard("Oral Health", charmBadge(oral.level, oral.level), oral.detail));
+      html.push(resultCard("Diet & Nutrition", charmBadge(diet.level, diet.level), diet.detail, "Work with nutritionist for personalized meal planning."));
+      html.push(resultCard("Physical Activity", charmBadge(act.level, act.level), act.detail, "Start with 30 mins moderate activity daily, gradually increase."));
+      html.push(resultCard("Smoking & Alcohol", charmBadge(smk.level, "Review"), smk.detail + "<br>" + alc.detail, "Quitting offers significant health benefits within weeks."));
+      html.push(resultCard("Oral Health", charmBadge(oral.level, oral.level), oral.detail, "Visit dentist every 6 months. Brush twice and floss daily."));
 
       document.getElementById('resultsGrid').innerHTML = html.join("");
       document.getElementById('resultStamp').innerText = new Date().toLocaleString();
@@ -2503,6 +2580,34 @@
     }
 
     function clearHistory() { localStorage.removeItem(HIST_KEY); renderHistory(); }
+
+    function downloadJSONBackup() {
+      const backup = {
+        personalInfo: JSON.parse(localStorage.getItem('personalInfo') || '{}'),
+        assessmentBasics: JSON.parse(localStorage.getItem('assessmentBasics') || '{}'),
+        nutritionData: JSON.parse(localStorage.getItem('nutritionData') || '{}'),
+        userGoals: JSON.parse(localStorage.getItem('userGoals') || '{}'),
+        groupRatings: JSON.parse(localStorage.getItem('group_ratings') || '{}'),
+        posts: JSON.parse(localStorage.getItem('charmjai_ncd_posts') || '[]'),
+        groups: JSON.parse(localStorage.getItem('charmjai_groups') || '[]'),
+        friends: JSON.parse(localStorage.getItem('charmjai_friends') || '[]'),
+        history: JSON.parse(localStorage.getItem('health_history') || '[]'),
+        achievements: JSON.parse(localStorage.getItem('charmjai_achievements') || '{}'),
+        backupDate: new Date().toISOString()
+      };
+      
+      const dataStr = JSON.stringify(backup, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `caremu_backup_${new Date().toISOString().slice(0,10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast('✅ Backup downloaded successfully');
+    }
 
     // ==========================================
     //   Community & Social Features
@@ -2642,7 +2747,7 @@
 
     function renderGroups(category = 'all') {
       const groups = getGroups();
-      const myGroups = groups.filter(g => g.members > 0); // Simplified - in real app would track user's groups
+      const myGroups = groups.filter(g => g.members > 0);
       const preferred = deriveRecommendedCategory();
       
       // Render my groups
@@ -2652,7 +2757,13 @@
             <h4 class="font-bold text-sm text-charm-dark">${g.name}</h4>
             <span class="text-xs bg-charm-blue/10 text-charm-blue px-2 py-1 rounded">${g.members}/${g.maxMembers}</span>
           </div>
-          <p class="text-xs text-charm-gray">${g.description}</p>
+          <p class="text-xs text-charm-gray mb-2">${g.description}</p>
+          <div class="flex items-center justify-between">
+            ${renderGroupRating(g.id)}
+            <div class="flex gap-1">
+              <button onclick="event.stopPropagation(); openStarRatingModal(${g.id})" class="text-xs px-2 py-0.5 bg-charm-gold/10 text-charm-gold rounded hover:bg-charm-gold/20">Rate ⭐</button>
+            </div>
+          </div>
         </div>
       `).join("");
 
@@ -2667,7 +2778,13 @@
             <span class="text-xs bg-charm-green/10 text-charm-green px-2 py-1 rounded">${g.category}${g.category === preferred ? ' match' : ''}</span>
           </div>
           <p class="text-xs text-charm-gray mb-2">${g.description}</p>
-          <button class="text-xs bg-charm-blue text-white px-3 py-1 rounded-full">Join Group</button>
+          <div class="flex items-center justify-between">
+            ${renderGroupRating(g.id)}
+            <div class="flex gap-2">
+              <button onclick="event.stopPropagation(); openStarRatingModal(${g.id})" class="text-xs px-2 py-0.5 bg-charm-gold/10 text-charm-gold rounded hover:bg-charm-gold/20">⭐</button>
+              <button onclick="event.stopPropagation(); joinGroup(${g.id})" class="text-xs bg-charm-blue text-white px-3 py-1 rounded-full">Join</button>
+            </div>
+          </div>
         </div>
       `).join("");
 
@@ -2773,16 +2890,31 @@
       const posts = getPosts();
       const el = document.getElementById('groupFeed');
       if (!el) return;
-      el.innerHTML = posts.slice(0, 8).map(p => `
-        <div class="bg-white rounded-xl p-4 border border-stone-100">
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-xs font-bold text-charm-dark">${p.author}</div>
-            <span class="text-[10px] bg-stone-100 text-charm-gray px-2 py-0.5 rounded">${p.category || 'general'}</span>
+      el.innerHTML = posts.slice(0, 8).map(p => {
+        const comments = JSON.parse(localStorage.getItem(`post_comments_${p.id}`) || '[]');
+        const commentsHtml = comments.slice(0, 2).map(c => `
+          <div class="text-xs p-2 bg-stone-50 rounded border-l-2 border-charm-blue/30">
+            <div class="font-bold text-stone-700">${c.author}</div>
+            <div class="text-stone-600">${c.text}</div>
           </div>
-          <p class="text-sm text-charm-dark">${p.text}</p>
-        </div>
-      `).join("");
+        `).join('');
+        return `
+          <div class="bg-white rounded-xl p-4 border border-stone-100">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-xs font-bold text-charm-dark">${p.author}</div>
+              <span class="text-[10px] bg-stone-100 text-charm-gray px-2 py-0.5 rounded">${p.category || 'general'}</span>
+            </div>
+            <p class="text-sm text-charm-dark mb-2">${p.text}</p>
+            ${commentsHtml ? `<div class="my-2 space-y-1">${commentsHtml}</div>` : ''}
+            <div class="flex gap-2 mt-2">
+              <button onclick="openCommentReplyModal(${p.id})" class="text-xs text-charm-blue hover:text-charm-gold"><i class="fas fa-reply mr-1"></i>Reply (${comments.length})</button>
+              <button onclick="likePost(${p.id})" class="text-xs text-charm-gray hover:text-charm-gold"><i class="fas fa-heart mr-1"></i>${p.likes || 0}</button>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
+    
 
     function openCreateGroupModal() {
       document.getElementById('createGroupModal').classList.remove('hidden');
@@ -2898,9 +3030,9 @@
 
     // Social Features
     function renderSocialFeed() {
-      const posts = getPosts(); // Use the same posts as community forum
-      
+      const posts = getPosts();
       document.getElementById('friendsActivity').innerHTML = posts.map(post => {
+        const comments = JSON.parse(localStorage.getItem(`post_comments_${post.id}`) || '[]');
         let badgeHTML = "";
         if(post.triage === 'flagged') badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-red-50 text-red-600 border-red-200"><i class="fas fa-exclamation-triangle mr-1"></i> Flagged</span>`;
         else if(post.triage === 'expert') badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-charm-gold/10 text-yellow-700 border-charm-gold/30"><i class="fas fa-check-circle mr-1"></i> Expert</span>`;
@@ -2910,6 +3042,13 @@
         if(post.triage === 'flagged') {
           warningBox = `<div class="mt-2 bg-red-50 border-l-2 border-red-400 p-2 text-[10px] text-red-800 leading-relaxed font-medium"><i class="fas fa-robot mr-1"></i> AI Safety Alert: ${post.reason}</div>`;
         }
+        
+        const commentsHtml = comments.slice(0, 1).map(c => `
+          <div class="text-xs p-2 bg-stone-50 rounded border-l-2 border-charm-blue/30 mt-2">
+            <div class="font-bold text-stone-700">${c.author}</div>
+            <div class="text-stone-600">${c.text}</div>
+          </div>
+        `).join('');
 
         return `
         <div class="bg-white rounded-xl p-4 border border-stone-100">
@@ -2922,10 +3061,11 @@
           </div>
           <p class="text-sm text-charm-dark leading-relaxed font-light">${post.text}</p>
           ${warningBox}
-          <div class="flex items-center justify-between mt-3">
-            <div class="flex gap-4">
-              <button class="text-charm-gray hover:text-charm-blue"><i class="fas fa-heart mr-1"></i>${post.likes}</button>
-              <button class="text-charm-gray hover:text-charm-blue"><i class="fas fa-comment mr-1"></i>Reply</button>
+          ${commentsHtml}
+          <div class="flex items-center justify-between mt-3 gap-3">
+            <div class="flex gap-4 text-sm">
+              <button onclick="likePost(${post.id})" class="text-charm-gray hover:text-charm-blue transition"><i class="fas fa-heart mr-1"></i><span class="inline-block min-w-4">${post.likes || 0}</span></button>
+              <button onclick="openCommentReplyModal(${post.id})" class="text-charm-gray hover:text-charm-blue transition"><i class="fas fa-comment mr-1"></i><span class="inline-block min-w-4">${comments.length}</span></button>
             </div>
           </div>
         </div>`;
@@ -3385,6 +3525,151 @@
     
     // Check for feedback eligibility after a short delay
     setTimeout(showFeedbackModal, 2000);
+
+    // ==========================================
+    //   Comment Reply Functions
+    // ==========================================
+    let commentModalPostId = null;
+    function openCommentReplyModal(postId) {
+      commentModalPostId = postId;
+      document.getElementById('commentReplyInput').value = '';
+      document.getElementById('commentReplyModal').classList.remove('hidden');
+      document.getElementById('commentReplyInput').focus();
+    }
+    
+    function closeCommentReplyModal() {
+      document.getElementById('commentReplyModal').classList.add('hidden');
+      commentModalPostId = null;
+    }
+    
+    function submitCommentReply() {
+      const text = document.getElementById('commentReplyInput').value.trim();
+      if (!text || !commentModalPostId) return;
+      addComment(commentModalPostId, text);
+      closeCommentReplyModal();
+    }
+
+    function addComment(postId, text) {
+      const author = 'You';
+      const comment = {
+        id: Date.now(),
+        author: author,
+        text: text,
+        time: 'Just now'
+      };
+      const comments = JSON.parse(localStorage.getItem(`post_comments_${postId}`) || '[]');
+      comments.unshift(comment);
+      localStorage.setItem(`post_comments_${postId}`, JSON.stringify(comments));
+      toast('Reply added!');
+      awardXP(5, 'Replied to a post');
+      renderGroupFeed();
+      renderSocialFeed();
+    }
+
+    function likePost(postId) {
+      const posts = getPosts();
+      const post = posts.find(p => p.id === postId);
+      if (post) {
+        post.likes = (post.likes || 0) + 1;
+        localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+        renderGroupFeed();
+        renderSocialFeed();
+        awardXP(2, 'Liked a post');
+      }
+    }
+
+    // ==========================================
+    //   Star Rating Modal Functions
+    // ==========================================
+    let ratingModalGroupId = null;
+
+    function openStarRatingModal(groupId) {
+      ratingModalGroupId = groupId;
+      const groups = getGroups();
+      const group = groups.find(g => g.id === groupId);
+      if (!group) return;
+      document.getElementById('ratingModalGroupName').textContent = group.name;
+      document.getElementById('starRatingModal').classList.remove('hidden');
+    }
+
+    function closeStarRatingModal() {
+      document.getElementById('starRatingModal').classList.add('hidden');
+      ratingModalGroupId = null;
+    }
+
+    function submitStarRating(stars) {
+      if (!ratingModalGroupId) return;
+      rateGroup(ratingModalGroupId, stars);
+      closeStarRatingModal();
+    }
+
+    // ==========================================
+    //   Group Rating/Review Functions
+    // ==========================================
+    function rateGroup(groupId, rating) {
+      const ratings = JSON.parse(localStorage.getItem('group_ratings') || '{}');
+      if (!ratings[groupId]) ratings[groupId] = { total: 0, count: 0, reviews: [] };
+      ratings[groupId].total += rating;
+      ratings[groupId].count += 1;
+      ratings[groupId].reviews.push({ rating, date: new Date().toLocaleDateString() });
+      localStorage.setItem('group_ratings', JSON.stringify(ratings));
+      toast(`Rated group ${rating}★`);
+      awardXP(10, 'Rated a group');
+      renderGroups();
+    }
+
+    function getGroupRating(groupId) {
+      const ratings = JSON.parse(localStorage.getItem('group_ratings') || '{}');
+      if (!ratings[groupId] || ratings[groupId].count === 0) return 0;
+      return (ratings[groupId].total / ratings[groupId].count).toFixed(1);
+    }
+
+    function renderGroupRating(groupId) {
+      const rating = parseFloat(getGroupRating(groupId));
+      if (rating === 0) return '<span class="text-xs text-charm-gray">★★★★★ No ratings</span>';
+      const stars = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
+      return `<span class="text-xs font-bold text-charm-gold">${stars} ${rating}</span>`;
+    }
+
+    // ==========================================
+    //   Personal Information Management
+    // ==========================================
+    function savePersonalInfo() {
+      const dob = document.getElementById('dob')?.value || '';
+      const sex = document.getElementById('sex')?.value || '';
+      const weight = document.getElementById('weight')?.value || '';
+      const height = document.getElementById('height')?.value || '';
+      const waist = document.getElementById('waist')?.value || '';
+      const sbp = document.getElementById('sbp')?.value || '';
+      const dbp = document.getElementById('dbp')?.value || '';
+      const region = document.getElementById('region')?.value || '';
+      
+      const personalData = { dob, sex, weight, height, waist, sbp, dbp, region, updatedAt: Date.now() };
+      localStorage.setItem('caremu_personal_info', JSON.stringify(personalData));
+      
+      saveAssessmentBasics();
+      toast('Personal information saved successfully!');
+      awardXP(10, 'Updated personal profile');
+      showNotification('Profile Updated', 'Your personal information has been saved.', 'fa-check-circle');
+    }
+
+    function loadPersonalInfo() {
+      const saved = JSON.parse(localStorage.getItem('caremu_personal_info') || '{}');
+      if (saved.dob) document.getElementById('dob').value = saved.dob;
+      if (saved.sex) document.getElementById('sex').value = saved.sex;
+      if (saved.weight) document.getElementById('weight').value = saved.weight;
+      if (saved.height) document.getElementById('height').value = saved.height;
+      if (saved.waist) document.getElementById('waist').value = saved.waist;
+      if (saved.sbp) document.getElementById('sbp').value = saved.sbp;
+      if (saved.dbp) document.getElementById('dbp').value = saved.dbp;
+      if (saved.region) document.getElementById('region').value = saved.region;
+    }
+
+    // Load personal info when survey page is opened
+    function onSurveyOpen() {
+      loadPersonalInfo();
+      loadAssessmentBasics();
+    }
 
   </script>
 </body>
