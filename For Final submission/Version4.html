@@ -232,9 +232,8 @@
             <section id="viewProfile" class="fade-in">
                 <div class="flex items-center justify-between mb-4">
                     <div>
-                        <h2 class="text-xl font-bold font-serif text-charm-dark" id="dashboardGreeting">Hello, User!
-                        </h2>
-                        <p class="text-xs text-charm-gray"><i class="fas fa-chart-line mr-1"></i>Your daily health tracking & personalized insights.</p>
+                        <h2 class="text-xl font-bold font-serif text-charm-dark" id="dashboardGreeting">Hello, User!</h2>
+                        <p class="text-xs text-charm-gray">Your daily health tracking.</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="text-center">
@@ -273,38 +272,15 @@
                     </p>
                 </div>
 
-                <div id="smartInsightBanner"
-                    class="bg-gradient-to-r from-charm-gold/20 to-charm-cream rounded-2xl p-4 border border-charm-gold/30 shadow-sm mb-4">
+                <div id="smartInsightBanner" class="bg-gradient-to-r from-charm-gold/20 to-charm-cream rounded-2xl p-4 border border-charm-gold/30 shadow-sm mb-4">
                     <div class="flex items-center gap-3">
-                        <div
-                            class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-charm-gold shrink-0">
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-charm-gold shrink-0">
                             <i class="fas fa-lightbulb text-lg"></i>
                         </div>
                         <div>
-                            <h4 class="text-xs font-bold text-charm-dark uppercase tracking-wider mb-0.5">Smart Insight
-                            </h4>
+                            <h4 class="text-xs font-bold text-charm-dark uppercase tracking-wider mb-0.5">Smart Insight</h4>
                             <p id="smartInsightText" class="text-sm text-charm-dark">Analyzing your data...</p>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Food Recommendations Card -->
-                <div id="foodRecommendationsCard" class="bg-white rounded-2xl p-4 border border-stone-100 shadow-soft mb-4">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 rounded-full bg-charm-green/10 flex items-center justify-center text-charm-green shrink-0">
-                            <i class="fas fa-seedling text-sm"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-xs font-bold text-charm-dark uppercase tracking-wider">Recommended Foods</h4>
-                            <p class="text-[10px] text-charm-gray">Based on your health profile</p>
-                        </div>
-                    </div>
-                    <div id="foodRecommendationsList" class="flex gap-2 overflow-x-auto pb-2">
-                        <span class="shrink-0 text-[10px] bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full font-bold"><i class="fas fa-fish mr-1"></i>Omega-3 Fish</span>
-                        <span class="shrink-0 text-[10px] bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full font-bold"><i class="fas fa-leaf mr-1"></i>Leafy Greens</span>
-                        <span class="shrink-0 text-[10px] bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full font-bold"><i class="fas fa-bread-slice mr-1"></i>Whole Grains</span>
-                        <span class="shrink-0 text-[10px] bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full font-bold"><i class="fas fa-apple-alt mr-1"></i>Berries</span>
-                        <span class="shrink-0 text-[10px] bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full font-bold"><i class="fas fa-egg mr-1"></i>Nuts & Seeds</span>
                     </div>
                 </div>
 
@@ -318,7 +294,7 @@
                     <div class="flex justify-between items-center mb-2">
                         <h3 class="font-bold text-sm text-charm-dark"><i
                                 class="fas fa-bullseye text-charm-gold mr-1"></i> Daily Calories</h3>
-                        <span class="text-xs font-bold text-charm-blue"><span id="calEaten">0</span> / 2000
+                        <span class="text-xs font-bold text-charm-blue"><span id="calEaten">450</span> / 2000
                             kcal</span>
                     </div>
                     <div class="h-2.5 w-full bg-stone-100 rounded-full overflow-hidden">
@@ -331,8 +307,8 @@
                     <div class="bg-charm-blue/10 rounded-2xl p-4 border border-charm-blue/20">
                         <div class="flex justify-between items-start mb-2">
                             <i class="fas fa-shoe-prints text-charm-blue text-lg"></i>
-                            <button onclick="syncHealthData(this)" class="text-charm-blue text-[10px]"><i
-                                    class="fas fa-sync-alt"></i></button>
+                            <button onclick="syncHealthData(this)"
+                                class="text-charm-blue text-[10px]"><i class="fas fa-sync-alt"></i></button>
                         </div>
                         <p class="text-[10px] uppercase font-bold text-charm-blue tracking-wider">Steps Today</p>
                         <p class="text-xl font-serif font-bold text-charm-dark mt-1" id="dashboardSteps">6,432</p>
@@ -546,21 +522,8 @@
             <section id="viewSurvey" class="hide fade-in">
                 <div class="flex items-center justify-between mb-4">
                     <div>
-                        <h2 class="text-xl font-bold font-serif text-charm-dark"><i class="fas fa-notes-medical text-charm-blue mr-2"></i>Health Assessment</h2>
+                        <h2 class="text-xl font-bold font-serif text-charm-dark">Health Assessment</h2>
                         <p class="text-xs text-charm-gray">For clinical risk & behavioral scores.</p>
-                    </div>
-                </div>
-
-                <!-- Medical Disclaimer -->
-                <div class="bg-red-50 border border-red-200 rounded-2xl p-4 mb-4">
-                    <div class="flex items-start gap-3">
-                        <div class="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center shrink-0 mt-0.5">
-                            <i class="fas fa-exclamation-triangle text-red-500"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-xs font-bold text-red-800 uppercase tracking-wider mb-1">Medical Disclaimer</h4>
-                            <p class="text-[11px] text-red-700 leading-relaxed">The results generated by this assessment are <strong>preliminary estimates</strong> based on referenced clinical guidelines (Thai DM Risk Score, Simplified ASCVD). They are <strong>not a diagnosis</strong>. If you experience symptoms or have concerns, please consult a licensed healthcare professional.</p>
-                        </div>
                     </div>
                 </div>
 
@@ -641,30 +604,6 @@
                                     id="hasHTN" type="checkbox"> Hypertension</label>
                             <label class="flex items-center gap-2 text-sm text-charm-dark font-medium"><input id="fh_dm"
                                     type="checkbox"> Family Diabetes</label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Allergy & Supplement Tracking -->
-                <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <h3 class="font-bold text-lg font-serif text-charm-dark"><i class="fas fa-allergies text-red-400 mr-2"></i>Allergies & Supplements</h3>
-                            <p class="text-[11px] text-charm-gray mt-0.5">Track allergies and current supplements for safety alerts.</p>
-                        </div>
-                        <span class="bg-red-50 text-red-600 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider">SAFETY</span>
-                    </div>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="charm-label"><i class="fas fa-exclamation-circle text-red-400 mr-1"></i>FOOD ALLERGIES</label>
-                            <input id="foodAllergies" type="text" class="charm-input" placeholder="e.g. Peanuts, Shellfish, Dairy (comma separated)">
-                        </div>
-                        <div>
-                            <label class="charm-label"><i class="fas fa-capsules text-purple-500 mr-1"></i>CURRENT SUPPLEMENTS / MEDICATIONS</label>
-                            <input id="currentSupplements" type="text" class="charm-input" placeholder="e.g. Vitamin D, Iron, Statins (comma separated)">
-                        </div>
-                        <div class="bg-amber-50 border border-amber-200 rounded-lg p-3">
-                            <p class="text-[10px] text-amber-800 leading-relaxed"><i class="fas fa-info-circle mr-1"></i><strong>Why track this?</strong> Certain foods and supplements can interact with each other or medications, causing unwanted side effects. We'll warn you if we detect a potential conflict when you log meals.</p>
                         </div>
                     </div>
                 </div>
@@ -1339,14 +1278,13 @@
 
             <section id="viewCommunity" class="hide fade-in h-full flex flex-col">
                 <div class="flex-none bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
-                    <div class="flex justify-between items-center mb-2">
-                        <h2 class="text-lg font-bold font-serif text-charm-dark"><i class="fas fa-users text-charm-blue mr-2"></i>Community Groups</h2>
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-lg font-bold font-serif text-charm-dark">Community Groups</h2>
                         <button onclick="openCreateGroupModal()"
                             class="bg-charm-blue text-white text-xs font-bold px-3 py-2 rounded-lg shadow-sm active:scale-95 transition">
                             <i class="fas fa-plus mr-1"></i>Create Group
                         </button>
                     </div>
-                    <p class="text-[10px] text-charm-gray mb-3 leading-relaxed"><i class="fas fa-shield-alt text-charm-blue mr-1"></i>All health-related discussions are reviewed by medical professionals for accuracy and safety.</p>
 
                     <!-- Group Categories -->
                     <div class="flex gap-2 overflow-x-auto pb-2 mb-4" id="groupCategories">
@@ -1385,24 +1323,18 @@
                             <h3 class="text-sm font-bold text-charm-dark">Active Challenges</h3>
                             <span class="text-[10px] font-bold text-charm-blue uppercase tracking-wider">Weekly</span>
                         </div>
-                        <div
-                            class="bg-gradient-to-r from-charm-blue/10 to-charm-green/10 rounded-xl p-4 border border-charm-blue/20">
+                        <div class="bg-gradient-to-r from-charm-blue/10 to-charm-green/10 rounded-xl p-4 border border-charm-blue/20">
                             <div class="flex justify-between items-start mb-2">
                                 <div>
-                                    <h4 class="font-bold text-sm text-charm-dark"><i
-                                            class="fas fa-shoe-prints text-charm-blue mr-1"></i>10k Daily Steps</h4>
-                                    <p class="text-[10px] text-charm-gray mt-0.5"><i class="fas fa-users mr-1"></i> 142
-                                        members joined</p>
+                                    <h4 class="font-bold text-sm text-charm-dark"><i class="fas fa-shoe-prints text-charm-blue mr-1"></i>10k Daily Steps</h4>
+                                    <p class="text-[10px] text-charm-gray mt-0.5"><i class="fas fa-users mr-1"></i> 142 members joined</p>
                                 </div>
-                                <div
-                                    class="bg-white rounded-full px-2 py-0.5 text-[10px] font-bold text-charm-gold shadow-sm flex items-center">
+                                <div class="bg-white rounded-full px-2 py-0.5 text-[10px] font-bold text-charm-gold shadow-sm flex items-center">
                                     <i class="fas fa-star mr-1"></i> 50 XP
                                 </div>
                             </div>
-                            <p class="text-xs text-charm-gray mb-3 leading-relaxed">Hit your 10,000 steps daily goal for
-                                5 days this week to unlock an exclusive badge and bonus XP!</p>
-                            <button id="joinChallengeBtn" onclick="joinCommunityChallenge(this)"
-                                class="w-full bg-charm-blue text-white text-xs font-bold py-2 rounded-lg shadow-soft active:scale-[0.98] transition">
+                            <p class="text-xs text-charm-gray mb-3 leading-relaxed">Hit your 10,000 steps daily goal for 5 days this week to unlock an exclusive badge and bonus XP!</p>
+                            <button id="joinChallengeBtn" onclick="joinCommunityChallenge(this)" class="w-full bg-charm-blue text-white text-xs font-bold py-2 rounded-lg shadow-soft active:scale-[0.98] transition">
                                 Join Challenge
                             </button>
                         </div>
@@ -1448,7 +1380,6 @@
                         <button onclick="planMeetup()"
                             class="bg-charm-green text-white text-xs font-bold px-3 py-2 rounded-lg shadow-sm active:scale-95 transition">Plan</button>
                     </div>
-                    <div id="meetupsList" class="mt-3"></div>
                 </div>
 
                 <div class="flex-1 space-y-3" id="groupFeed"></div>
@@ -1456,8 +1387,7 @@
 
             <section id="viewSocial" class="hide fade-in">
                 <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
-                    <h2 class="text-lg font-bold font-serif text-charm-dark mb-1"><i class="fas fa-heart text-rose-400 mr-2"></i>Social Feed</h2>
-                    <p class="text-[10px] text-charm-gray mb-3 leading-relaxed">Share your wellness journey, encourage friends, and track progress together.</p>
+                    <h2 class="text-lg font-bold font-serif text-charm-dark mb-3">Social Feed</h2>
 
                     <!-- Share Activity -->
                     <div class="bg-charm-cream rounded-xl p-4 mb-4">
@@ -1505,9 +1435,9 @@
 
             <section id="viewTracking" class="hide fade-in">
                 <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
-                    <div class="flex items-start justify-between gap-3 mb-2">
+                    <div class="flex items-start justify-between gap-3 mb-4">
                         <div>
-                            <h2 class="text-lg font-bold font-serif text-charm-dark"><i class="fas fa-file-medical-alt text-charm-blue mr-2"></i>Scores & Health Report</h2>
+                            <h2 class="text-lg font-bold font-serif text-charm-dark">Scores & Health Report</h2>
                             <p class="text-[10px] text-charm-gray mt-1" id="resultStamp">Just now</p>
                         </div>
                         <button onclick="saveToHistory()"
@@ -1516,11 +1446,13 @@
                         </button>
                     </div>
 
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
-                        <p class="text-[10px] text-blue-800 leading-relaxed"><i class="fas fa-info-circle mr-1"></i><strong>How to read your report:</strong> Each card shows a specific health risk. Green = low risk, Yellow = moderate, Red = high risk. Read the Doctor's Note on each card for personalized next steps.</p>
-                    </div>
                     <div id="resultsGrid" class="space-y-3">
                     </div>
+
+                    <button onclick="openView('viewCommunity')"
+                        class="mt-6 w-full bg-charm-cream border border-charm-gold/30 text-charm-gold font-bold py-4 rounded-xl active:scale-[0.98] transition">
+                        Share in Community <i class="fas fa-users ml-1"></i>
+                    </button>
                 </div>
 
                 <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
@@ -1658,35 +1590,28 @@
                         <div class="bg-charm-cream rounded-xl p-4">
                             <div class="grid grid-cols-3 gap-2 text-center">
                                 <div class="flex flex-col items-center">
-                                    <div id="ringWorkouts"
-                                        class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 mb-2 relative"
-                                        style="background: conic-gradient(#5B6C9D 0%, #EAE6DC 0);">
-                                        <div
-                                            class="w-12 h-12 bg-charm-cream rounded-full flex items-center justify-center absolute">
+                                    <div id="ringWorkouts" class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 mb-2 relative" 
+                                         style="background: conic-gradient(#5B6C9D 0%, #EAE6DC 0);">
+                                        <div class="w-12 h-12 bg-charm-cream rounded-full flex items-center justify-center absolute">
                                             <span class="text-sm font-bold text-charm-blue" id="weeklyWorkouts">5</span>
                                         </div>
                                     </div>
                                     <div class="text-[10px] uppercase font-bold text-charm-gray">Workouts</div>
                                 </div>
                                 <div class="flex flex-col items-center">
-                                    <div id="ringSteps"
-                                        class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 mb-2 relative"
-                                        style="background: conic-gradient(#4B8B67 0%, #EAE6DC 0);">
-                                        <div
-                                            class="w-12 h-12 bg-charm-cream rounded-full flex items-center justify-center absolute">
+                                    <div id="ringSteps" class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 mb-2 relative" 
+                                         style="background: conic-gradient(#4B8B67 0%, #EAE6DC 0);">
+                                        <div class="w-12 h-12 bg-charm-cream rounded-full flex items-center justify-center absolute">
                                             <span class="text-sm font-bold text-charm-green" id="weeklySteps">35k</span>
                                         </div>
                                     </div>
                                     <div class="text-[10px] uppercase font-bold text-charm-gray">Steps</div>
                                 </div>
                                 <div class="flex flex-col items-center">
-                                    <div id="ringCalories"
-                                        class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 mb-2 relative"
-                                        style="background: conic-gradient(#C5A059 0%, #EAE6DC 0);">
-                                        <div
-                                            class="w-12 h-12 bg-charm-cream rounded-full flex items-center justify-center absolute">
-                                            <span class="text-sm font-bold text-charm-gold"
-                                                id="weeklyCalories">2100</span>
+                                    <div id="ringCalories" class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 mb-2 relative" 
+                                         style="background: conic-gradient(#C5A059 0%, #EAE6DC 0);">
+                                        <div class="w-12 h-12 bg-charm-cream rounded-full flex items-center justify-center absolute">
+                                            <span class="text-sm font-bold text-charm-gold" id="weeklyCalories">2100</span>
                                         </div>
                                     </div>
                                     <div class="text-[10px] uppercase font-bold text-charm-gray">Calories</div>
@@ -1707,8 +1632,7 @@
 
                 <!-- Daily Walks & Habits Tracking -->
                 <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
-                    <h3 class="text-sm font-bold text-charm-dark mb-2">Daily Tracking</h3>
-                    <p class="text-[10px] text-charm-gray mb-3 leading-relaxed">Log your daily activities, meals, and habits to track progress toward your health goals.</p>
+                    <h3 class="text-sm font-bold text-charm-dark mb-3">Daily Tracking</h3>
 
                     <!-- Walk Tracking -->
                     <div class="mb-4">
@@ -1755,10 +1679,8 @@
 
             <section id="viewHistory" class="hide fade-in">
                 <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
-                    <h2 class="text-lg font-bold font-serif text-charm-dark mb-1"><i class="fas fa-chart-area text-charm-gold mr-2"></i>My Progress</h2>
-                    <p class="text-[10px] text-charm-gray mb-3 leading-relaxed">View your health journey over time. Monitor how your risk scores improve with consistent lifestyle changes and interventions.</p>
-                    <p class="text-xs text-charm-gray mb-1">Risk % Over Time</p>
-                    <p class="text-[10px] text-charm-gray mb-4 leading-relaxed">This chart tracks how your diabetes and cardiovascular risk scores change over time. Aim to keep both lines trending downward.</p>
+                    <h2 class="text-lg font-bold font-serif text-charm-dark mb-1">My Progress</h2>
+                    <p class="text-xs text-charm-gray mb-4">Risk % Over Time</p>
                     <div class="relative w-full h-48 bg-charm-cream rounded-xl p-2 border border-stone-100">
                         <canvas id="riskChart"></canvas>
                     </div>
@@ -1813,7 +1735,7 @@
                 <i class="fas fa-users text-lg mb-1"></i><span
                     class="text-[8px] font-bold tracking-wide mt-1">Groups</span>
                 <span id="groupNotificationBadge"
-                    class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[7px] text-white flex items-center justify-center font-bold hidden">!</span>
+                    class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-[8px] text-white flex items-center justify-center hidden">!</span>
             </button>
             <button id="navSocial" onclick="openView('viewSocial')"
                 class="nav-item-inactive flex flex-col items-center w-12 group transition">
@@ -1831,33 +1753,6 @@
                     class="text-[8px] font-bold tracking-wide mt-1">History</span>
             </button>
         </nav>
-    </div>
-
-    <div id="consentModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-charm-dark/95 backdrop-blur-md"></div>
-        <div class="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl border-2 border-charm-blue animate-bounce-in max-h-[90vh] overflow-y-auto">
-            <div class="text-center mb-5">
-                <div class="w-16 h-16 bg-charm-blue/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i class="fas fa-shield-alt text-2xl text-charm-blue"></i>
-                </div>
-                <h3 class="text-xl font-serif font-bold text-charm-dark">Data Privacy & Consent</h3>
-            </div>
-            <div class="space-y-4 text-xs text-charm-gray leading-relaxed mb-6">
-                <p>Welcome to Caremu. To provide you with personalized health insights, we need your consent regarding data usage.</p>
-                <div class="bg-stone-50 p-3 rounded-lg border border-stone-100">
-                    <p class="font-bold text-charm-dark mb-1"><i class="fas fa-lock mr-2 text-charm-gold"></i>Strictly Local Storage</p>
-                    <p>In this current version, <strong>all of your health data is stored locally on your device</strong>. The app does not collect, transmit, or store your personal data on external servers.</p>
-                </div>
-                <div class="bg-red-50 p-3 rounded-lg border border-red-100">
-                    <p class="font-bold text-red-800 mb-1"><i class="fas fa-user-md mr-2"></i>Not Medical Advice</p>
-                    <p class="text-red-700">Any analysis or suggestions provided by Caremu are for informational purposes only and are <strong>not a substitute for professional medical advice, diagnosis, or treatment</strong>.</p>
-                </div>
-                <p>By clicking "I Agree", you acknowledge and consent to our terms.</p>
-            </div>
-            <button onclick="acceptConsent()" class="w-full bg-charm-blue text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
-                I Agree
-            </button>
-        </div>
     </div>
 
     <div id="questModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -1895,13 +1790,11 @@
             </div>
             <div class="space-y-4">
                 <div class="flex justify-center mb-2">
-                    <img id="editProfilePreview" src="https://ui-avatars.com/api/?name=User&background=C5A059&color=fff"
-                        class="w-20 h-20 rounded-full border-4 border-charm-cream shadow-sm">
+                     <img id="editProfilePreview" src="https://ui-avatars.com/api/?name=User&background=C5A059&color=fff" class="w-20 h-20 rounded-full border-4 border-charm-cream shadow-sm">
                 </div>
                 <div>
                     <label class="charm-label">DISPLAY NAME</label>
-                    <input id="editProfileName" type="text" class="charm-input" placeholder="e.g. Health Hero"
-                        oninput="updateProfilePreview()">
+                    <input id="editProfileName" type="text" class="charm-input" placeholder="e.g. Health Hero" oninput="updateProfilePreview()">
                 </div>
                 <div>
                     <label class="charm-label">AVATAR COLOR</label>
@@ -2046,57 +1939,46 @@
     <!-- Nutrition Update Modal -->
     <div id="nutritionUpdateModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="closeNutritionModal()"></div>
-        <div
-            class="relative w-full max-w-sm bg-stone-100 rounded-2xl p-6 shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
+        <div class="relative w-full max-w-sm bg-stone-100 rounded-2xl p-6 shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="font-bold text-lg text-charm-dark"><i
-                        class="fas fa-apple-alt text-charm-blue mr-2"></i>Update Nutrition</h3>
-                <button onclick="closeNutritionModal()" class="text-stone-400 hover:text-charm-dark transition"><i
-                        class="fas fa-times"></i></button>
+                <h3 class="font-bold text-lg text-charm-dark"><i class="fas fa-apple-alt text-charm-blue mr-2"></i>Update Nutrition</h3>
+                <button onclick="closeNutritionModal()" class="text-stone-400 hover:text-charm-dark transition"><i class="fas fa-times"></i></button>
             </div>
-
+            
             <div class="overflow-y-auto pr-2 space-y-4 flex-1">
                 <div>
                     <label class="block text-xs font-bold text-charm-gray mb-1 uppercase">Calories</label>
-                    <input id="modalCals" type="number"
-                        class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
+                    <input id="modalCals" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-charm-gray mb-1 uppercase">Protein (g)</label>
-                        <input id="modalPro" type="number"
-                            class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
+                        <input id="modalPro" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-charm-gray mb-1 uppercase">Carbs (g)</label>
-                        <input id="modalCarbs" type="number"
-                            class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
+                        <input id="modalCarbs" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-charm-gray mb-1 uppercase">Fat (g)</label>
-                        <input id="modalFat" type="number"
-                            class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
+                        <input id="modalFat" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-charm-gray mb-1 uppercase">Sugar (g)</label>
-                        <input id="modalSugar" type="number"
-                            class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
+                        <input id="modalSugar" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-charm-gray mb-1 uppercase">Fiber (g)</label>
-                        <input id="modalFiber" type="number"
-                            class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
+                        <input id="modalFiber" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-charm-gray mb-1 uppercase">Sodium (mg)</label>
-                        <input id="modalSodium" type="number"
-                            class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
+                        <input id="modalSodium" type="number" class="w-full bg-white border border-stone-200 rounded-lg p-3 text-sm font-bold text-charm-dark focus:border-charm-gold outline-none">
                     </div>
                 </div>
             </div>
-
-            <button onclick="saveNutritionModalData()"
-                class="w-full mt-6 bg-charm-blue text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
+            
+            <button onclick="saveNutritionModalData()" class="w-full mt-6 bg-charm-blue text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
                 Save Nutrition
             </button>
         </div>
@@ -2105,31 +1987,25 @@
     <!-- LINE Chat Mock Modal -->
     <div id="lineChatModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="closeLINEChat()"></div>
-        <div
-            class="relative w-full max-w-sm bg-stone-100 rounded-2xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col h-[70vh]">
+        <div class="relative w-full max-w-sm bg-stone-100 rounded-2xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col h-[70vh]">
             <div class="bg-[#06C755] p-4 flex justify-between items-center text-white">
                 <div class="flex items-center gap-2">
                     <i class="fab fa-line text-2xl"></i>
-                    <h3 class="font-bold relative text-sm">Caremu Support <span
-                            class="absolute -top-1 -right-2 w-2 h-2 bg-red-500 rounded-full"></span></h3>
+                    <h3 class="font-bold relative text-sm">Caremu Support <span class="absolute -top-1 -right-2 w-2 h-2 bg-red-500 rounded-full"></span></h3>
                 </div>
-                <button onclick="closeLINEChat()" class="text-white hover:text-green-100 transition"><i
-                        class="fas fa-times"></i></button>
+                <button onclick="closeLINEChat()" class="text-white hover:text-green-100 transition"><i class="fas fa-times"></i></button>
             </div>
             <div class="flex-1 p-4 overflow-y-auto space-y-4" id="lineChatLogs">
                 <div class="flex items-start gap-2">
-                    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center text-white text-xs">
-                        <i class="fas fa-robot"></i></div>
+                    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center text-white text-xs"><i class="fas fa-robot"></i></div>
                     <div class="bg-white p-3 rounded-2xl rounded-tl-none text-sm text-charm-dark shadow-sm max-w-[80%]">
                         Hello! Welcome to Caremu Care. How can I help you today?
                     </div>
                 </div>
             </div>
             <div class="p-3 bg-white border-t border-stone-200 flex gap-2">
-                <input type="text" id="lineChatInput" placeholder="Aa"
-                    class="flex-1 bg-stone-100 border border-stone-200 rounded-full px-4 py-2 text-sm outline-none hover:border-green-300 focus:border-green-400 focus:ring-1 focus:ring-green-200 transition"
-                    onkeypress="if(event.key==='Enter') sendLINEMessage()">
-                <button onclick="sendLINEMessage()" class="text-[#06C755] text-xl self-center px-2 hover:opacity-100 opacity-70 transition hover:scale-110"><i class="fas fa-paper-plane"></i></button>
+                <input type="text" id="lineChatInput" placeholder="Aa" class="flex-1 bg-stone-100 border border-stone-200 rounded-full px-4 py-2 text-sm outline-none cursor-not-allowed" disabled>
+                <div class="text-[#06C755] text-xl self-center px-2 opacity-50"><i class="fas fa-paper-plane"></i></div>
             </div>
         </div>
     </div>
@@ -2342,15 +2218,15 @@
         //   Navigation & UI State
         // ==========================================
         const USER_PROFILE_KEY = "caremu_user_profile";
-
+        
         function loadUserProfile() {
             const profile = JSON.parse(localStorage.getItem(USER_PROFILE_KEY) || '{"name":"User","color":"C5A059"}');
             const encodedName = encodeURIComponent(profile.name);
             const avatarUrl = `https://ui-avatars.com/api/?name=${encodedName}&background=${profile.color}&color=fff`;
-
+            
             const avatarImgs = document.querySelectorAll('.profile-avatar-img');
             avatarImgs.forEach(img => img.src = avatarUrl);
-
+            
             const greetingEl = document.getElementById('dashboardGreeting');
             if (greetingEl) greetingEl.textContent = `Hello, ${profile.name}!`;
         }
@@ -2369,7 +2245,7 @@
 
         function updateProfilePreview() {
             let name = document.getElementById('editProfileName').value.trim();
-            if (!name) name = 'User';
+            if(!name) name = 'User';
             const color = document.getElementById('editProfileColor').value;
             const encodedName = encodeURIComponent(name);
             document.getElementById('editProfilePreview').src = `https://ui-avatars.com/api/?name=${encodedName}&background=${color}&color=fff`;
@@ -2377,7 +2253,7 @@
 
         function saveUserProfile() {
             let name = document.getElementById('editProfileName').value.trim();
-            if (!name) name = 'User';
+            if(!name) name = 'User';
             const color = document.getElementById('editProfileColor').value;
             localStorage.setItem(USER_PROFILE_KEY, JSON.stringify({ name, color }));
             loadUserProfile();
@@ -2414,7 +2290,6 @@
                 if (el) { el.classList.add('nav-item-active'); el.classList.remove('nav-item-inactive'); }
             }
 
-            if (id === 'viewProfile') loadDailyCalories();
             if (id === 'viewHistory') renderHistory();
             if (id === 'viewCommunity') renderGroups();
             if (id === 'viewSocial') renderSocialFeed();
@@ -2487,17 +2362,16 @@
 
         // Dynamic Followups for Survey
         function updateFollowups() {
-            // Only update if elements exist (survey may not be open yet)
+            const smk1 = radioVal('smk1');
             const smkBox = document.getElementById('smokingFollowups');
             if (smkBox) {
-                const smk1 = radioVal('smk1');
                 if (!smk1 || smk1 === 'never' || smk1 === 'quit') smkBox.classList.add('hide');
                 else smkBox.classList.remove('hide');
             }
 
+            const a1 = radioVal('alc1');
             const alcBox = document.getElementById('alcoholFollowups');
             if (alcBox) {
-                const a1 = radioVal('alc1');
                 if (!a1 || a1 === 'never' || a1 === 'stopped') alcBox.classList.add('hide');
                 else alcBox.classList.remove('hide');
             }
@@ -2548,11 +2422,6 @@
                 } else {
                     // Expired, clean up
                     localStorage.removeItem('caremu_premium_temp_expiry');
-                    // If temp premium was marked as permanent, clear that too
-                    const wasMarkedPermanent = localStorage.getItem(PREMIUM_KEY) === "true" && !localStorage.getItem('caremu_premium_permanent_purchase');
-                    if (wasMarkedPermanent) {
-                        localStorage.setItem(PREMIUM_KEY, "false");
-                    }
                     updatePremiumUI();
                     return false;
                 }
@@ -2642,10 +2511,10 @@
 
             // Clean up history data for free users
             if (!isPremium) {
-                const history = JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
+                const history = JSON.parse(localStorage.getItem('caremu_history') || '[]');
                 const filteredHistory = history.filter(h => new Date(h.date) >= cutoffDate);
                 if (filteredHistory.length !== history.length) {
-                    localStorage.setItem(HIST_KEY, JSON.stringify(filteredHistory));
+                    localStorage.setItem('caremu_history', JSON.stringify(filteredHistory));
                 }
             }
         }
@@ -2735,7 +2604,7 @@
             document.getElementById('modalSugar').value = document.getElementById('dailySugar').textContent.replace(/\D/g, '') || 0;
             document.getElementById('modalFiber').value = document.getElementById('dailyFiber').textContent.replace(/\D/g, '') || 0;
             document.getElementById('modalSodium').value = document.getElementById('dailySodium').textContent.replace(/\D/g, '') || 0;
-
+            
             document.getElementById('nutritionUpdateModal').classList.remove('hidden');
         }
 
@@ -2787,30 +2656,16 @@
         }
 
         function loadNutritionData() {
-            // Calculate today's nutrition from food entries (primary source of truth)
-            const entries = JSON.parse(localStorage.getItem('caremu_food_entries') || '[]');
-            const today = new Date().toDateString();
-            const todayEntries = entries.filter(entry => new Date(entry.date).toDateString() === today);
-            
-            // Sum up nutrition from all food entries today
-            const totals = {
-                calories: todayEntries.reduce((sum, e) => sum + (e.calories || 0), 0),
-                protein: todayEntries.reduce((sum, e) => sum + (e.protein || 0), 0),
-                carbs: todayEntries.reduce((sum, e) => sum + (e.carbs || 0), 0),
-                fat: todayEntries.reduce((sum, e) => sum + (e.fat || 0), 0),
-                sugar: todayEntries.reduce((sum, e) => sum + (e.sugar || 0), 0),
-                fiber: todayEntries.reduce((sum, e) => sum + (e.fiber || 0), 0),
-                sodium: todayEntries.reduce((sum, e) => sum + (e.sodium || 0), 0)
-            };
-            
-            // Update DOM with calculated values
-            if (document.getElementById('dailyCalories')) document.getElementById('dailyCalories').textContent = totals.calories;
-            if (document.getElementById('dailyProtein')) document.getElementById('dailyProtein').textContent = totals.protein + 'g';
-            if (document.getElementById('dailyCarbs')) document.getElementById('dailyCarbs').textContent = totals.carbs + 'g';
-            if (document.getElementById('dailyFat')) document.getElementById('dailyFat').textContent = totals.fat + 'g';
-            if (document.getElementById('dailySugar')) document.getElementById('dailySugar').textContent = totals.sugar + 'g';
-            if (document.getElementById('dailyFiber')) document.getElementById('dailyFiber').textContent = totals.fiber + 'g';
-            if (document.getElementById('dailySodium')) document.getElementById('dailySodium').textContent = totals.sodium + 'mg';
+            const data = JSON.parse(localStorage.getItem('caremu_nutrition_data') || 'null');
+            if (data && data.date === new Date().toDateString()) {
+                document.getElementById('dailyCalories').textContent = data.calories;
+                document.getElementById('dailyProtein').textContent = data.protein + 'g';
+                document.getElementById('dailyCarbs').textContent = data.carbs + 'g';
+                document.getElementById('dailyFat').textContent = data.fat + 'g';
+                document.getElementById('dailySugar').textContent = data.sugar + 'g';
+                document.getElementById('dailyFiber').textContent = data.fiber + 'g';
+                document.getElementById('dailySodium').textContent = data.sodium + 'mg';
+            }
         }
 
         // ==========================================
@@ -3130,25 +2985,10 @@
       `).join('');
         }
 
-        function saveSleepTimes() {
-            const bed = document.getElementById('bedtime').value;
-            const wake = document.getElementById('waketime').value;
-            localStorage.setItem('caremu_bedtime', bed);
-            localStorage.setItem('caremu_waketime', wake);
-        }
-
-        function loadSleepTimes() {
-            const bed = localStorage.getItem('caremu_bedtime') || '';
-            const wake = localStorage.getItem('caremu_waketime') || '';
-            if (document.getElementById('bedtime')) document.getElementById('bedtime').value = bed;
-            if (document.getElementById('waketime')) document.getElementById('waketime').value = wake;
-        }
-
         function calcSleep() {
             const bed = document.getElementById('bedtime').value;
             const wake = document.getElementById('waketime').value;
             if (bed && wake) {
-                saveSleepTimes();
                 let b = new Date("2000-01-01 " + bed);
                 let w = new Date("2000-01-02 " + wake);
                 if (w < b) w.setDate(w.getDate() + 1); // handle overnight
@@ -3162,17 +3002,6 @@
                 const h = Math.floor(diffHrs);
                 const m = Math.round((diffHrs - h) * 60);
                 document.getElementById('sleepTotal').innerText = `${h}h ${m}m`;
-            }
-        }
-
-        function loadDailyCalories() {
-            const foodEntries = JSON.parse(localStorage.getItem('caremu_food_entries') || '[]');
-            const today = new Date().toDateString();
-            const todayCalories = foodEntries.filter(f => new Date(f.date).toDateString() === today)
-                .reduce((sum, f) => sum + (parseInt(f.calories) || 0), 0);
-            const calEatenEl = document.getElementById('calEaten');
-            if (calEatenEl) {
-                calEatenEl.textContent = todayCalories;
             }
         }
 
@@ -3224,15 +3053,13 @@
                 return;
             }
 
-            // Check for food-supplement interactions
-            checkFoodInteractions(foodName);
-
             // Update dashboard calorie counter
             const current = Number(document.getElementById('calEaten').innerText);
             const newTotal = current + cals;
             document.getElementById('calEaten').innerText = newTotal;
             document.getElementById('calBar').style.width = Math.min(100, (newTotal / 2000) * 100) + "%";
 
+            // Update nutrition tracking page (Track tab)
             // Update nutrition tracking page (Track tab)
             document.getElementById('dailyCalories').textContent = (Number(document.getElementById('dailyCalories').textContent.replace(/\D/g, '')) || 0) + cals;
             document.getElementById('dailyProtein').textContent = ((Number(document.getElementById('dailyProtein').textContent.replace(/\D/g, '')) || 0) + protein) + 'g';
@@ -3267,35 +3094,6 @@
             document.getElementById('foodInput').value = "";
             awardXP(15, 'Logged a meal with AI');
             toast(`✅ ${foodName} added! +${cals} calories`);
-        }
-
-        // ==========================================
-        //   Food-Supplement Interaction Warnings
-        // ==========================================
-        const FOOD_INTERACTIONS = [
-            { foods: ['grapefruit', 'pomelo'], supplements: ['statin', 'atorvastatin', 'simvastatin', 'lovastatin'], warning: '⚠️ Grapefruit can increase statin levels in the blood, raising risk of muscle damage and liver issues.' },
-            { foods: ['dairy', 'milk', 'cheese', 'yogurt', 'calcium'], supplements: ['iron', 'ferrous'], warning: '⚠️ Calcium-rich dairy can reduce iron absorption by up to 50%. Take them at least 2 hours apart.' },
-            { foods: ['banana', 'potato', 'spinach', 'tomato'], supplements: ['potassium', 'ace inhibitor', 'lisinopril', 'enalapril'], warning: '⚠️ High-potassium foods with potassium-sparing medications can cause dangerously high potassium levels.' },
-            { foods: ['leafy green', 'kale', 'spinach', 'broccoli'], supplements: ['warfarin', 'blood thinner', 'coumadin'], warning: '⚠️ Vitamin K in leafy greens can reduce the effectiveness of blood thinners like Warfarin.' },
-            { foods: ['alcohol', 'beer', 'wine'], supplements: ['metformin', 'paracetamol', 'acetaminophen', 'ibuprofen'], warning: '⚠️ Alcohol combined with certain medications can stress the liver and increase side effects.' },
-            { foods: ['soy', 'tofu', 'edamame'], supplements: ['thyroid', 'levothyroxine', 'synthroid'], warning: '⚠️ Soy products can interfere with thyroid medication absorption. Space consumption by 4+ hours.' },
-            { foods: ['coffee', 'caffeine', 'tea'], supplements: ['iron', 'ferrous'], warning: '⚠️ Caffeine can reduce iron absorption. Wait at least 1 hour after taking iron before drinking coffee or tea.' },
-        ];
-
-        function checkFoodInteractions(foodName) {
-            const saved = JSON.parse(localStorage.getItem('caremu_personal_info') || '{}');
-            const supplements = (saved.supplements || '').toLowerCase();
-            if (!supplements) return;
-
-            const foodLower = foodName.toLowerCase();
-            for (const rule of FOOD_INTERACTIONS) {
-                const foodMatch = rule.foods.some(f => foodLower.includes(f));
-                const suppMatch = rule.supplements.some(s => supplements.includes(s));
-                if (foodMatch && suppMatch) {
-                    showNotification('Interaction Warning', rule.warning, 'fa-exclamation-triangle');
-                    return;
-                }
-            }
         }
 
         // ==========================================
@@ -3636,24 +3434,6 @@
                 };
                 return adviceMap[`${topic}_${level}`] || 'Maintain healthy lifestyle practices.';
             };
-
-            // Personalized BP explanation
-            if (Number.isFinite(sbp) && Number.isFinite(dbp)) {
-                if (sbp < 120 && dbp < 80) html.push(`<div class="bg-green-50 border border-green-200 rounded-lg p-3"><p class="text-xs text-green-800"><i class="fas fa-heart text-green-500 mr-1"></i><strong>Blood Pressure:</strong> Your BP (${sbp}/${dbp}) is <strong>normal</strong>. Keep up the healthy lifestyle!</p></div>`);
-                else if (sbp < 130 && dbp < 85) html.push(`<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3"><p class="text-xs text-yellow-800"><i class="fas fa-heart text-yellow-500 mr-1"></i><strong>Blood Pressure:</strong> Your BP (${sbp}/${dbp}) is <strong>slightly elevated</strong>. Regular exercise and reducing sodium intake is recommended.</p></div>`);
-                else if (sbp < 140 || dbp < 90) html.push(`<div class="bg-orange-50 border border-orange-200 rounded-lg p-3"><p class="text-xs text-orange-800"><i class="fas fa-heart text-orange-500 mr-1"></i><strong>Blood Pressure:</strong> Your BP (${sbp}/${dbp}) is in the <strong>high-normal range</strong>. Monitor closely and limit salt, stress, and alcohol.</p></div>`);
-                else html.push(`<div class="bg-red-50 border border-red-200 rounded-lg p-3"><p class="text-xs text-red-800"><i class="fas fa-heart text-red-500 mr-1"></i><strong>Blood Pressure:</strong> Your BP (${sbp}/${dbp}) is <strong>high</strong>. Please consult a doctor promptly. Medication may be required.</p></div>`);
-            }
-
-            // Personalized BMI explanation
-            if (Number.isFinite(bmi)) {
-                const bmiVal = bmi.toFixed(1);
-                if (bmi < 18.5) html.push(`<div class="bg-blue-50 border border-blue-200 rounded-lg p-3"><p class="text-xs text-blue-800"><i class="fas fa-weight text-blue-500 mr-1"></i><strong>BMI ${bmiVal}:</strong> You are <strong>underweight</strong>. Consider nutrient-dense meals and consult a dietitian.</p></div>`);
-                else if (bmi < 23) html.push(`<div class="bg-green-50 border border-green-200 rounded-lg p-3"><p class="text-xs text-green-800"><i class="fas fa-weight text-green-500 mr-1"></i><strong>BMI ${bmiVal}:</strong> Your BMI is in the <strong>healthy range</strong> for Asian populations. Great job!</p></div>`);
-                else if (bmi < 27.5) html.push(`<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3"><p class="text-xs text-yellow-800"><i class="fas fa-weight text-yellow-500 mr-1"></i><strong>BMI ${bmiVal}:</strong> You are <strong>overweight</strong>. Aim for 150 mins of moderate exercise weekly and watch portion sizes.</p></div>`);
-                else html.push(`<div class="bg-red-50 border border-red-200 rounded-lg p-3"><p class="text-xs text-red-800"><i class="fas fa-weight text-red-500 mr-1"></i><strong>BMI ${bmiVal}:</strong> You are in the <strong>obese range</strong>. Please consult a healthcare provider for a weight management plan.</p></div>`);
-            }
-
             html.push(resultCard("<i class='fas fa-tint text-red-500 mr-2'></i>Thai Diabetes Score", charmBadge(tds.level, tds.level), tds.detail, getAdvice(tds.level, 'diabetes')));
             html.push(resultCard("<i class='fas fa-heartbeat text-rose-500 mr-2'></i>Thai ASCVD Score", charmBadge(ascvd.level, ascvd.level), ascvd.detail, getAdvice(ascvd.level, 'ascvd')));
             html.push(resultCard("<i class='fas fa-brain text-purple-500 mr-2'></i>Stroke Risk", charmBadge(stroke.level, stroke.level), stroke.detail, getAdvice(stroke.level, 'stroke')));
@@ -3670,9 +3450,6 @@
             html.push(resultCard("<i class='fas fa-running text-orange-500 mr-2'></i>Physical Activity", charmBadge(act.level, act.level), act.detail, "Start with 30 mins moderate activity daily, gradually increase."));
             html.push(resultCard("<i class='fas fa-ban text-stone-500 mr-2'></i>Smoking & Alcohol", charmBadge(smk.level, "Review"), smk.detail + "<br>" + alc.detail, "Quitting offers significant health benefits within weeks."));
             html.push(resultCard("<i class='fas fa-tooth text-sky-400 mr-2'></i>Oral Health", charmBadge(oral.level, oral.level), oral.detail, "Visit dentist every 6 months. Brush twice and floss daily."));
-
-            // Update food recommendations based on risk profile
-            updateFoodRecommendations(tds.level, ascvd.level, kidney.level);
 
             document.getElementById('resultsGrid').innerHTML = html.join("");
             document.getElementById('resultStamp').innerText = new Date().toLocaleString();
@@ -3753,20 +3530,16 @@
 
         function downloadJSONBackup() {
             const backup = {
-                personalInfo: JSON.parse(localStorage.getItem('caremu_personal_info') || '{}'),
-                assessmentBasics: JSON.parse(localStorage.getItem(ASSESSMENT_BASICS_KEY) || '{}'),
-                nutritionData: JSON.parse(localStorage.getItem('caremu_nutrition_data') || '{}'),
-                userGoals: JSON.parse(localStorage.getItem(GOALS_KEY) || '{}'),
-                userProfile: JSON.parse(localStorage.getItem(USER_PROFILE_KEY) || '{}'),
-                dailyWalks: JSON.parse(localStorage.getItem('caremu_daily_walks') || '[]'),
-                foodEntries: JSON.parse(localStorage.getItem('caremu_food_entries') || '[]'),
-                customConditions: JSON.parse(localStorage.getItem(CUSTOM_CONDITIONS_KEY) || '[]'),
+                personalInfo: JSON.parse(localStorage.getItem('personalInfo') || '{}'),
+                assessmentBasics: JSON.parse(localStorage.getItem('assessmentBasics') || '{}'),
+                nutritionData: JSON.parse(localStorage.getItem('nutritionData') || '{}'),
+                userGoals: JSON.parse(localStorage.getItem('userGoals') || '{}'),
                 groupRatings: JSON.parse(localStorage.getItem('group_ratings') || '{}'),
-                posts: JSON.parse(localStorage.getItem(POSTS_KEY) || '[]'),
-                groups: JSON.parse(localStorage.getItem(GROUPS_KEY) || '[]'),
-                friends: JSON.parse(localStorage.getItem(FRIENDS_KEY) || '[]'),
-                history: JSON.parse(localStorage.getItem('caremu_history') || '[]'),
-                premiumStatus: localStorage.getItem(PREMIUM_KEY) || 'false',
+                posts: JSON.parse(localStorage.getItem('charmjai_ncd_posts') || '[]'),
+                groups: JSON.parse(localStorage.getItem('charmjai_groups') || '[]'),
+                friends: JSON.parse(localStorage.getItem('charmjai_friends') || '[]'),
+                history: JSON.parse(localStorage.getItem('health_history') || '[]'),
+                achievements: JSON.parse(localStorage.getItem('charmjai_achievements') || '{}'),
                 backupDate: new Date().toISOString()
             };
 
@@ -3881,16 +3654,14 @@
         }
 
         function createPost() {
-            const postEl = document.getElementById('postInput');
-            if (!postEl) return; // Element doesn't exist
-            const txt = postEl.value.trim();
+            const txt = document.getElementById('postInput').value.trim();
             if (!txt) return;
             // New posts default to safe (per instructions to remove active detection logic)
             const newPost = { id: Date.now(), author: "Me", time: "Just now", text: txt, likes: 0, triage: "safe" };
             const posts = getPosts();
             posts.unshift(newPost);
             localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
-            if (postEl) postEl.value = "";
+            document.getElementById('postInput').value = "";
             renderFeed();
             toast("Posted successfully!");
             awardXP(10, "Shared in community");
@@ -3912,12 +3683,12 @@
 
             let migrated = false;
             groups.forEach(g => {
-                if (g.joined === undefined) {
+                if(g.joined === undefined) {
                     g.joined = false;
                     migrated = true;
                 }
             });
-            if (migrated) localStorage.setItem(GROUPS_KEY, JSON.stringify(groups));
+            if(migrated) localStorage.setItem(GROUPS_KEY, JSON.stringify(groups));
 
             return groups;
         }
@@ -3982,10 +3753,7 @@
             document.querySelectorAll('[onclick^="filterGroups"]').forEach(btn => {
                 btn.className = btn.className.replace('group-category-active', 'group-category-inactive');
             });
-            // Only update event.target if it exists (in case called programmatically)
-            if (event && event.target) {
-                event.target.className = event.target.className.replace('group-category-inactive', 'group-category-active');
-            }
+            event.target.className = event.target.className.replace('group-category-inactive', 'group-category-active');
 
             renderGroups(category);
         }
@@ -4047,19 +3815,14 @@
         }
 
         function renderModerationQueue() {
-            const queue = getModerationQueue();
-            const badge = document.getElementById('groupNotificationBadge');
-            if (badge) {
-                badge.classList.toggle('hidden', queue.length === 0);
-            }
+            const queue = getModerationQueue().slice(0, 3);
             const el = document.getElementById('moderationQueue');
             if (!el) return;
             if (queue.length === 0) {
                 el.innerHTML = '<i class="fas fa-shield-alt mr-1"></i> AI moderation queue is clear.';
                 return;
             }
-            const displayQueue = queue.slice(0, 3);
-            el.innerHTML = displayQueue.map(item => `
+            el.innerHTML = queue.map(item => `
         <div class="flex items-center justify-between gap-2 py-1 border-b border-stone-200 last:border-b-0">
           <span class="truncate"><i class="fas fa-robot mr-1"></i>${item.status}</span>
           <button onclick="approveModeration(${item.id})" class="text-[10px] bg-charm-gold/20 text-charm-gold px-2 py-1 rounded">Human Review: Approve</button>
@@ -4072,22 +3835,11 @@
             setModerationQueue(queue);
             const posts = getPosts();
             const idx = posts.findIndex(p => p.id === postId);
-            if (idx !== -1) {
-                posts[idx].triage = 'safe';
-                localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
-            }
+            if (idx >= 0) posts[idx].triage = 'safe';
+            localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
             renderGroupFeed();
             renderModerationQueue();
-            updateGroupNotificationBadge();
-            toast("Post approved!");
-        }
-
-        function updateGroupNotificationBadge() {
-            const queue = getModerationQueue();
-            const badge = document.getElementById('groupNotificationBadge');
-            if (badge) {
-                badge.classList.toggle('hidden', queue.length === 0);
-            }
+            toast("Post approved by human review.");
         }
 
         function renderGroupFeed() {
@@ -4102,9 +3854,6 @@
             <div class="text-stone-600">${c.text}</div>
           </div>
         `).join('');
-                const medKeywords = ['diet', 'pill', 'supplement', 'pain', 'doctor', 'medicine', 'drug', 'vitamin', 'dosage', 'symptom', 'prescri', 'side effect', 'blood pressure', 'diabetes', 'cholesterol', 'insulin'];
-                const hasMedContent = medKeywords.some(kw => (p.text || '').toLowerCase().includes(kw));
-                const expertBadge = hasMedContent ? `<div class="mt-2 flex items-center gap-1 text-[9px] text-teal-700 bg-teal-50 border border-teal-200 rounded-full px-2 py-0.5 w-fit"><i class="fas fa-user-md"></i> Reviewed by Medical Professional</div>` : '';
                 return `
           <div class="bg-white rounded-xl p-4 border border-stone-100">
             <div class="flex items-center justify-between mb-2">
@@ -4112,7 +3861,6 @@
               <span class="text-[10px] bg-stone-100 text-charm-gray px-2 py-0.5 rounded">${p.category || 'general'}</span>
             </div>
             <p class="text-sm text-charm-dark mb-2">${p.text}</p>
-            ${expertBadge}
             ${commentsHtml ? `<div class="my-2 space-y-1">${commentsHtml}</div>` : ''}
             <div class="flex gap-2 mt-2">
               <button onclick="openCommentReplyModal(${p.id})" class="text-xs text-charm-blue hover:text-charm-gold"><i class="fas fa-reply mr-1"></i>Reply (${comments.length})</button>
@@ -4261,9 +4009,6 @@
           </div>
         `).join('');
 
-                const medKw = ['diet', 'pill', 'supplement', 'pain', 'doctor', 'medicine', 'drug', 'vitamin', 'dosage', 'symptom', 'prescri', 'side effect', 'blood pressure', 'diabetes', 'cholesterol', 'insulin'];
-                const hasMedSocial = medKw.some(kw => (post.text || '').toLowerCase().includes(kw));
-                const expertBadgeSocial = hasMedSocial ? `<div class="mt-2 flex items-center gap-1 text-[9px] text-teal-700 bg-teal-50 border border-teal-200 rounded-full px-2 py-0.5 w-fit"><i class="fas fa-user-md"></i> Reviewed by Medical Professional</div>` : '';
                 return `
         <div class="bg-white rounded-xl p-4 border border-stone-100">
           <div class="flex justify-between items-start mb-3">
@@ -4275,7 +4020,6 @@
           </div>
           <p class="text-sm text-charm-dark leading-relaxed font-light">${post.text}</p>
           ${warningBox}
-          ${expertBadgeSocial}
           ${commentsHtml}
           <div class="flex items-center justify-between mt-3 gap-3">
             <div class="flex gap-4 text-sm">
@@ -4321,60 +4065,17 @@
             meetups.unshift({ id: Date.now(), title, time: new Date().toLocaleDateString() });
             localStorage.setItem(MEETUPS_KEY, JSON.stringify(meetups));
             if (titleEl) titleEl.value = "";
-            renderMeetups();
             showNotification("Meetup Planned", `${title} added for your community`, "fa-calendar-check");
             awardXP(15, "Planned group meetup");
-        }
-
-        function renderMeetups() {
-            const meetups = JSON.parse(localStorage.getItem(MEETUPS_KEY) || "[]");
-            const container = document.getElementById('meetupsList');
-            if (!container) return;
-            if (meetups.length === 0) {
-                container.innerHTML = '<p class="text-stone-400 text-xs py-2">No meetups planned yet. Organize one to strengthen your community!</p>';
-                return;
-            }
-            container.innerHTML = meetups.map(m => `
-                <div class="flex items-center justify-between gap-2 py-2 px-2 bg-stone-50 rounded border border-stone-200 mb-2">
-                    <div>
-                        <div class="font-bold text-xs text-charm-dark">${m.title}</div>
-                        <div class="text-[10px] text-stone-500"><i class="fas fa-calendar mr-1"></i>${m.time}</div>
-                    </div>
-                    <button onclick="deleteMeetup(${m.id})" class="text-[10px] text-red-500 hover:bg-red-50 px-2 py-1 rounded"><i class="fas fa-trash"></i></button>
-                </div>
-            `).join('');
-        }
-
-        function deleteMeetup(id) {
-            let meetups = JSON.parse(localStorage.getItem(MEETUPS_KEY) || "[]");
-            meetups = meetups.filter(m => m.id !== id);
-            localStorage.setItem(MEETUPS_KEY, JSON.stringify(meetups));
-            renderMeetups();
         }
 
         function shareActivity() {
             const text = document.getElementById('activityPost').value.trim();
             if (!text) return;
 
-            const profile = JSON.parse(localStorage.getItem(USER_PROFILE_KEY) || '{"name":"User","color":"C5A059"}');
-            const post = {
-                id: Date.now(),
-                author: profile.name,
-                color: profile.color,
-                content: text,
-                timestamp: new Date().toISOString(),
-                likes: 0,
-                liked: false
-            };
-
-            const posts = JSON.parse(localStorage.getItem(POSTS_KEY) || '[]');
-            posts.unshift(post);
-            localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
-
             document.getElementById('activityPost').value = "";
-            toast("✅ Activity shared!");
+            toast("Activity shared!");
             awardXP(10, "Shared activity");
-            showNotification('Activity Posted', 'Your activity has been shared with the community!', 'fa-share-alt');
             renderSocialFeed();
         }
 
@@ -4392,54 +4093,32 @@
             renderDailyWalks();
             renderFoodEntries();
             updateHabitsScore();
-            loadConditionTrackingState();
-            bindConditionTrackingListeners();
-            loadSleepTimes();
+            
+            // Update progress numbers (mock data)
+            const workouts = Math.floor(Math.random() * 7) + 1;
+            const steps = Math.floor(Math.random() * 30) + 20;
+            const calories = Math.floor(Math.random() * 1500) + 1000;
 
-            // Calculate real progress numbers from saved data
-            const walkEntries = JSON.parse(localStorage.getItem('caremu_daily_walks') || '[]');
-            const foodEntries = JSON.parse(localStorage.getItem('caremu_food_entries') || '[]');
-            
-            // Count workouts from this week
-            const now = new Date();
-            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-            const weekWorkouts = walkEntries.filter(w => {
-                const d = new Date(w.date);
-                return d >= weekAgo && d <= now;
-            }).length || 0;
-            
-            // Count steps from this week
-            const weekSteps = Math.round(walkEntries.filter(w => {
-                const d = new Date(w.date);
-                return d >= weekAgo && d <= now;
-            }).reduce((sum, w) => sum + (parseInt(w.steps) || 0), 0) / 1000) || 0;
-            
-            // Count calories from this week
-            const weekCalories = foodEntries.filter(f => {
-                const d = new Date(f.date);
-                return d >= weekAgo && d <= now;
-            }).reduce((sum, f) => sum + (parseInt(f.calories) || 0), 0) || 0;
-
-            document.getElementById('weeklyWorkouts').textContent = weekWorkouts;
-            document.getElementById('weeklySteps').textContent = (weekSteps || 0) + 'k';
-            document.getElementById('weeklyCalories').textContent = weekCalories;
+            document.getElementById('weeklyWorkouts').textContent = workouts;
+            document.getElementById('weeklySteps').textContent = steps + 'k';
+            document.getElementById('weeklyCalories').textContent = calories;
 
             const ring1 = document.getElementById('ringWorkouts');
-            if (ring1) ring1.style.background = `conic-gradient(#5B6C9D ${Math.min((weekWorkouts / 7) * 100, 100)}%, #EAE6DC 0)`;
+            if (ring1) ring1.style.background = `conic-gradient(#5B6C9D ${(workouts/7)*100}%, #EAE6DC 0)`;
             const ring2 = document.getElementById('ringSteps');
-            if (ring2) ring2.style.background = `conic-gradient(#4B8B67 ${Math.min((weekSteps / 50) * 100, 100)}%, #EAE6DC 0)`;
+            if (ring2) ring2.style.background = `conic-gradient(#4B8B67 ${(steps/50)*100}%, #EAE6DC 0)`;
             const ring3 = document.getElementById('ringCalories');
-            if (ring3) ring3.style.background = `conic-gradient(#C5A059 ${Math.min((weekCalories / 2500) * 100, 100)}%, #EAE6DC 0)`;
+            if (ring3) ring3.style.background = `conic-gradient(#C5A059 ${(calories/2500)*100}%, #EAE6DC 0)`;
 
             // Smart Insight Banner Update
             const insightText = document.getElementById('smartInsightText');
             if (insightText) {
-                if (weekSteps < 25) {
-                    insightText.innerHTML = `You're somewhat inactive this week. Try a short 15 minute walk to boost your <b>${weekSteps}k</b> steps!`;
-                } else if (weekCalories > 2000) {
+                if (steps < 25) {
+                    insightText.innerHTML = `You're somewhat inactive this week. Try a short 15 minute walk to boost your <b>${steps}k</b> steps!`;
+                } else if (calories > 2000) {
                     insightText.innerHTML = `You're eating highly caloric meals. Track your macros to keep your blood sugar low.`;
                 } else {
-                    insightText.innerHTML = `Great job completing <b>${weekWorkouts}</b> workouts this week. Consistency is key!`;
+                    insightText.innerHTML = `Great job completing <b>${workouts}</b> workouts this week. Consistency is key!`;
                 }
             }
         }
@@ -4677,7 +4356,7 @@
 
             toast(benefits[type] || "Benefit claimed!");
             awardXP(10, "Claimed partner benefit");
-
+            
             if (btn) {
                 btn.textContent = "Claimed ✅";
                 btn.className = "text-xs bg-stone-200 text-stone-500 px-3 py-1 rounded-full cursor-not-allowed font-bold";
@@ -4814,8 +4493,7 @@
                 el.style.left = `${rect.left}px`;
                 el.style.top = `${rect.top}px`;
                 el.style.width = `${rect.width}px`;
-                el.style.maxHeight = `${rect.height}px`;
-                el.style.overflowY = 'auto';
+                el.style.height = `${rect.height}px`;
                 el.style.right = 'auto';
                 el.style.bottom = 'auto';
             });
@@ -4830,24 +4508,6 @@
         }
 
         // Initialize
-        function checkConsent() {
-            const hasConsent = localStorage.getItem('caremu_consent_accepted');
-            if (!hasConsent) {
-                document.getElementById('consentModal').classList.remove('hidden');
-                // Hide all views just in case
-                VIEWS.forEach(v => document.getElementById(v).classList.add('hide'));
-            } else {
-                openView('viewProfile');
-            }
-        }
-
-        function acceptConsent() {
-            localStorage.setItem('caremu_consent_accepted', 'true');
-            document.getElementById('consentModal').classList.add('hidden');
-            openView('viewProfile');
-            toast("Consent accepted. Welcome to Caremu!");
-        }
-
         initUserData();
         loadUserProfile();
         if (!localStorage.getItem(PREMIUM_KEY)) localStorage.setItem(PREMIUM_KEY, "false");
@@ -4860,7 +4520,7 @@
         renderCustomConditions();
         renderDailyWalks();
         cleanupOldData(); // Clean up old data based on user status
-        checkConsent();
+        openView('viewProfile');
         constrainPopupsToPhoneFrame();
         window.addEventListener('resize', constrainPopupsToPhoneFrame);
 
@@ -5011,29 +4671,14 @@
             const sbp = document.getElementById('sbp')?.value || '';
             const dbp = document.getElementById('dbp')?.value || '';
             const region = document.getElementById('region')?.value || '';
-            const allergies = document.getElementById('foodAllergies')?.value || '';
-            const supplements = document.getElementById('currentSupplements')?.value || '';
 
-            // Collect all lifestyle survey answers
-            const lifestyleData = {};
-            const fieldNames = ['smk1', 'smk2', 'smk3', 'smk4', 'alc1', 'alc2', 'alc3', 'alc4', 'alc5', 'alc6', 'alc7',
-                'pa1', 'sit1', 'sleep1', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9',
-                'o1', 'o2', 'st1', 'st2', 'st3', 'st4', 'st5', 'dq1', 'dq2'];
-            
-            fieldNames.forEach(name => {
-                const radios = document.querySelectorAll(`input[name="${name}"]`);
-                const checked = Array.from(radios).find(r => r.checked);
-                if (checked) lifestyleData[name] = checked.value;
-            });
-
-            const personalData = { dob, sex, weight, height, waist, sbp, dbp, region, allergies, supplements, lifestyleData, updatedAt: Date.now() };
+            const personalData = { dob, sex, weight, height, waist, sbp, dbp, region, updatedAt: Date.now() };
             localStorage.setItem('caremu_personal_info', JSON.stringify(personalData));
 
             saveAssessmentBasics();
-            saveAdditionalHealthHistory();
-            toast('✅ Personal information & survey answers saved!');
+            toast('Personal information saved successfully!');
             awardXP(10, 'Updated personal profile');
-            showNotification('Profile Updated', 'Your personal information and health survey have been saved.', 'fa-check-circle');
+            showNotification('Profile Updated', 'Your personal information has been saved.', 'fa-check-circle');
         }
 
         function loadPersonalInfo() {
@@ -5046,180 +4691,12 @@
             if (saved.sbp) document.getElementById('sbp').value = saved.sbp;
             if (saved.dbp) document.getElementById('dbp').value = saved.dbp;
             if (saved.region) document.getElementById('region').value = saved.region;
-            if (saved.allergies && document.getElementById('foodAllergies')) document.getElementById('foodAllergies').value = saved.allergies;
-            if (saved.supplements && document.getElementById('currentSupplements')) document.getElementById('currentSupplements').value = saved.supplements;
-            
-            // Restore all lifestyle survey answers
-            if (saved.lifestyleData) {
-                Object.entries(saved.lifestyleData).forEach(([name, value]) => {
-                    const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
-                    if (radio) {
-                        radio.checked = true;
-                        radio.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
-                });
-            }
-        }
-
-        // Save Additional Health History fields to localStorage
-        function saveAdditionalHealthHistory() {
-            const healthHistory = {};
-            const fieldNames = ['cv1', 'cv2', 'cv3', 'cv4', 'r1', 'r2', 'r3', 'k1', 'k2', 'c1', 'c2'];
-            
-            // Save radio button selections
-            fieldNames.forEach(name => {
-                const radios = document.querySelectorAll(`input[name="${name}"]`);
-                const checked = Array.from(radios).find(r => r.checked);
-                if (checked) healthHistory[name] = checked.value;
-            });
-            
-            // Save text input for cancer type
-            const cancerType = document.getElementById('cancerType');
-            if (cancerType) healthHistory.cancerType = cancerType.value;
-            
-            healthHistory.updatedAt = Date.now();
-            localStorage.setItem('caremu_additional_health_history', JSON.stringify(healthHistory));
-        }
-
-        // Load Additional Health History fields from localStorage
-        function loadAdditionalHealthHistory() {
-            const saved = JSON.parse(localStorage.getItem('caremu_additional_health_history') || '{}');
-            const fieldNames = ['cv1', 'cv2', 'cv3', 'cv4', 'r1', 'r2', 'r3', 'k1', 'k2', 'c1', 'c2'];
-            
-            // Restore radio button selections
-            fieldNames.forEach(name => {
-                if (saved[name]) {
-                    const radio = document.querySelector(`input[name="${name}"][value="${saved[name]}"]`);
-                    if (radio) {
-                        radio.checked = true;
-                        radio.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
-                }
-            });
-            
-            // Restore cancer type text input
-            if (saved.cancerType && document.getElementById('cancerType')) {
-                document.getElementById('cancerType').value = saved.cancerType;
-            }
-        }
-
-        // Dynamic food recommendations based on risk
-        function updateFoodRecommendations(dmLevel, cvLevel, kidneyLevel) {
-            const el = document.getElementById('foodRecommendationsList');
-            if (!el) return;
-            let foods = [];
-            if (dmLevel === 'high' || dmLevel === 'mod') {
-                foods.push({icon:'fa-leaf', label:'Bitter Melon'}, {icon:'fa-seedling', label:'Whole Grains'}, {icon:'fa-carrot', label:'Low-GI Vegetables'}, {icon:'fa-fish', label:'Lean Fish'});
-            }
-            if (cvLevel === 'high' || cvLevel === 'mod') {
-                foods.push({icon:'fa-fish', label:'Omega-3 Fish'}, {icon:'fa-apple-alt', label:'Berries & Citrus'}, {icon:'fa-leaf', label:'Avocado'}, {icon:'fa-seedling', label:'Flaxseed'});
-            }
-            if (kidneyLevel === 'high' || kidneyLevel === 'mod') {
-                foods.push({icon:'fa-tint', label:'Water-rich Foods'}, {icon:'fa-apple-alt', label:'Apples'}, {icon:'fa-leaf', label:'Cabbage'}, {icon:'fa-pepper-hot', label:'Red Bell Pepper'});
-            }
-            if (foods.length === 0) {
-                foods = [{icon:'fa-fish', label:'Omega-3 Fish'}, {icon:'fa-leaf', label:'Leafy Greens'}, {icon:'fa-bread-slice', label:'Whole Grains'}, {icon:'fa-apple-alt', label:'Berries'}, {icon:'fa-egg', label:'Nuts & Seeds'}];
-            }
-            const seen = new Set();
-            foods = foods.filter(f => { if (seen.has(f.label)) return false; seen.add(f.label); return true; });
-            el.innerHTML = foods.slice(0, 6).map(f => `<span class="shrink-0 text-[10px] bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full font-bold"><i class="fas ${f.icon} mr-1"></i>${f.label}</span>`).join('');
         }
 
         // Load personal info when survey page is opened
         function onSurveyOpen() {
             loadPersonalInfo();
             loadAssessmentBasics();
-            loadAdditionalHealthHistory();
-        }
-
-        // LINE Chat functionality
-        function sendLINEMessage() {
-            const input = document.getElementById('lineChatInput');
-            const message = input.value.trim();
-            if (!message) return;
-
-            const logs = document.getElementById('lineChatLogs');
-            
-            // Add user message
-            const userMsg = document.createElement('div');
-            userMsg.className = 'flex items-end justify-end gap-2 fade-in';
-            userMsg.innerHTML = `
-                <div class="bg-charm-blue text-white p-3 rounded-2xl rounded-br-none text-sm max-w-[80%] break-words">${escapeHtml(message)}</div>`;
-            logs.appendChild(userMsg);
-
-            input.value = '';
-            logs.scrollTop = logs.scrollHeight;
-
-            // Simulate bot response after 800ms (mock AI - not real LINE OA)
-            setTimeout(() => {
-                const botResponse = generateSupportResponse(message);
-                const botMsg = document.createElement('div');
-                botMsg.className = 'flex items-start gap-2 fade-in';
-                // Escape bot response to prevent XSS
-                botMsg.innerHTML = `
-                    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center text-white text-xs"><i class="fas fa-robot"></i></div>
-                    <div class="bg-white p-3 rounded-2xl rounded-tl-none text-sm text-charm-dark shadow-sm max-w-[80%] break-words">${escapeHtml(botResponse)}</div>`;
-                logs.appendChild(botMsg);
-                logs.scrollTop = logs.scrollHeight;
-            }, 800);
-        }
-
-        // Note: This is mock AI support, not actual LINE OA integration
-        function generateSupportResponse(userMessage) {
-            const msg = userMessage.toLowerCase();
-            if (msg.includes('diet') || msg.includes('food')) {
-                return 'Our dietitian recommends focusing on whole grains, lean proteins, and fresh vegetables. Would you like specific meal suggestions? 🥗';
-            } else if (msg.includes('exercise') || msg.includes('activity') || msg.includes('walk')) {
-                return 'Aim for at least 150 minutes of moderate activity per week. Start with a 30-minute walk daily! 🚶';
-            } else if (msg.includes('sleep')) {
-                return 'Maintain 7-9 hours of sleep per night. Try keeping consistent sleep times and avoid screens before bed. 😴';
-            } else if (msg.includes('blood pressure') || msg.includes('bp')) {
-                return 'Monitor your BP regularly. Reduce salt, manage stress, and stay active. Schedule a follow-up check soon. 💛';
-            } else if (msg.includes('stress')) {
-                return 'Try meditation, breathing exercises, or speaking with our health counselor. Your mental health is important! 🧘';
-            }
-            return 'Thank you for your question! Do you need help with a specific health topic? Try asking about diet, exercise, sleep, or stress management.';
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Condition Tracking persistence
-        function saveConditionTrackingState() {
-            const trackingState = {
-                bloodSugar: document.getElementById('trackBloodSugar')?.checked || false,
-                cholesterol: document.getElementById('trackCholesterol')?.checked || false,
-                mentalHealth: document.getElementById('trackMentalHealth')?.checked || false,
-                updatedAt: Date.now()
-            };
-            localStorage.setItem('caremu_tracking_conditions', JSON.stringify(trackingState));
-        }
-
-        function loadConditionTrackingState() {
-            const saved = JSON.parse(localStorage.getItem('caremu_tracking_conditions') || '{}');
-            if (document.getElementById('trackBloodSugar')) {
-                document.getElementById('trackBloodSugar').checked = saved.bloodSugar || false;
-            }
-            if (document.getElementById('trackCholesterol')) {
-                document.getElementById('trackCholesterol').checked = saved.cholesterol || false;
-            }
-            if (document.getElementById('trackMentalHealth')) {
-                document.getElementById('trackMentalHealth').checked = saved.mentalHealth || false;
-            }
-        }
-
-        // Bind change events to condition tracking checkboxes
-        function bindConditionTrackingListeners() {
-            const checkboxes = ['trackBloodSugar', 'trackCholesterol', 'trackMentalHealth'];
-            checkboxes.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.addEventListener('change', saveConditionTrackingState);
-                }
-            });
         }
 
     </script>
