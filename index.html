@@ -87,6 +87,37 @@
             color: #A8A29E;
         }
 
+        /* Premium Modal Styling */
+        #premiumModal {
+            display: none !important;
+        }
+
+        #premiumModal:not(.hidden) {
+            display: flex !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+        }
+
+        #premiumModal > div:first-child {
+            position: fixed;
+            z-index: 0;
+        }
+
+        #premiumModal > div:last-child {
+            z-index: 10;
+            margin: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -221,10 +252,16 @@
                 <div class="text-[10px] uppercase tracking-[0.22em] text-charm-gold font-bold">Health Guardian</div>
                 <h1 class="font-serif text-2xl font-bold tracking-tight text-charm-dark">CAREMU</h1>
             </div>
-            <button onclick="openView('viewSettings')"
-                class="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-charm-blue shadow-sm active:scale-95 transition">
-                <i class="fas fa-sliders-h"></i>
-            </button>
+            <div class="flex gap-2 items-center">
+                <div id="headerPremiumBadge" class="hidden bg-charm-gold text-white text-[9px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                    <i class="fas fa-crown text-[10px]"></i>
+                    <span>Premium</span>
+                </div>
+                <button onclick="openView('viewSettings')"
+                    class="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-charm-blue shadow-sm active:scale-95 transition">
+                    <i class="fas fa-sliders-h"></i>
+                </button>
+            </div>
         </header>
 
         <main class="flex-1 overflow-y-auto no-scrollbar px-5 py-6 pb-32">
@@ -308,17 +345,49 @@
                     </div>
                 </div>
 
-                <button onclick="openRecommendedActionsModal()"
-                    class="w-full mb-4 bg-gradient-to-r from-charm-green to-charm-green/80 hover:from-charm-green/90 text-white text-sm font-bold px-4 py-3 rounded-xl shadow-md active:scale-[0.98] transition flex items-center justify-center gap-2">
-                    <i class="fas fa-check-circle"></i>
-                    Recommended Actions Today
-                </button>
+                <div class="relative mb-4 group" id="recommendedActionsContainer">
+                    <!-- Lock Button (Premium) -->
+                    <button id="recommendedActionsLockBtn" onclick="openPremiumModal()" 
+                        class="hidden absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full bg-charm-gold text-white shadow-lg flex items-center justify-center hover:bg-charm-gold/90 active:scale-95 transition"
+                        title="Premium Feature">
+                        <i class="fas fa-lock text-sm"></i>
+                    </button>
 
-                <button onclick="openView('viewSurvey')"
-                    class="w-full mb-4 bg-[#1F3A8A] hover:bg-[#1B3278] text-white text-sm font-bold px-4 py-3 rounded-xl shadow-md active:scale-[0.98] transition flex items-center justify-center gap-2">
-                    <i class="fas fa-clipboard-list"></i>
-                    Update Your Information!
-                </button>
+                    <!-- Main Card -->
+                    <div id="recommendedActionsCard"
+                        class="w-full bg-gradient-to-r from-charm-gold/5 to-charm-gold/10 hover:from-charm-gold/15 hover:to-charm-gold/20 border-2 border-charm-gold/40 rounded-2xl p-5 shadow-lg transition cursor-pointer group"
+                        onclick="openRecommendedActionsModal()">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-wand-magic-sparkles text-charm-gold text-xl"></i>
+                                <div>
+                                    <h3 class="text-lg font-bold text-charm-dark">Recommended Actions Today</h3>
+                                    <p class="text-[11px] text-charm-gold font-semibold uppercase tracking-wider">✨ Specialized to You</p>
+                                </div>
+                                <i class="fas fa-arrow-right text-charm-gold ml-auto text-lg opacity-0 group-hover:opacity-100 transition"></i>
+                            </div>
+                            <p class="text-xs text-charm-gray pl-7">AI-powered tasks tailored to your health profile</p>
+                        </div>
+                    </div>
+
+                    <!-- Premium Badge -->
+                    <div class="absolute -bottom-2 right-2 bg-charm-gold text-white text-[9px] font-bold px-2 py-1 rounded-full shadow-sm">
+                        <i class="fas fa-crown text-[10px] mr-1"></i>Premium
+                    </div>
+
+                    <!-- Locked Overlay (Free Users) -->
+                    <div id="recommendedActionsLocked" class="hidden absolute inset-0 bg-charm-dark/50 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center z-10 group cursor-not-allowed">
+                        <div class="text-center">
+                            <i class="fas fa-lock text-white text-3xl mb-2"></i>
+                            <p class="text-white text-xs font-bold">Premium Only</p>
+                            <button onclick="openPremiumModal()" class="mt-2 text-[10px] bg-charm-gold text-white px-3 py-1 rounded-full font-bold hover:bg-charm-gold/90 transition">
+                                Unlock Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
 
                 <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
                     <div class="flex justify-between items-center mb-2">
@@ -547,6 +616,12 @@
                         Get notified about challenges, events, and personalized health tips
                     </p>
                 </div>
+
+                <button onclick="openView('viewSurvey')"
+                    class="w-full mb-4 bg-[#1F3A8A] hover:bg-[#1B3278] text-white text-sm font-bold px-4 py-3 rounded-xl shadow-md active:scale-[0.98] transition flex items-center justify-center gap-2">
+                    <i class="fas fa-clipboard-list"></i>
+                    Update Your Information!
+                </button>
             </section>
 
             <section id="viewSurvey" class="hide fade-in">
@@ -1832,14 +1907,34 @@
             </section>
 
             <section id="viewSettings" class="hide fade-in">
-                <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft">
+                <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-soft mb-4">
                     <div class="flex items-start justify-between gap-3 mb-4">
                         <h2 class="text-lg font-bold font-serif text-charm-dark">Settings</h2>
                         <button onclick="openView('viewProfile')"
                             class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-charm-gray active:scale-95 transition"><i
                                 class="fas fa-times"></i></button>
                     </div>
-                    <div class="space-y-4">
+
+                    <!-- Premium Toggle Section -->
+                    <div class="mb-6 p-4 bg-gradient-to-r from-charm-gold/10 to-charm-gold/5 rounded-xl border border-charm-gold/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-crown text-charm-gold text-xl"></i>
+                                <div>
+                                    <p class="text-sm font-bold text-charm-dark">Premium Mode</p>
+                                    <p id="premiumStatusText" class="text-[10px] text-charm-gray">Currently: Free</p>
+                                </div>
+                            </div>
+                            <!-- Toggle Switch -->
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="premiumToggleSwitch" class="sr-only peer" onchange="togglePremiumMode()">
+                                <div class="w-11 h-6 bg-stone-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-charm-gold rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-charm-gold"></div>
+                            </label>
+                        </div>
+                        <p id="premiumStatusDesc" class="text-[10px] text-charm-gray">Toggle between free and premium features. Premium expires automatically in demo mode.</p>
+                    </div>
+
+                    <div class="space-y-4 border-t border-stone-100 pt-4">
                         <div>
                             <p class="text-xs font-bold text-charm-gray uppercase mb-2">Profile Management</p>
                             <button onclick="openView('viewSurvey')"
@@ -2330,17 +2425,17 @@
     </div>
 
     <!-- Premium Purchase Modal -->
-    <div id="premiumModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="closePremiumModal()"></div>
+    <div id="premiumModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4 py-8">
+        <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="closePremiumModal()" style="z-index: 0;"></div>
         <div
-            class="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl border-2 border-charm-gold animate-bounce-in">
+            class="relative w-full max-w-sm max-h-[90vh] bg-white rounded-3xl p-7 shadow-2xl border-3 border-charm-gold animate-bounce-in overflow-y-auto" style="z-index: 10;">
             <div class="flex justify-between items-start mb-4">
                 <div>
                     <h3 class="text-xl font-serif font-bold text-charm-dark">Caremu Premium</h3>
                     <p class="text-[11px] text-charm-gray mt-1">Unlock premium health tools</p>
                 </div>
                 <button onclick="closePremiumModal()"
-                    class="w-8 h-8 rounded-full bg-stone-100 text-charm-gray flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition"><i
+                    class="w-10 h-10 rounded-full bg-charm-gold/10 text-charm-gold flex items-center justify-center hover:bg-charm-gold hover:text-white transition font-bold text-lg shadow-md"><i
                         class="fas fa-times"></i></button>
             </div>
             <div class="bg-charm-cream border border-charm-gold/30 rounded-xl p-4 mb-4">
@@ -2380,7 +2475,7 @@
                 <li><i class="fas fa-check text-charm-green mr-1"></i> Personalized quests by your goals</li>
             </ul>
             <button id="premiumToggleBtn" onclick="togglePremiumPlan()"
-                class="w-full bg-charm-gold text-white font-bold py-3 rounded-xl disabled:bg-stone-300 disabled:cursor-not-allowed">Activate
+                class="w-full bg-charm-gold text-white font-bold py-3 rounded-xl disabled:bg-stone-300 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition">Activate
                 Premium</button>
         </div>
     </div>
@@ -2567,6 +2662,7 @@
             if (id === 'viewTracking' || id === 'viewProfile') renderTracking();
             if (id === 'viewProfile') updateQuests();
             if (id === 'viewSurvey') onSurveyOpen();
+            if (id === 'viewSettings') updatePremiumUI(); // Sync toggle switch when opening settings
         }
 
         function saveAssessmentBasics() {
@@ -2717,13 +2813,17 @@
             const hasTemp = tempExpiry && Date.now() < parseInt(tempExpiry);
 
             if (permanent) {
-                btn.textContent = "Switch to Free Version";
+                btn.innerHTML = '<i class="fas fa-toggle-on text-xl"></i> Switch to Free Version';
+                btn.className = "w-full bg-charm-blue text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition";
+                btn.disabled = false;
             } else if (hasTemp) {
                 const daysLeft = Math.ceil((parseInt(tempExpiry) - Date.now()) / (24 * 60 * 60 * 1000));
-                btn.textContent = `Temporary Premium (${daysLeft} days left)`;
+                btn.innerHTML = `<i class="fas fa-hourglass-end text-xl text-yellow-300"></i> Temporary Premium (${daysLeft} days left)`;
+                btn.className = "w-full bg-stone-400 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg disabled:cursor-not-allowed disabled:opacity-75";
                 btn.disabled = true;
             } else {
-                btn.textContent = "Activate Premium";
+                btn.innerHTML = '<i class="fas fa-toggle-off text-xl"></i> Activate Premium';
+                btn.className = "w-full bg-charm-gold text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition";
                 btn.disabled = false;
             }
 
@@ -2754,8 +2854,19 @@
             updateQuests();
         }
 
+        function togglePremiumMode() {
+            // Called from settings toggle switch
+            const isChecked = document.getElementById('premiumToggleSwitch').checked;
+            localStorage.setItem(PREMIUM_KEY, isChecked ? "true" : "false");
+            updatePremiumUI();
+            toast(isChecked ? "✨ Premium mode activated!" : "Switched to free version.");
+            updateQuests();
+        }
+
         function updatePremiumUI() {
             const premium = isPremiumUser();
+            
+            // Update AI Food Logger
             const locked = document.getElementById('aiFoodLoggerLocked');
             const upload = document.getElementById('foodUploadBox');
             const desc = document.getElementById('aiFoodLoggerDesc');
@@ -2763,6 +2874,28 @@
             if (upload) upload.classList.toggle('opacity-50', !premium);
             if (upload) upload.classList.toggle('pointer-events-none', !premium);
             if (desc) desc.textContent = premium ? "Snap a pic to calculate nutrition with premium AI." : "Upgrade to premium to use AI Food Logger.";
+            
+            // Update Recommended Actions
+            const actionLocked = document.getElementById('recommendedActionsLocked');
+            const actionCard = document.getElementById('recommendedActionsCard');
+            const actionLockBtn = document.getElementById('recommendedActionsLockBtn');
+            if (actionLocked) actionLocked.classList.toggle('hidden', premium);
+            if (actionCard) actionCard.classList.toggle('opacity-50', !premium);
+            if (actionCard) actionCard.classList.toggle('pointer-events-none', !premium);
+            if (actionLockBtn) actionLockBtn.classList.toggle('hidden', premium);
+            
+            // Update Header Badge
+            const headerBadge = document.getElementById('headerPremiumBadge');
+            if (headerBadge) headerBadge.classList.toggle('hidden', !premium);
+            
+            // Update Settings Toggle & Status Text
+            const toggleSwitch = document.getElementById('premiumToggleSwitch');
+            const statusText = document.getElementById('premiumStatusText');
+            const statusDesc = document.getElementById('premiumStatusDesc');
+            if (toggleSwitch) toggleSwitch.checked = premium;
+            if (statusText) statusText.textContent = premium ? "Currently: ✨ Premium" : "Currently: Free";
+            if (statusDesc) statusDesc.textContent = premium ? "You have premium access to all features!" : "Toggle to enable premium features and unlock special content.";
+            
             updatePremiumSuggestions();
         }
 
@@ -5655,6 +5788,18 @@
         const DAILY_ACTIONS_KEY = "caremu_daily_actions_completed";
 
         function openRecommendedActionsModal() {
+            // Check if user has premium access
+            const isPremium = localStorage.getItem(PREMIUM_KEY) === "true";
+            const tempExpiry = localStorage.getItem('caremu_premium_temp_expiry');
+            const hasTemp = tempExpiry && Date.now() < parseInt(tempExpiry);
+
+            if (!isPremium && !hasTemp) {
+                // No premium access, show premium modal
+                toast("✨ Recommended Actions is a Premium Feature!");
+                setTimeout(() => openPremiumModal(), 500);
+                return;
+            }
+
             renderRecommendedActions();
             document.getElementById('recommendedActionsModal').classList.remove('hidden');
         }
