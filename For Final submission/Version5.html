@@ -656,8 +656,58 @@
                     </div>
                     <div class="space-y-4">
                         <div>
-                            <label class="charm-label"><i class="fas fa-exclamation-circle text-red-400 mr-1"></i>FOOD ALLERGIES</label>
-                            <input id="foodAllergies" type="text" class="charm-input" placeholder="e.g. Peanuts, Shellfish, Dairy (comma separated)">
+                            <label class="charm-label"><i class="fas fa-exclamation-circle text-red-400 mr-1"></i>COMMON FOOD ALLERGIES</label>
+                            <div id="commonAllergiesList" class="border border-stone-200 rounded-lg p-3 h-32 overflow-y-auto bg-stone-50 space-y-2">
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Peanuts" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Peanuts</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Tree Nuts" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Tree Nuts</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Shellfish" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Shellfish</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Fish" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Fish</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Dairy" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Dairy</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Eggs" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Eggs</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Wheat" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Wheat</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Soy" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Soy</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Sesame" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Sesame</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-white p-2 rounded transition">
+                                    <input type="checkbox" name="allergy" value="Gluten" class="allergyCheckbox mr-2">
+                                    <span class="text-sm">Gluten</span>
+                                </label>
+                            </div>
+                            <p class="text-[10px] text-charm-gray mt-2">Scroll to view more common allergies</p>
+                        </div>
+                        <div>
+                            <label class="charm-label"><i class="fas fa-plus-circle text-red-500 mr-1"></i>ADD OTHER ALLERGIES</label>
+                            <div class="flex gap-2">
+                                <input id="customAllergyInput" type="text" class="charm-input flex-1" placeholder="e.g. Banana, Sesame...">
+                                <button onclick="addCustomAllergy()" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg font-semibold transition">Add</button>
+                            </div>
+                            <div id="customAllergiesList" class="mt-2 flex flex-wrap gap-2"></div>
                         </div>
                         <div>
                             <label class="charm-label"><i class="fas fa-capsules text-purple-500 mr-1"></i>CURRENT SUPPLEMENTS / MEDICATIONS</label>
@@ -720,7 +770,7 @@
                         <details class="bg-charm-cream border border-stone-200 rounded-xl p-4 group" open>
                             <summary
                                 class="font-bold text-sm cursor-pointer outline-none flex justify-between items-center text-charm-dark">
-                                <span><i class="fas fa-smoking mr-2 text-charm-gray"></i> 1. Smoking (4 items)</span>
+                                <span><i class="fas fa-cigarette mr-2 text-charm-gray"></i> 1. Smoking (4 items)</span>
                                 <i class="fas fa-chevron-down text-charm-gray group-open:rotate-180 transition"></i>
                             </summary>
                             <div class="mt-4 space-y-4 pt-4 border-t border-stone-200">
@@ -1975,9 +2025,9 @@
     </div>
 
     <!-- Group Chat Modal -->
-    <div id="groupChatModal" class="hidden fixed inset-0 z-50 flex items-end">
+    <div id="groupChatModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="closeGroupChatModal()"></div>
-        <div class="relative w-full bg-white rounded-t-2xl shadow-2xl h-[80vh] flex flex-col animate-slide-up">
+        <div class="relative w-full max-w-md bg-white rounded-2xl shadow-2xl max-h-[90vh] flex flex-col animate-bounce-in">
             <div class="flex-none p-4 border-b border-stone-100">
                 <div class="flex justify-between items-center">
                     <div>
@@ -3668,7 +3718,7 @@
 
             html.push(resultCard("<i class='fas fa-apple-alt text-green-500 mr-2'></i>Diet & Nutrition", charmBadge(diet.level, diet.level), diet.detail, "Work with nutritionist for personalized meal planning."));
             html.push(resultCard("<i class='fas fa-running text-orange-500 mr-2'></i>Physical Activity", charmBadge(act.level, act.level), act.detail, "Start with 30 mins moderate activity daily, gradually increase."));
-            html.push(resultCard("<i class='fas fa-ban text-stone-500 mr-2'></i>Smoking & Alcohol", charmBadge(smk.level, "Review"), smk.detail + "<br>" + alc.detail, "Quitting offers significant health benefits within weeks."));
+            html.push(resultCard("<i class='fas fa-cigarette text-stone-500 mr-2'></i>Smoking & Alcohol", charmBadge(smk.level, "Review"), smk.detail + "<br>" + alc.detail, "Quitting offers significant health benefits within weeks."));
             html.push(resultCard("<i class='fas fa-tooth text-sky-400 mr-2'></i>Oral Health", charmBadge(oral.level, oral.level), oral.detail, "Visit dentist every 6 months. Brush twice and floss daily."));
 
             // Update food recommendations based on risk profile
@@ -5002,6 +5052,57 @@
         // ==========================================
         //   Personal Information Management
         // ==========================================
+        
+        function addCustomAllergy() {
+            const input = document.getElementById('customAllergyInput');
+            const value = input?.value?.trim();
+            if (!value) {
+                toast('Please enter an allergy name');
+                return;
+            }
+            
+            // Add to custom allergies list
+            const customList = document.getElementById('customAllergiesList');
+            const tag = document.createElement('div');
+            tag.className = 'bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm flex items-center gap-2';
+            tag.innerHTML = `${escapeHtml(value)}<button onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700 font-bold">×</button>`;
+            customList.appendChild(tag);
+            input.value = '';
+        }
+        
+        function getSelectedAllergies() {
+            const selected = [];
+            document.querySelectorAll('.allergyCheckbox:checked').forEach(cb => {
+                selected.push(cb.value);
+            });
+            
+            // Add custom allergies
+            document.querySelectorAll('#customAllergiesList > div').forEach(tag => {
+                const text = tag.textContent.trim();
+                if (text && text !== '×') {
+                    selected.push(text.replace(/×$/, '').trim());
+                }
+            });
+            
+            return selected;
+        }
+        
+        function renderCustomAllergies(allergies) {
+            const customList = document.getElementById('customAllergiesList');
+            customList.innerHTML = '';
+            
+            const commonAllergies = ['Peanuts', 'Tree Nuts', 'Shellfish', 'Fish', 'Dairy', 'Eggs', 'Wheat', 'Soy', 'Sesame', 'Gluten'];
+            
+            allergies.forEach(allergy => {
+                if (!commonAllergies.includes(allergy)) {
+                    const tag = document.createElement('div');
+                    tag.className = 'bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm flex items-center gap-2';
+                    tag.innerHTML = `${escapeHtml(allergy)}<button onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700 font-bold">×</button>`;
+                    customList.appendChild(tag);
+                }
+            });
+        }
+        
         function savePersonalInfo() {
             const dob = document.getElementById('dob')?.value || '';
             const sex = document.getElementById('sex')?.value || '';
@@ -5011,7 +5112,7 @@
             const sbp = document.getElementById('sbp')?.value || '';
             const dbp = document.getElementById('dbp')?.value || '';
             const region = document.getElementById('region')?.value || '';
-            const allergies = document.getElementById('foodAllergies')?.value || '';
+            const allergies = getSelectedAllergies().join(', ');
             const supplements = document.getElementById('currentSupplements')?.value || '';
 
             // Collect all lifestyle survey answers
@@ -5046,7 +5147,24 @@
             if (saved.sbp) document.getElementById('sbp').value = saved.sbp;
             if (saved.dbp) document.getElementById('dbp').value = saved.dbp;
             if (saved.region) document.getElementById('region').value = saved.region;
-            if (saved.allergies && document.getElementById('foodAllergies')) document.getElementById('foodAllergies').value = saved.allergies;
+            
+            // Restore allergies (both common checkboxes and custom allergies)
+            if (saved.allergies) {
+                const allergiesList = saved.allergies.split(',').map(a => a.trim());
+                const commonAllergies = ['Peanuts', 'Tree Nuts', 'Shellfish', 'Fish', 'Dairy', 'Eggs', 'Wheat', 'Soy', 'Sesame', 'Gluten'];
+                
+                // Check common allergies
+                allergiesList.forEach(allergy => {
+                    if (commonAllergies.includes(allergy)) {
+                        const checkbox = document.querySelector(`input[name="allergy"][value="${allergy}"]`);
+                        if (checkbox) checkbox.checked = true;
+                    }
+                });
+                
+                // Render custom allergies
+                renderCustomAllergies(allergiesList);
+            }
+            
             if (saved.supplements && document.getElementById('currentSupplements')) document.getElementById('currentSupplements').value = saved.supplements;
             
             // Restore all lifestyle survey answers

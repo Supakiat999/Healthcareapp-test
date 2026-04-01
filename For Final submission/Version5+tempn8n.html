@@ -308,12 +308,6 @@
                     </div>
                 </div>
 
-                <button onclick="openRecommendedActionsModal()"
-                    class="w-full mb-4 bg-gradient-to-r from-charm-green to-charm-green/80 hover:from-charm-green/90 text-white text-sm font-bold px-4 py-3 rounded-xl shadow-md active:scale-[0.98] transition flex items-center justify-center gap-2">
-                    <i class="fas fa-check-circle"></i>
-                    Recommended Actions Today
-                </button>
-
                 <button onclick="openView('viewSurvey')"
                     class="w-full mb-4 bg-[#1F3A8A] hover:bg-[#1B3278] text-white text-sm font-bold px-4 py-3 rounded-xl shadow-md active:scale-[0.98] transition flex items-center justify-center gap-2">
                     <i class="fas fa-clipboard-list"></i>
@@ -1887,12 +1881,6 @@
                     class="text-[8px] font-bold tracking-wide mt-1">History</span>
             </button>
         </nav>
-
-        <!-- Floating AI Health Chat Button (Within Phone Frame) -->
-        <button id="aiHealthChatBtn" onclick="openAIHealthChat()" 
-            class="absolute bottom-28 right-6 w-16 h-16 rounded-full bg-gradient-to-br from-charm-blue to-charm-blue/80 text-white shadow-lg hover:shadow-2xl active:scale-95 transition flex items-center justify-center z-40 border-4 border-white">
-            <i class="fas fa-comments text-xl"></i>
-        </button>
     </div>
 
     <div id="consentModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -2354,63 +2342,19 @@
                         <i class="fas fa-camera text-charm-blue mt-0.5"></i>
                         <div>
                             <p class="text-xs font-bold text-charm-dark">AI Food Logger</p>
-                            <p class="text-[10px] text-charm-gray">Snap photos to automatically calculate nutrition</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <i class="fas fa-comments text-charm-blue mt-0.5"></i>
-                        <div>
-                            <p class="text-xs font-bold text-charm-dark">AI Health Chat</p>
-                            <p class="text-[10px] text-charm-gray">Personalized health advice trained on your data</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <i class="fas fa-lightbulb text-charm-blue mt-0.5"></i>
-                        <div>
-                            <p class="text-xs font-bold text-charm-dark">Recommended Actions</p>
-                            <p class="text-[10px] text-charm-gray">Food suggestions based on allergies & health goals</p>
+                            <p class="text-[10px] text-charm-gray">Snap photos to automatically calculate nutrition -
+                                Premium Only</p>
                         </div>
                     </div>
                 </div>
             </div>
             <ul class="text-xs text-charm-dark space-y-2 mb-4">
                 <li><i class="fas fa-check text-charm-green mr-1"></i> Premium AI Food Logger access</li>
-                <li><i class="fas fa-check text-charm-green mr-1"></i> AI Health Chat with personalized advice</li>
-                <li><i class="fas fa-check text-charm-green mr-1"></i> Smart food recommendations</li>
                 <li><i class="fas fa-check text-charm-green mr-1"></i> Personalized quests by your goals</li>
             </ul>
             <button id="premiumToggleBtn" onclick="togglePremiumPlan()"
                 class="w-full bg-charm-gold text-white font-bold py-3 rounded-xl disabled:bg-stone-300 disabled:cursor-not-allowed">Activate
                 Premium</button>
-        </div>
-    </div>
-
-    <!-- Recommended Actions Modal -->
-    <div id="recommendedActionsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="closeRecommendedActionsModal()"></div>
-        <div class="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl animate-bounce-in max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <h3 class="text-xl font-serif font-bold text-charm-dark">Today's Action Plan</h3>
-                    <p class="text-[10px] text-charm-gray mt-1">Mark tasks as you complete them</p>
-                </div>
-                <button onclick="closeRecommendedActionsModal()"
-                    class="w-8 h-8 rounded-full bg-stone-100 text-charm-gray flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition"><i
-                        class="fas fa-times"></i></button>
-            </div>
-
-            <div class="bg-charm-gold/10 border border-charm-gold/30 rounded-lg p-3 mb-4">
-                <p class="text-[11px] text-charm-dark"><i class="fas fa-info-circle text-charm-gold mr-1"></i><strong>Smart Tracking:</strong> Some tasks auto-complete when reached. Others need your confirmation!</p>
-            </div>
-
-            <div id="actionsTasksList" class="space-y-3">
-                <!-- Tasks will be populated here -->
-            </div>
-
-            <button onclick="saveCompletedActions()"
-                class="w-full mt-6 bg-charm-green text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
-                <i class="fas fa-save mr-1"></i>Save Progress
-            </button>
         </div>
     </div>
 
@@ -2439,46 +2383,6 @@
                     class="w-full bg-charm-green text-white font-bold py-3 rounded-xl shadow-soft active:scale-[0.98] transition">
                     Save Walk Entry
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- AI Health Chat Modal -->
-    <div id="aiHealthChatModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-charm-dark/80 backdrop-blur-sm" onclick="closeAIHealthChat()"></div>
-        <div class="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl max-h-[90vh] flex flex-col animate-bounce-in overflow-hidden">
-            <!-- Chat Header -->
-            <div class="flex-none p-4 bg-gradient-to-r from-charm-blue to-charm-blue/80 text-white">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 class="font-bold text-lg">Caremu AI Health</h3>
-                        <p class="text-xs opacity-90">Personalized health insights</p>
-                    </div>
-                    <button onclick="closeAIHealthChat()"
-                        class="w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/40 transition"><i
-                            class="fas fa-times"></i></button>
-                </div>
-            </div>
-
-            <!-- Chat Messages -->
-            <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-charm-cream" id="aiHealthChatMessages">
-                <!-- Messages will be populated here -->
-            </div>
-
-            <!-- Chat Input -->
-            <div class="flex-none p-4 bg-white border-t border-stone-200">
-                <div class="flex gap-2">
-                    <input id="aiHealthChatInput" type="text"
-                        class="flex-1 bg-charm-cream border border-stone-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-charm-blue focus:bg-white transition"
-                        placeholder="Ask about your health..." 
-                        onkeypress="if(event.key==='Enter') sendAIHealthMessage()">
-                    <button onclick="sendAIHealthMessage()"
-                        class="w-10 h-10 rounded-full bg-charm-blue text-white flex items-center justify-center hover:bg-charm-blue/90 transition"><i
-                            class="fas fa-paper-plane"></i></button>
-                </div>
-                <div class="text-[10px] text-charm-gray mt-2 text-center">
-                    Try asking: "What foods should I eat?" or "How's my health?"
-                </div>
             </div>
         </div>
     </div>
@@ -3324,6 +3228,7 @@
 
         function handleFoodUpload(input) {
             if (input.files && input.files[0]) {
+                const file = input.files[0];
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     document.getElementById('foodPreviewBox').classList.remove('hidden');
@@ -3331,23 +3236,142 @@
                     document.getElementById('foodAiAnalyzing').classList.remove('hidden');
                     document.getElementById('foodEditBox').classList.add('hidden');
 
-                    // Simulate AI delay
-                    setTimeout(() => {
-                        document.getElementById('foodAiAnalyzing').classList.add('hidden');
-                        document.getElementById('foodEditBox').classList.remove('hidden');
-                        // Mock AI extraction values
-                        document.getElementById('foodName').value = "Grilled Salmon & Quinoa";
-                        document.getElementById('foodCals').value = "450";
-                        document.getElementById('foodCarbs').value = "35";
-                        document.getElementById('foodPro').value = "40";
-                        document.getElementById('foodFat').value = "18";
-                        document.getElementById('foodSugar').value = "5";
-                        document.getElementById('foodFiber').value = "6";
-                        document.getElementById('foodSodium').value = "320";
-                    }, 1500);
+                    // Send image to N8N webhook
+                    sendFoodImageToN8N(file);
                 }
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
             }
+        }
+
+        async function sendFoodImageToN8N(file) {
+            try {
+                console.log('Starting N8N food analysis with webhook:', N8N_WEBHOOK_URL);
+                console.log('File details:', file.name, file.size, file.type);
+                
+                // Convert file to base64
+                const reader = new FileReader();
+                
+                reader.onload = async function(e) {
+                    try {
+                        const base64String = e.target.result.split(',')[1]; // Remove data URL prefix
+                        
+                        const payload = {
+                            filename: file.name,
+                            contentType: file.type,
+                            data: base64String
+                        };
+                        
+                        console.log('Sending to N8N:', N8N_WEBHOOK_URL);
+                        
+                        const response = await fetch(N8N_WEBHOOK_URL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
+
+                        console.log('Response status:', response.status);
+                        console.log('Response headers:', response.headers.get('content-type'));
+
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            console.error('HTTP Error response:', response.status, errorText);
+                            throw new Error(`HTTP ${response.status}: ${errorText}`);
+                        }
+
+                        const contentType = response.headers.get('content-type');
+                        let result;
+                        
+                        if (contentType && contentType.includes('application/json')) {
+                            result = await response.json();
+                        } else {
+                            const text = await response.text();
+                            console.log('Non-JSON response:', text);
+                            result = { text: text, success: true };
+                        }
+                        
+                        console.log('N8N Response received:', result);
+                        
+                        // Process the response
+                        if (result && result.success !== false) {
+                            processN8NFoodAnalysis(result);
+                        } else {
+                            console.warn('N8N returned error response');
+                            showMockFoodAnalysis();
+                        }
+                    } catch (error) {
+                        console.error('Error processing N8N response:', error);
+                        showMockFoodAnalysis();
+                    }
+                };
+                
+                reader.onerror = function() {
+                    console.error('File reading error');
+                    showMockFoodAnalysis();
+                };
+                
+                reader.readAsDataURL(file);
+                
+            } catch (error) {
+                console.error('Error preparing to send to N8N:', error.message);
+                console.error('Full error:', error);
+                console.warn('N8N webhook failed - using mock data instead');
+                // Fallback to mock data if N8N fails
+                showMockFoodAnalysis();
+            }
+        }
+
+        function processN8NFoodAnalysis(result) {
+            try {
+                document.getElementById('foodAiAnalyzing').classList.add('hidden');
+                document.getElementById('foodEditBox').classList.remove('hidden');
+
+                // Extract data from N8N response
+                const detectedFoods = result.detectedFoods || [];
+                const totalCalories = result.totalCalories || 0;
+
+                if (detectedFoods.length > 0) {
+                    // Use first detected food item
+                    const firstFood = detectedFoods[0];
+                    document.getElementById('foodName').value = firstFood.label || "Food Item";
+                    document.getElementById('foodCals').value = Math.round(totalCalories / detectedFoods.length);
+                } else {
+                    // No foods detected, use defaults
+                    document.getElementById('foodName').value = "Food Item";
+                    document.getElementById('foodCals').value = "200";
+                }
+
+                // Set default macros if not provided
+                if (!document.getElementById('foodCarbs').value) document.getElementById('foodCarbs').value = "40";
+                if (!document.getElementById('foodPro').value) document.getElementById('foodPro').value = "20";
+                if (!document.getElementById('foodFat').value) document.getElementById('foodFat').value = "10";
+                if (!document.getElementById('foodSugar').value) document.getElementById('foodSugar').value = "5";
+                if (!document.getElementById('foodFiber').value) document.getElementById('foodFiber').value = "4";
+                if (!document.getElementById('foodSodium').value) document.getElementById('foodSodium').value = "400";
+
+                toast('✅ Food analyzed by AI! Edit if needed.');
+            } catch (error) {
+                console.error('Error processing N8N response:', error);
+                showMockFoodAnalysis();
+            }
+        }
+
+        function showMockFoodAnalysis() {
+            // Fallback mock data when N8N fails
+            setTimeout(() => {
+                document.getElementById('foodAiAnalyzing').classList.add('hidden');
+                document.getElementById('foodEditBox').classList.remove('hidden');
+                document.getElementById('foodName').value = "Grilled Salmon & Quinoa";
+                document.getElementById('foodCals').value = "450";
+                document.getElementById('foodCarbs').value = "35";
+                document.getElementById('foodPro').value = "40";
+                document.getElementById('foodFat').value = "18";
+                document.getElementById('foodSugar').value = "5";
+                document.getElementById('foodFiber').value = "6";
+                document.getElementById('foodSodium').value = "320";
+                toast('⚠️ Using default values (N8N offline). Edit the values below.');
+            }, 1500);
         }
 
         function saveFoodEntry() {
@@ -3944,6 +3968,7 @@
         const ACHIEVEMENTS_KEY = "charmjai_achievements";
         const PREMIUM_KEY = "caremu_premium_enabled";
         const GOALS_KEY = "caremu_user_goals";
+        const N8N_WEBHOOK_URL = "https://supakiatt.app.n8n.cloud/webhook/food-analysis";
         const POINTS_SHOP = [
             { id: "premium_week", name: "1 Week Premium Access", cost: 300 },
             { id: "yoghurt", name: "Yoghurt Discount Voucher", cost: 500 },
@@ -4000,7 +4025,7 @@
 
         function renderFeed() {
             const posts = getPosts();
-            document.getElementById('groupFeed').innerHTML = posts.map(p => {
+            document.getElementById('communityFeed').innerHTML = posts.map(p => {
                 let badgeHTML = "";
                 if (p.triage === 'flagged') badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-red-50 text-red-600 border-red-200"><i class="fas fa-exclamation-triangle mr-1"></i> Flagged</span>`;
                 else if (p.triage === 'expert') badgeHTML = `<span class="text-[9px] px-2 py-0.5 rounded border font-bold uppercase bg-charm-gold/10 text-yellow-700 border-charm-gold/30"><i class="fas fa-check-circle mr-1"></i> Expert</span>`;
@@ -4027,7 +4052,7 @@
         }
 
         function createPost() {
-            const postEl = document.getElementById('groupPostInput');
+            const postEl = document.getElementById('postInput');
             if (!postEl) return; // Element doesn't exist
             const txt = postEl.value.trim();
             if (!txt) return;
@@ -4598,8 +4623,23 @@
             awardXP(10, "Joined a community challenge");
         }
 
-        // REMOVED: updateWeight() and updateBloodPressure() - target elements #currentWeight and #currentBP which don't exist
-        // These functions were not called anywhere and the Track tab uses different element IDs
+        function updateWeight() {
+            const weight = prompt("Enter your current weight (kg):");
+            if (weight && !isNaN(weight)) {
+                document.getElementById('currentWeight').textContent = `${weight} kg`;
+                toast("Weight updated!");
+                awardXP(5, "Updated health data");
+            }
+        }
+
+        function updateBloodPressure() {
+            const bp = prompt("Enter your blood pressure (e.g. 120/80):");
+            if (bp) {
+                document.getElementById('currentBP').textContent = bp;
+                toast("Blood pressure updated!");
+                awardXP(5, "Updated health data");
+            }
+        }
 
         // Gamification
         function awardXP(amount, reason) {
@@ -4629,7 +4669,8 @@
             if (levelEl) {
                 levelEl.textContent = userData.level;
             }
-            // Element #userPointsBadge doesn't exist in HTML - removed reference
+            const pointsBadge = document.getElementById('userPointsBadge');
+            if (pointsBadge) pointsBadge.textContent = `${userData.points} pts`;
 
             const rewardBtn = document.getElementById('levelRewardBtn');
             if (rewardBtn) {
@@ -5418,413 +5459,6 @@
                     el.addEventListener('change', saveConditionTrackingState);
                 }
             });
-        }
-
-        // ==========================================
-        //   AI Health Chat Premium Feature
-        // ==========================================
-        function openAIHealthChat() {
-            // Check if user has premium subscription
-            if (!isPremiumUser()) {
-                openPremiumModal();
-                toast('AI Health Chat is a Premium feature. Unlock it for personalized health advice!');
-                return;
-            }
-
-            // Clear chat messages and initialize
-            const messagesBox = document.getElementById('aiHealthChatMessages');
-            const input = document.getElementById('aiHealthChatInput');
-            
-            if (messagesBox.children.length === 0) {
-                // Initialize with welcome message and sample food recommendation conversation
-                displayAIChatMessage('bot', '<strong style="color: #5B6C9D; font-size: 1.1em; display: block; margin-bottom: 8px;">👋 Hello! I\'m Caremu AI Assistant</strong><p style="margin: 8px 0; line-height: 1.5; color: #2D3648;">I\'m trained on your health profile to provide personalized insights. You can ask me about:</p><ul style="margin: 8px 0 12px 0; padding-left: 20px; color: #2D3648; font-size: 0.95em;"><li>Recommended foods based on your allergies & health goals</li><li>Lifestyle tips tailored to your risk profile</li><li>Health tracking advice</li><li>General wellness questions</li></ul><div style="background: #FFF9E6; border-left: 4px solid #FFC107; padding: 10px; margin-top: 12px; border-radius: 6px; font-size: 0.85em; color: #8B6F47; line-height: 1.5;"><strong style="color: #F59E0B;">⚠️ Important Disclaimer:</strong> I\'m just an AI assistant. My suggestions are for informational purposes only and should NOT be taken as official medical advice. Please consult healthcare professionals for any serious health concerns.</div>');
-                
-                // Show sample conversation about food
-                setTimeout(() => {
-                    displayAIChatMessage('user', 'What foods should I eat?');
-                }, 600);
-                
-                setTimeout(() => {
-                    const personalInfo = JSON.parse(localStorage.getItem('caremu_personal_info') || '{}');
-                    const userGoals = JSON.parse(localStorage.getItem(GOALS_KEY) || '{}');
-                    const allergies = personalInfo.allergies ? personalInfo.allergies.split(',').map(a => a.trim()) : [];
-
-                    let foodResponse = '<strong style="color: #5B6C9D; font-size: 1.05em; display: block; margin-bottom: 10px;">📋 Personalized Food Recommendations</strong>';
-                    
-                    if (allergies.length > 0) {
-                        foodResponse += `<div style="background: #FFE6E6; padding: 8px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.95em;"><strong style="color: #C13333;">⚠️ Foods to AVOID (Your Allergies):</strong><br><span>${allergies.join(', ')}</span></div>`;
-                    } else {
-                        foodResponse += `<div style="background: #E6F7E6; padding: 8px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.95em;"><strong style="color: #4A7A5E;">✅ No major allergies detected - Good news!</strong></div>`;
-                    }
-
-                    if (userGoals.mainGoal === 'weight-loss') {
-                        foodResponse += '<div style="margin-bottom: 10px;"><strong style="color: #2D3648;">🎯 For Your Weight Loss Goal:</strong><br><div style="margin-top: 6px; font-size: 0.95em; line-height: 1.6;">• Grilled chicken breast, tofu, white fish<br>• Leafy greens, broccoli, peppers<br>• Brown rice, oats in moderation<br>• ❌ Avoid: Fried foods, sugary drinks</div></div>';
-                    } else if (userGoals.mainGoal === 'blood-sugar') {
-                        foodResponse += '<div style="margin-bottom: 10px;"><strong style="color: #2D3648;">🎯 For Blood Sugar Management:</strong><br><div style="margin-top: 6px; font-size: 0.95em; line-height: 1.6;">• Bitter melon, mushrooms, legumes<br>• Whole grains instead of white rice<br>• Leafy vegetables, non-starchy options<br>• ❌ Avoid: Sugary sweets, refined carbs</div></div>';
-                    } else if (userGoals.mainGoal === 'fitness') {
-                        foodResponse += '<div style="margin-bottom: 10px;"><strong style="color: #2D3648;">🎯 For Your Fitness Goals:</strong><br><div style="margin-top: 6px; font-size: 0.95em; line-height: 1.6;">• Salmon, eggs, Greek yogurt (protein)<br>• Complex carbs for energy<br>• Fresh fruits and vegetables<br>• 💧 Stay hydrated!</div></div>';
-                    } else {
-                        foodResponse += '<div style="margin-bottom: 10px;"><strong style="color: #2D3648;">🎯 General Balanced Diet:</strong><br><div style="margin-top: 6px; font-size: 0.95em; line-height: 1.6;">• Lean proteins, whole grains, veggies<br>• Rainbow of fruit colors<br>• Omega-3 rich foods (fish, nuts)<br>• Limited processed foods</div></div>';
-                    }
-
-                    foodResponse += '<div style="background: #E6F2FF; border-left: 4px solid #5B6C9D; padding: 8px 10px; border-radius: 4px; font-size: 0.9em; color: #2D3648;"><strong>💡 Pro Tip:</strong> Use the AI Food Logger to track your meals and get instant nutrition info!</div>';
-                    displayAIChatMessage('bot', foodResponse);
-                }, 1500);
-            }
-
-            document.getElementById('aiHealthChatModal').classList.remove('hidden');
-            input.focus();
-        }
-
-        function closeAIHealthChat() {
-            document.getElementById('aiHealthChatModal').classList.add('hidden');
-        }
-
-        function sendAIHealthMessage() {
-            const input = document.getElementById('aiHealthChatInput');
-            const message = input.value.trim();
-
-            if (!message) return;
-
-            // Display user message
-            displayAIChatMessage('user', message);
-
-            // Clear input
-            input.value = '';
-
-            // Simulate AI processing
-            setTimeout(() => {
-                const aiResponse = generateAIHealthResponse(message);
-                displayAIChatMessage('bot', aiResponse);
-            }, 800);
-        }
-
-        function displayAIChatMessage(sender, message) {
-            const messagesBox = document.getElementById('aiHealthChatMessages');
-
-            const messageEl = document.createElement('div');
-            messageEl.className = sender === 'user' 
-                ? 'flex justify-end fade-in mb-2' 
-                : 'flex justify-start fade-in mb-2';
-
-            if (sender === 'user') {
-                messageEl.innerHTML = `
-                    <div class="bg-gradient-to-br from-charm-blue to-charm-blue/90 text-white rounded-3xl rounded-br-sm px-5 py-3 text-sm max-w-[80%] break-words leading-relaxed shadow-md hover:shadow-lg transition" style="word-break: break-word;">
-                        ${escapeHtml(message)}
-                    </div>`;
-            } else {
-                messageEl.innerHTML = `
-                    <div class="flex gap-3 max-w-[85%] items-start">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-charm-blue/30 to-charm-blue/10 flex items-center justify-center text-charm-blue text-sm shrink-0 mt-1">
-                            <i class="fas fa-wand-magic-wand"></i>
-                        </div>
-                        <div class="bg-white border border-charm-blue/30 rounded-3xl rounded-tl-sm px-5 py-3 text-sm text-charm-dark break-words leading-relaxed shadow-md hover:shadow-lg transition" style="word-break: break-word;">
-                            ${message}
-                        </div>
-                    </div>`;
-            }
-
-            messagesBox.appendChild(messageEl);
-            messagesBox.scrollTop = messagesBox.scrollHeight;
-        }
-
-        function generateAIHealthResponse(userMessage) {
-            const msg = userMessage.toLowerCase();
-            const personalInfo = JSON.parse(localStorage.getItem('caremu_personal_info') || '{}');
-            const userGoals = JSON.parse(localStorage.getItem(GOALS_KEY) || '{}');
-            const allergies = personalInfo.allergies ? personalInfo.allergies.split(',').map(a => a.trim()) : [];
-
-            // Food recommendations based on allergies and health goals
-            if (msg.includes('food') || msg.includes('eat') || msg.includes('recommend')) {
-                let response = '📋 <strong>Personalized Food Recommendations</strong>\n\n';
-                
-                if (allergies.length > 0) {
-                    response += `<strong>Foods to AVOID (Allergies):</strong>\n${allergies.join(', ')}\n\n`;
-                }
-
-                if (userGoals.mainGoal === 'weight-loss') {
-                    response += '<strong>For Weight Loss:</strong>\n• High-protein, low-calorie options\n• Grilled chicken breast, tofu, white fish\n• Leafy greens, broccoli, peppers\n• Brown rice, oats in moderation\n• Avoid fried foods and sugary drinks\n\n';
-                } else if (userGoals.mainGoal === 'blood-sugar') {
-                    response += '<strong>For Blood Sugar Management:</strong>\n• Low glycemic index foods\n• Bitter melon, mushrooms, legumes\n• Whole grains instead of white rice\n• Leafy vegetables\n• Avoid sugary sweets and refined carbs\n\n';
-                } else if (userGoals.mainGoal === 'fitness') {
-                    response += '<strong>For Fitness Goals:</strong>\n• Lean proteins for muscle building\n• Salmon, eggs, Greek yogurt\n• Complex carbs for energy\n• Fresh fruits and vegetables\n• Stay hydrated 💧\n\n';
-                } else {
-                    response += '<strong>General Health Recommendations:</strong>\n• Balanced meals with proteins, carbs, fats\n• Rainbow of vegetables\n• Omega-3 rich foods (fish, nuts)\n• Limited processed foods\n• Regular meal timing\n\n';
-                }
-
-                response += '💡 <strong>Tip:</strong> Log your meals in the AI Food Logger to track nutrition!';
-                return response;
-            }
-
-            // Recommended actions based on health
-            if (msg.includes('action') || msg.includes('should i') || msg.includes('what should')) {
-                let response = '✅ <strong>Recommended Daily Actions</strong>\n\n';
-                
-                response += '1. <strong>Morning (30 min):</strong>\n   Water, light stretching, 10-min walk\n\n';
-                response += '2. <strong>Meals:</strong>\n   Balanced breakfast with protein\n   Snack: fruit or nuts\n   Lunch: lean protein + veggies\n   Dinner: smaller portion, early\n\n';
-                response += '3. <strong>Activity:</strong>\n   Target 10,000 steps today\n   30 min moderate exercise\n   Take stairs when possible\n\n';
-                response += '4. <strong>Evening (30 min before bed):</strong>\n   Reduce screen time\n   Relaxation/meditation\n   Consistent sleep schedule\n\n';
-                response += '💪 <strong>You can earn XP by completing these! Track in the app.</strong>';
-                return response;
-            }
-
-            // Sleep and lifestyle advice
-            if (msg.includes('sleep') || msg.includes('rest')) {
-                return '😴 <strong>Sleep Optimization Tips</strong>\n\n' +
-                    '✓ Maintain 7-9 hours consistent sleep\n' +
-                    '✓ Same bedtime & wake time daily\n' +
-                    '✓ Avoid screens 1 hour before bed\n' +
-                    '✓ Keep room cool & dark (around 20°C)\n' +
-                    '✓ No caffeine after 2 PM\n' +
-                    '✓ Light exercise during the day\n\n' +
-                    '⚠️ Log your sleep times in the app to track progress!';
-            }
-
-            // Exercise recommendations
-            if (msg.includes('exercise') || msg.includes('workout') || msg.includes('activity')) {
-                return '🏃 <strong>Exercise Plan for Your Status</strong>\n\n' +
-                    '<strong>Beginner (Week 1-2):</strong>\n' +
-                    '• 3 days: 20-30 min brisk walking\n' +
-                    '• 2 days: light grocery shopping walk\n' +
-                    '• Rest 2 days\n\n' +
-                    '<strong>Intermediate (Week 3+):</strong>\n' +
-                    '• 5 days: 30-45 min mixed activities\n' +
-                    '• Add 2 days of strength training\n' +
-                    '• Progressive increase in intensity\n\n' +
-                    '💡 <strong>Tip:</strong> Start slow, stay consistent!\n' +
-                    '📊 Log your walks in the app to earn XP!';
-            }
-
-            // Stress management
-            if (msg.includes('stress') || msg.includes('anxiety') || msg.includes('relax')) {
-                return '🧘 <strong>Stress Management Techniques</strong>\n\n' +
-                    '1. <strong>Deep Breathing (5 min):</strong>\n   4 counts in → 7 hold → 8 out\n\n' +
-                    '2. <strong>Meditation Apps:</strong>\n   Try free apps for guided sessions\n\n' +
-                    '3. <strong>Physical Activity:</strong>\n   30 min walk reduces stress hormones\n\n' +
-                    '4. <strong>Social Connection:</strong>\n   Join community groups in Caremu!\n\n' +
-                    '5. <strong>Hobbies:</strong>\n   Engage in activities you enjoy\n\n' +
-                    '⚠️ If stress persists, consult a professional.';
-            }
-
-            // Blood pressure advice
-            if (msg.includes('blood pressure') || msg.includes('bp') || msg.includes('hypertension')) {
-                return '💛 <strong>Blood Pressure Management</strong>\n\n' +
-                    '✓ Reduce sodium intake\n' +
-                    '✓ DASH diet: fruits, veggies, whole grains\n' +
-                    '✓ Exercise 30 mins daily\n' +
-                    '✓ Limit alcohol\n' +
-                    '✓ Stress management\n' +
-                    '✓ Monitor regularly\n\n' +
-                    '⚠️ If BP remains high (>140/90), please consult your doctor.\n' +
-                    '📊 Log readings in your app for tracking!';
-            }
-
-            // Health goal personalization
-            if (msg.includes('goal') || msg.includes('objective')) {
-                const goal = userGoals.mainGoal ? userGoals.mainGoal.replace('-', ' ') : 'general wellness';
-                return `🎯 <strong>Your Main Goal: ${goal}</strong>\n\n` +
-                    `Based on your selected objective, here's your personalized path:\n\n` +
-                    `📍 <strong>Weekly Targets:</strong>\n` +
-                    `• 150 mins moderate activity\n` +
-                    `• 3 balanced meals daily\n` +
-                    `• 7-9 hours sleep\n` +
-                    `• 2L water daily\n\n` +
-                    `✅ <strong>Track Progress:</strong>\n` +
-                    `• Use the Tracking tab\n` +
-                    `• Log meals & walks\n` +
-                    `• Monitor habits score\n` +
-                    `• Earn badges & XP!\n\n` +
-                    `💪 You got this! Consistency is key.`;
-            }
-
-            // Default helpful response
-            return '👋 <strong>Hi there!</strong>\n\n' +
-                'I\'m your personalized AI health assistant. I can help with:\n\n' +
-                '🍎 Food recommendations\n' +
-                '✅ Daily action plans\n' +
-                '😴 Sleep advice\n' +
-                '🏃 Exercise tips\n' +
-                '🧘 Stress management\n' +
-                '💛 Blood pressure care\n\n' +
-                'Try asking: "What foods should I eat?" or "What should I do today?"';
-        }
-
-        // ==========================================
-        //   Recommended Actions Modal
-        // ==========================================
-        const DAILY_ACTIONS_KEY = "caremu_daily_actions_completed";
-
-        function openRecommendedActionsModal() {
-            renderRecommendedActions();
-            document.getElementById('recommendedActionsModal').classList.remove('hidden');
-        }
-
-        function closeRecommendedActionsModal() {
-            document.getElementById('recommendedActionsModal').classList.add('hidden');
-        }
-
-        function renderRecommendedActions() {
-            const container = document.getElementById('actionsTasksList');
-            const today = new Date().toDateString();
-            
-            // Load today's completed actions
-            const completedActions = JSON.parse(localStorage.getItem(DAILY_ACTIONS_KEY) || '{}');
-            const todayCompleted = completedActions[today] || {};
-
-            // Get current user data
-            const walkEntries = JSON.parse(localStorage.getItem('caremu_daily_walks') || '[]');
-            const foodEntries = JSON.parse(localStorage.getItem('caremu_food_entries') || '[]');
-            const sleepData = {
-                bed: localStorage.getItem('caremu_bedtime') || '',
-                wake: localStorage.getItem('caremu_waketime') || ''
-            };
-
-            // Calculate completed tasks
-            const todayWalks = walkEntries.filter(w => new Date(w.date).toDateString() === today);
-            const totalWalkSteps = todayWalks.reduce((sum, w) => sum + w.steps, 0);
-            const totalWalkTime = todayWalks.reduce((sum, w) => sum + w.duration, 0);
-            const todayMeals = foodEntries.filter(f => new Date(f.date).toDateString() === today);
-            const totalCalories = todayMeals.reduce((sum, f) => sum + (parseInt(f.calories) || 0), 0);
-
-            // Define all daily tasks with auto-complete status
-            const tasks = [
-                {
-                    id: 'walk_daily',
-                    icon: 'fas fa-shoe-prints',
-                    title: 'Walk 30 Minutes',
-                    description: 'Complete a 30-minute walk',
-                    color: 'blue',
-                    autoComplete: totalWalkTime >= 30,
-                    currentProgress: `${totalWalkTime} min walked`
-                },
-                {
-                    id: 'walk_steps',
-                    icon: 'fas fa-person-walking',
-                    title: 'Reach 6,000 Steps',
-                    description: 'Hit daily step goal',
-                    color: 'blue',
-                    autoComplete: totalWalkSteps >= 6000,
-                    currentProgress: `${totalWalkSteps.toLocaleString()} / 6,000 steps`
-                },
-                {
-                    id: 'log_meals',
-                    icon: 'fas fa-utensils',
-                    title: 'Log 3 Meals',
-                    description: 'Track breakfast, lunch, dinner',
-                    color: 'green',
-                    autoComplete: todayMeals.length >= 3,
-                    currentProgress: `${todayMeals.length} / 3 meals logged`
-                },
-                {
-                    id: 'water_intake',
-                    icon: 'fas fa-tint',
-                    title: 'Drink 2L Water',
-                    description: 'Stay hydrated throughout the day',
-                    color: 'sky',
-                    autoComplete: false,
-                    currentProgress: 'Manual tracking'
-                },
-                {
-                    id: 'sleep_target',
-                    icon: 'fas fa-moon',
-                    title: 'Sleep 7+ Hours',
-                    description: 'Get adequate rest',
-                    color: 'purple',
-                    autoComplete: false,
-                    currentProgress: sleepData.bed && sleepData.wake ? 'Sleep logged' : 'Not set'
-                },
-                {
-                    id: 'meditation',
-                    icon: 'fas fa-spa',
-                    title: 'Meditate 5 Min',
-                    description: 'Practice mindfulness',
-                    color: 'pink',
-                    autoComplete: false,
-                    currentProgress: 'Manual tracking'
-                },
-                {
-                    id: 'vegetables',
-                    icon: 'fas fa-leaf',
-                    title: 'Eat Vegetables',
-                    description: 'Include veggies in meals',
-                    color: 'green',
-                    autoComplete: false,
-                    currentProgress: 'Manual tracking'
-                }
-            ];
-
-            // Render tasks
-            container.innerHTML = tasks.map(task => {
-                const isCompleted = todayCompleted[task.id] === true;
-                const isAutoComplete = task.autoComplete;
-                const statusClass = isCompleted || isAutoComplete ? 'opacity-75' : 'opacity-100';
-                const checkmarkIcon = isCompleted || isAutoComplete ? 'fa-check-circle text-charm-green' : 'fa-circle text-stone-300';
-
-                const colorMap = {
-                    'blue': 'bg-charm-blue/10 border-charm-blue/20',
-                    'green': 'bg-charm-green/10 border-charm-green/20',
-                    'sky': 'bg-sky-50 border-sky-200',
-                    'purple': 'bg-purple-50 border-purple-200',
-                    'pink': 'bg-pink-50 border-pink-200'
-                };
-
-                return `
-                    <div class="border rounded-xl p-4 transition ${colorMap[task.color]} ${statusClass}">
-                        <div class="flex items-start gap-3">
-                            <div class="flex items-center gap-2 flex-1">
-                                <input 
-                                    type="checkbox" 
-                                    id="action_${task.id}" 
-                                    class="accent-charm-green w-5 h-5 cursor-pointer"
-                                    ${isCompleted || isAutoComplete ? 'checked' : ''}
-                                    ${isAutoComplete ? 'disabled' : ''}
-                                    onchange="updateActionCheckbox('${task.id}', this.checked)"
-                                >
-                                <div class="flex-1">
-                                    <label for="action_${task.id}" class="text-sm font-bold text-charm-dark cursor-pointer block">
-                                        <i class="fas ${task.icon} mr-2"></i>${task.title}
-                                        ${isAutoComplete ? '<span class="text-[10px] bg-charm-green/20 text-charm-green px-2 py-0.5 rounded ml-2 font-bold">AUTO ✓</span>' : ''}
-                                    </label>
-                                    <p class="text-[11px] text-charm-gray mt-1">${task.description}</p>
-                                    <p class="text-[10px] text-charm-gold font-bold mt-1">${task.currentProgress}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function updateActionCheckbox(taskId, isChecked) {
-            const today = new Date().toDateString();
-            const completedActions = JSON.parse(localStorage.getItem(DAILY_ACTIONS_KEY) || '{}');
-            
-            if (!completedActions[today]) {
-                completedActions[today] = {};
-            }
-
-            if (isChecked) {
-                completedActions[today][taskId] = true;
-            } else {
-                delete completedActions[today][taskId];
-            }
-
-            localStorage.setItem(DAILY_ACTIONS_KEY, JSON.stringify(completedActions));
-        }
-
-        function saveCompletedActions() {
-            const today = new Date().toDateString();
-            const completedActions = JSON.parse(localStorage.getItem(DAILY_ACTIONS_KEY) || '{}');
-            const todayCompleted = completedActions[today] || {};
-            
-            // Count completed tasks
-            const completedCount = Object.values(todayCompleted).filter(v => v === true).length;
-            
-            toast(`✅ Actions saved! ${completedCount} tasks completed today.`);
-            awardXP(Math.min(50, completedCount * 10), `Completed ${completedCount} daily actions`);
-            
-            closeRecommendedActionsModal();
-            renderRecommendedActions(); // Refresh after closing
         }
 
     </script>
